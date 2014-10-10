@@ -1,0 +1,16 @@
+setup
+=====
+
+single thread
+100000 points
+10 clusters
+15 iterations
+average over 100 repetitions
+
+results
+=======
+
+scala 1036 ms
+factor 2895 ms
+pharo3 11170ms
+python 23727 ms
