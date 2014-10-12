@@ -1,0 +1,9 @@
+[package]
+
+name = "kmeans"
+version = "0.1.0"
+authors = [ "Andrea Ferretti <ferrettiandrea@gmail.com>" ]
+
+[[bin]]
+
+name = "kmeans"
