@@ -39,7 +39,7 @@ function run(xs, n, iters) {
 
 
 var points = JSON.parse(fs.readFileSync("../points.json"));
-var iterations = 10;
+var iterations = 100;
 var n = 10;
 var start = (new Date()).getTime();
 for (var i = 0; i < iterations; i++) {

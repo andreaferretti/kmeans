@@ -12,5 +12,7 @@ results
 
 scala 1036 ms
 factor 2895 ms
+pypy 3714 ms
+node 4420 ms
 pharo3 11170ms
 python 23727 ms
