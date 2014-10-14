@@ -2,3 +2,4 @@ scala/target
 scala/project/project
 scala/project/target
 rust/target
+node/node_modules
