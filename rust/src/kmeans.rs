@@ -78,36 +78,51 @@ fn closest(x: Point, ys: & Vec<Point>) -> Point {
 }
 
 fn clusters(xs: & Vec<Point>, centroids: & Vec<Point>) -> Vec<Vec<Point>> {
-  let mut groups: TreeMap<Point, Box<Vec<Point>>> = TreeMap::new();
+  let mut groups: TreeMap<Point, Vec<Point>> = TreeMap::new();
 
-  // for x in xs.iter() {
-  //   let y = closest(*x, centroids);
-  //   match groups.find(&y) {
-  //     Some(ref mut val) => val.push(*x),
-  //     None => {
-  //       groups.insert(y, box vec![*x]);
-  //     },
-  //   }
-  // }
+  for x in xs.iter() {
+    let y = closest(*x, centroids);
+    let should_insert = match groups.find_mut(&y) {
+        Some(val) => {
+          val.push(*x);
+          false
+        },
+        None => true
+    };
+    if should_insert {
+        groups.insert(y, vec![*x]);
+    }
+  }
 
-  groups.values().map(|x| *x.clone()).collect::<Vec<Vec<Point>>>()
+  // groups.values().map(|x| *x.clone()).collect::<Vec<Vec<Point>>>()
+  groups.into_iter().map(|(_, v)| v).collect::<Vec<Vec<Point>>>()
 }
 
-
-fn main() {
-  let path = "../points.json".to_string();
-  let contents = File::open(&Path::new(path.as_slice())).read_to_string().unwrap();
-  // let vec_points: Vec<Vec<f64>> = json::decode(contents.as_slice()).unwrap();
-  // let points: & Vec<Point> = & vec_points.into_iter().map(|v| Point(v[0], v[1])).collect();
-  let points: Vec<Point> = json::decode(contents.as_slice()).unwrap();
-  let n: uint = 10;
-  let iters: uint = 15;
+fn run(points: & Vec<Point>, n: uint, iters: uint) -> Vec<Vec<Point>> {
   let mut centroids: Vec<Point> = Vec::from_fn(n, |i| points[i]);
 
-  for i in range(0, iters) {
-    centroids = clusters(& points, & centroids).iter().map(|g| avg(g)).collect();
+  for _ in range(0, iters) {
+    centroids = clusters(points, & centroids).iter().map(|g| avg(g)).collect();
   }
-  let result = clusters(& points, & centroids);
+  clusters(points, & centroids)
+}
 
-  println!("The center is {}", avg(& points));
+fn now() -> f64 {
+  0.0
+}
+
+fn benchmark(points: & Vec<Point>, times: uint) -> f64 {
+  let start = now();
+  for _ in range(0, times) {
+    run(points, 10, 15);
+  }
+  (now() - start) / (times as f64)
+}
+
+fn main() {
+  let contents = File::open(&Path::new("../points.json".as_slice())).read_to_string().unwrap();
+  let points: Vec<Point> = json::decode(contents.as_slice()).unwrap();
+  let iterations: uint = 100;
+
+  println!("The average time is {}", benchmark(& points, iterations));
 }
