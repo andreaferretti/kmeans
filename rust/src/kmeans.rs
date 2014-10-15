@@ -1,9 +1,11 @@
 extern crate serialize;
+extern crate time;
 
-use serialize::json;
-use serialize::{Decoder, Decodable};
 use std::io::File;
 use std::collections::TreeMap;
+use serialize::json;
+use serialize::{Decoder, Decodable};
+use time::now;
 
 #[deriving(Show, PartialEq, PartialOrd, Clone)]
 struct Point(f64, f64);
@@ -107,16 +109,13 @@ fn run(points: & Vec<Point>, n: uint, iters: uint) -> Vec<Vec<Point>> {
   clusters(points, & centroids)
 }
 
-fn now() -> f64 {
-  0.0
-}
-
 fn benchmark(points: & Vec<Point>, times: uint) -> f64 {
-  let start = now();
+  let start = now().to_timespec();
   for _ in range(0, times) {
     run(points, 10, 15);
   }
-  (now() - start) / (times as f64)
+  let end = now().to_timespec();
+  ((end - start).num_milliseconds() as f64) / (times as f64)
 }
 
 fn main() {
