@@ -5,7 +5,7 @@ use serialize::{Decoder, Decodable};
 use std::io::File;
 use std::collections::TreeMap;
 
-#[deriving(Show, PartialEq, PartialOrd)]
+#[deriving(Show, PartialEq, PartialOrd, Clone)]
 struct Point(f64, f64);
 
 impl<E, D: Decoder<E>> Decodable<D, E> for Point {
@@ -78,21 +78,19 @@ fn closest(x: Point, ys: & Vec<Point>) -> Point {
 }
 
 fn clusters(xs: & Vec<Point>, centroids: & Vec<Point>) -> Vec<Vec<Point>> {
-  let mut groups: TreeMap<Point, Vec<Point>> = TreeMap::new();
+  let mut groups: TreeMap<Point, Box<Vec<Point>>> = TreeMap::new();
 
   // for x in xs.iter() {
   //   let y = closest(*x, centroids);
   //   match groups.find(&y) {
-  //     Some(val) => val.push(*x),
+  //     Some(ref mut val) => val.push(*x),
   //     None => {
-  //       groups.insert(y, vec![*x]);
+  //       groups.insert(y, box vec![*x]);
   //     },
   //   }
   // }
 
-  // let result: Vec<Vec<Point>> = groups.values().collect();
-
-  vec![vec![Point(0.0, 0.0)]]
+  groups.values().map(|x| *x.clone()).collect::<Vec<Vec<Point>>>()
 }
 
 
