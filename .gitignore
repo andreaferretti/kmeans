@@ -3,3 +3,5 @@ scala/project/project
 scala/project/target
 rust/target
 node/node_modules
+clojure/target
+.lein-repl-history
