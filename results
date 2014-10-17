@@ -11,7 +11,7 @@ results
 =======
 
 scala 1036 ms
-rust 1443 ms
+rust 1403 ms
 factor 2895 ms
 pypy 3714 ms
 node 4420 ms
