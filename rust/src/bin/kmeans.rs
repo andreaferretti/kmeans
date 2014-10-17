@@ -21,7 +21,7 @@ fn benchmark(points: & Vec<Point>, times: uint) -> f64 {
 fn main() {
   let contents = File::open(&Path::new("../points.json".as_slice())).read_to_string().unwrap();
   let points: Vec<Point> = json::decode(contents.as_slice()).unwrap();
-  let iterations: uint = 1;
+  let iterations: uint = 100;
 
   println!("The average time is {}", benchmark(& points, iterations));
 }
