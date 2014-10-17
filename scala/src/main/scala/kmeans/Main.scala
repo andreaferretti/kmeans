@@ -1,24 +1,25 @@
 package kmeans
 
-import scala.util.Try
+import scala.io.Source
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 
 object Main extends App {
-  type Point = (Double, Double)
+  def readPoints(path: String) = {
+    val json = Source.fromFile(path).mkString
+    implicit val formats = DefaultFormats
+
+    parse(json).extract[List[List[Double]]] map { case List(a, b) => (a, b) } toSet
+  }
+
   val iterations = 100
-
-  if (Try(args(0)).toOption == Some("write")) {
-    IO.toFile(Generator.run, "../points.json")
+  val points = readPoints("../points.json")
+  val start = System.currentTimeMillis
+  for (i <- 1 to iterations) {
+    Algo.run(points)
   }
-  else {
-    val points: Set[Point] = IO.fromFile("../points.json")
+  val time = (System.currentTimeMillis - start) / iterations
 
-    val start = System.currentTimeMillis
-    for (i <- 1 to iterations) {
-      Algo.run(points)
-    }
-    val time = (System.currentTimeMillis - start) / iterations
-
-    println(s"Made $iterations iterations with an average of $time milliseconds")
-  }
+  println(s"Made $iterations iterations with an average of $time milliseconds")
 }
