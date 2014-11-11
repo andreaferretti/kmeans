@@ -11,5 +11,5 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-lang
 resolvers ++= Seq()
 
 libraryDependencies ++= Seq(
-  "org.json4s" %% "json4s-jackson" % "3.2.4"
+  "org.json4s" %% "json4s-jackson" % "3.2.11"
 )
