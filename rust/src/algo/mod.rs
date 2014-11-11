@@ -28,7 +28,7 @@ fn clusters(xs: & Vec<Point>, centroids: & Vec<Point>) -> Vec<Vec<Point>> {
 
   for x in xs.iter() {
     let y = closest(*x, centroids);
-    let should_insert = match groups.find_mut(&y) {
+    let should_insert = match groups.get_mut(&y) {
         Some(val) => {
           val.push(*x);
           false

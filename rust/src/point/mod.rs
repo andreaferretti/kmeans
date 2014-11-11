@@ -15,15 +15,12 @@ impl Point {
 
 impl<E, D: Decoder<E>> Decodable<D, E> for Point {
   fn decode(d: &mut D) -> Result<Point, E> {
-    d.read_tuple(|d, n| {
-      if n != 2 { Err(d.error("invalid number of elements, need 2")) }
-      else {
-        d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1|
-          d.read_tuple_arg(1, |d| d.read_f64()).map(|e2|
-            Point(e1, e2)
-          )
+    d.read_tuple(2, |d| {
+      d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1|
+        d.read_tuple_arg(1, |d| d.read_f64()).map(|e2|
+          Point(e1, e2)
         )
-      }
+      )
     })
   }
 }
