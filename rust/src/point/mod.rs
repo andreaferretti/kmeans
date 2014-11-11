@@ -8,8 +8,7 @@ fn sq(x: f64) -> f64 { x * x }
 
 impl Point {
   pub fn norm(self: &Point) -> f64 {
-    let Point(x, y) = *self;
-    (sq(x) + sq(y)).sqrt()
+    (sq(self.0) + sq(self.1)).sqrt()
   }
 }
 
@@ -27,19 +26,13 @@ impl<E, D: Decoder<E>> Decodable<D, E> for Point {
 
 impl Add<Point, Point> for Point {
   fn add(&self, other: &Point) -> Point {
-    let &Point(a, b) = self;
-    let &Point(c, d) = other;
-
-    Point(a + c, b + d)
+    Point(self.0 + other.0, self.1 + other.1)
   }
 }
 
 impl Sub<Point, Point> for Point {
   fn sub(&self, other: &Point) -> Point {
-    let &Point(a, b) = self;
-    let &Point(c, d) = other;
-
-    Point(a - c, b - d)
+    Point(self.0 - other.0, self.1 - other.1)
   }
 }
 

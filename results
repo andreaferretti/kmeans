@@ -12,7 +12,7 @@ results
 
 pypy 721 ms
 scala 1036 ms
-rust 1403 ms
+rust 1373 ms
 factor 2895 ms
 node 4420 ms
 clojure 9915 ms
