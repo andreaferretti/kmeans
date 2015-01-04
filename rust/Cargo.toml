@@ -8,3 +8,7 @@ authors = [ "Andrea Ferretti <ferrettiandrea@gmail.com>" ]
 [[bin]]
 
 name = "kmeans"
+
+[dependencies]
+
+time = "0.1.7"
