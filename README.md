@@ -12,6 +12,6 @@ Results
 
 Time for running on my laptop are available under `results`. A few surprises:
 
-* Scala seems to run consistently faster than Rust...
-* ...but PyPy is able to outperform both
+* Writing a working Rust implementation was suprisingly difficult; writing one that would perform decently even more so. I had to rely frequently on help from people online.
+* PyPy is able to outperform Scala
 * Factor is pretty impressive, given that it is a fairly small project with a dedicated VM. With an implementation in 8 (!) lines, we get the best performing dynamic language, (second, counting PyPy), before V8 and Clojure.
