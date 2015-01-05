@@ -28,7 +28,9 @@ impl Hash for Point {
     }
 }
 
-impl Add<Point, Point> for Point {
+impl Add for Point {
+    type Output = Point;
+
     fn add(self, other: Point) -> Point {
         let Point(a, b) = self;
         let Point(c, d) = other;
@@ -37,7 +39,9 @@ impl Add<Point, Point> for Point {
     }
 }
 
-impl Sub<Point, Point> for Point {
+impl Sub for Point {
+    type Output = Point;
+
     fn sub(self, other: Point) -> Point {
         let Point(a, b) = self;
         let Point(c, d) = other;

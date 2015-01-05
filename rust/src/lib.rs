@@ -1,7 +1,6 @@
-#![feature(old_orphan_check)]
 #![crate_type = "lib"]
-
-#![feature(tuple_indexing)]
+#![feature(associated_types)]
+#![feature(old_orphan_check)]
 
 extern crate serialize;
 
