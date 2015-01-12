@@ -10,7 +10,7 @@ average over 100 repetitions
 results
 =======
 
-rust 246 ms
+rust 267 ms
 pypy 721 ms
 scala 1036 ms
 factor 2895 ms

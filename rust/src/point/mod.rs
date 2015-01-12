@@ -1,6 +1,5 @@
 use serialize::{Decoder, Decodable};
-use std::hash::Hash;
-use std::hash::sip::SipState;
+use std::hash::{Hash, Hasher, Writer };
 use std::mem;
 use std::num::Float;
 use std::ops::{Add,Sub};
@@ -16,8 +15,8 @@ impl Point {
   }
 }
 
-impl Hash for Point {
-    fn hash(&self, state: &mut SipState) {
+impl<H: Hasher + Writer> Hash<H> for Point {
+    fn hash(&self, state: &mut H) {
         // Perform a bit-wise transform, relying on the fact that we
         // are never Infinity or NaN
         let Point(x, y) = *self;
@@ -52,8 +51,8 @@ impl Sub for Point {
 
 impl Eq for Point {}
 
-impl<E, D: Decoder<E>> Decodable<D, E> for Point {
-    fn decode(d: &mut D) -> Result<Point, E> {
+impl Decodable for Point {
+    fn decode<D: Decoder>(d: &mut D) -> Result<Point, D::Error> {
         d.read_tuple(2, |d| {
             d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1| {
                 d.read_tuple_arg(1, |d| d.read_f64()).map(|e2| {

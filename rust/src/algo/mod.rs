@@ -31,14 +31,14 @@ fn clusters(xs: & Vec<Point>, centroids: & Vec<Point>) -> Vec<Vec<Point>> {
         // Notable change: avoid double hash lookups
         match groups.entry(y) {
             Occupied(entry) => entry.into_mut().push(*x),
-            Vacant(entry) => { entry.set(vec![*x]); () },
+            Vacant(entry) => { entry.insert(vec![*x]); () },
         }
     }
 
     groups.into_iter().map(|(_, v)| v).collect::<Vec<Vec<Point>>>()
 }
 
-pub fn run(points: & Vec<Point>, n: uint, iters: uint) -> Vec<Vec<Point>> {
+pub fn run(points: & Vec<Point>, n: usize, iters: usize) -> Vec<Vec<Point>> {
     let mut centroids: Vec<Point> = points.iter().take(n).cloned().collect();
 
     for _ in range(0, iters) {
