@@ -7,7 +7,7 @@ import algo
 
 let
   n = 10
-  iterations = 10
+  iterations = 100
   filename = "../points.json"
   content = parseFile(filename)
 var points = newSeq[Point]()
