@@ -5,3 +5,5 @@ rust/target
 node/node_modules
 clojure/target
 .lein-repl-history
+nimcache
+/nim/benchmark
