@@ -4,27 +4,21 @@ import tables
 import sequtils
 
 type Point* = object
-  x*: float
-  y*: float
+  x*, y*: float
 
 proc hash(p: Point): THash =
   result = p.x.hash !& p.y.hash
-  result = !$result
+  return !$result
 
-proc `+`(p: Point, q: Point): Point =
-  return Point(x: p.x + q.x, y: p.y + q.y)
+proc `+`(p: Point, q: Point): Point = Point(x: p.x + q.x, y: p.y + q.y)
 
-proc `-`(p: Point, q: Point): Point =
-  return Point(x: p.x - q.x, y: p.y - q.y)
+proc `-`(p: Point, q: Point): Point = Point(x: p.x - q.x, y: p.y - q.y)
 
-proc `/`(p: Point, k: float): Point =
-  return Point(x: p.x / k, y: p.y / k)
+proc `/`(p: Point, k: float): Point = Point(x: p.x / k, y: p.y / k)
 
-proc norm(p: Point): float =
-  return sqrt(p.x * p.x + p.y * p.y)
+proc norm(p: Point): float = sqrt(p.x * p.x + p.y * p.y)
 
-proc dist(p: Point, q: Point): float =
-  return norm(p - q)
+proc dist(p: Point, q: Point): float = norm(p - q)
 
 proc closest(p: Point, qs: seq[Point]): Point =
   var minDist = Inf
