@@ -59,20 +59,9 @@ proc newCentroids(points: seq[Point], centroids: seq[Point]): seq[Point] =
     result.add(average(g))
   return result
 
-proc take[T](xs: seq[T], n: int): seq[T] =
-  var
-    count = 0
-    result = newSeq[T]()
-  for x in xs:
-    count += 1
-    if count > n:
-      break
-    result.add(x)
-  return result
-
 proc run*(points: seq[Point], n: int, iters: int = 15): seq[seq[Point]] =
   var
-    centroids = points.take(n)
+    centroids = points[0..n-1]
     result: seq[seq[Point]] = @[]
   for i in 0 .. (iters - 1):
     centroids = newCentroids(points, centroids)
