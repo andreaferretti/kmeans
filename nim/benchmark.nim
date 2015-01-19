@@ -12,10 +12,10 @@ let
   content = parseFile(filename)
 var points = newSeq[Point]()
 for p in content.items:
-  points.add(Point(x: p[0].fnum, y: p[1].fnum))
-let start = epochTime()
+  points.add((x: p[0].fnum, y: p[1].fnum))
+let start = cpuTime()
 for i in 0 .. (iterations-1):
   discard run(points, n)
-let time = ((epochTime() - start) * 1000 / float(iterations)).round
+let time = ((cpuTime() - start) * 1000 / float(iterations)).round
 
 echo "Made $1 iterations with an average of $2 milliseconds".format(iterations, time)
