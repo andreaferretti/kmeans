@@ -34,10 +34,10 @@ Nim:
 
 Node: `node kmeans.js`
 
-Parasail:
+Parasail: assume `plc.csh` is on `$PATH`. Then
 
-  $PARASAIL_HOME/bin/pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
-  ./benchmark
+    pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
+    ./benchmark
 
 Pharo3: first, install `NeoJSON` and file-in `Kmeans.st`. Then open a workspace and write something like
 
