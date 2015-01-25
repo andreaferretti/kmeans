@@ -27,12 +27,17 @@ Factor:
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
-Nim
+Nim:
 
     nim c -d:release benchmark
     ./benchmark
 
 Node: `node kmeans.js`
+
+Parasail:
+
+  $PARASAIL_HOME/bin/pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
+  ./benchmark
 
 Pharo3: first, install `NeoJSON` and file-in `Kmeans.st`. Then open a workspace and write something like
 

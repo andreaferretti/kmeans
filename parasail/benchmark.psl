@@ -1,0 +1,14 @@
+func main (Args: Basic_Array <Univ_String>) is
+  var R := Random::Start(11)
+  var S := Random::Start(12)
+  var Points: Vector<Point> := []
+  for I := 0 then I + 1 while I < 500 loop
+    Points |= Point::New(Next_Real(R), Next_Real(S))
+  end loop
+
+  var C := Clock::Create()
+  const Start := C.Now()
+  KMeans::Run(Points, 10, 15)
+  const Elapsed_Time := C.Now() - Start
+  Println("It took " | Elapsed_Time | " seconds")
+end func main

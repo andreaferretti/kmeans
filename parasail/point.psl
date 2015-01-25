@@ -1,0 +1,56 @@
+interface Point<> is
+  func New(X: Univ_Real; Y: Univ_Real) -> Point
+
+  func To_String(P: Point) -> Univ_String
+  func Println(P: Point) is (Println(To_String(P)))
+  op "=?"(P, Q: Point) -> Ordering is (To_String(P) =? To_String(Q))
+  func Hash(P: Point) -> Univ_Integer // is (Hash(To_String(P)))
+
+  func Dist(P, Q: Point) -> Univ_Real
+  op "+" (P, Q: Point) -> Point
+  op "+=" (var P: Point; Q: Point)
+  op "-" (P, Q: Point) -> Point
+  op "/" (P: Point; K: Univ_Real) { K != 0.0 } -> Point
+end interface Point
+
+class Point is
+    var X: Univ_Real
+    var Y: Univ_Real
+
+    func Norm(P: Point) -> Univ_Real is
+      return Sqrt(P.X * P.X + P.Y * P.Y)
+    end func Norm
+  exports
+    func New(X: Univ_Real; Y: Univ_Real) -> Point is
+      return (X => X, Y => Y)
+    end func New
+
+    func To_String(P: Point) -> Univ_String is
+      return "(" | P.X | ", " | P.Y | ")"
+    end func To_String
+
+    func Hash(P: Point) -> Univ_Integer is
+      return 104543 * Hash(P.X) + Hash(P.Y)
+    end func Hash
+
+    op "+" (P, Q: Point) -> Point is
+      return New(P.X + Q.X, P.Y + Q.Y)
+    end op "+"
+
+    op "+=" (var P: Point; Q: Point) is
+      P.X += Q.X
+      P.Y += Q.Y
+    end op "+="
+
+    op "-" (P, Q: Point) -> Point is
+      return New(P.X - Q.X, P.Y - Q.Y)
+    end op "-"
+
+    op "/" (P: Point; K: Univ_Real) { K != 0.0 } -> Point is
+      return New(P.X / K, P.Y  / K)
+    end op "/"
+
+    func Dist(P, Q: Point) -> Univ_Real is
+      return Norm(P - Q)
+    end func Dist
+end class Point
