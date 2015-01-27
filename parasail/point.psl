@@ -3,7 +3,7 @@ interface Point<> is
 
   func To_String(P: Point) -> Univ_String
   func Println(P: Point) is (Println(To_String(P)))
-  op "=?"(P, Q: Point) -> Ordering is (To_String(P) =? To_String(Q))
+  op "=?"(P, Q: Point) -> Ordering // is (To_String(P) =? To_String(Q))
   func Hash(P: Point) -> Univ_Integer // is (Hash(To_String(P)))
 
   func Dist(P, Q: Point) -> Univ_Real
@@ -32,6 +32,14 @@ class Point is
     func Hash(P: Point) -> Univ_Integer is
       return 104543 * Hash(P.X) + Hash(P.Y)
     end func Hash
+
+    op "=?" (P, Q : Point) -> Ordering is
+      if P.X != Q.X then
+        return P.X =? Q.X
+      else
+        return P.Y =? Q.Y
+      end if
+    end op "=?"
 
     op "+" (P, Q: Point) -> Point is
       return New(P.X + Q.X, P.Y + Q.Y)
