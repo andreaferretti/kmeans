@@ -2,7 +2,7 @@ extern crate serialize;
 extern crate time;
 extern crate kmeans;
 
-use std::io::File;
+use std::old_io::File;
 use serialize::json;
 use time::now;
 use kmeans::point::Point;
