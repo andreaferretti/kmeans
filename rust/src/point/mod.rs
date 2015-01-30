@@ -1,4 +1,4 @@
-use serialize::{Decoder, Decodable};
+use rustc_serialize::{Decoder, Decodable};
 use std::hash::{Hash, Hasher, Writer };
 use std::mem;
 use std::num::Float;

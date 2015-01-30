@@ -12,3 +12,4 @@ name = "kmeans"
 [dependencies]
 
 time = "*"
+rustc-serialize = "*"

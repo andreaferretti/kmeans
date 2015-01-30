@@ -1,9 +1,9 @@
-extern crate serialize;
+extern crate "rustc-serialize" as rustc_serialize;
 extern crate time;
 extern crate kmeans;
 
 use std::old_io::File;
-use serialize::json;
+use rustc_serialize::json;
 use time::now;
 use kmeans::point::Point;
 use kmeans::algo::run;
