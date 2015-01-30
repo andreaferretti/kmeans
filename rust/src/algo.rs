@@ -41,7 +41,7 @@ fn clusters(xs: & Vec<Point>, centroids: & Vec<Point>) -> Vec<Vec<Point>> {
 pub fn run(points: & Vec<Point>, n: usize, iters: usize) -> Vec<Vec<Point>> {
     let mut centroids: Vec<Point> = points.iter().take(n).cloned().collect();
 
-    for _ in range(0, iters) {
+    for _ in (0 .. iters) {
         centroids = clusters(points, & centroids).iter().map(|g| avg(g)).collect();
     }
     clusters(points, & centroids)
