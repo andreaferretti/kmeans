@@ -31,10 +31,7 @@ impl Add for Point {
     type Output = Point;
 
     fn add(self, other: Point) -> Point {
-        let Point(a, b) = self;
-        let Point(c, d) = other;
-
-        Point(a + c, b + d)
+        Point(self.0 + other.0, self.1 + other.1)
     }
 }
 
