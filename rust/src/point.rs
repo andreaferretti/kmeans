@@ -1,4 +1,4 @@
-use serialize::{Decoder, Decodable};
+use rustc_serialize::{Decoder, Decodable};
 use std::hash::{Hash, Hasher, Writer };
 use std::mem;
 use std::num::Float;
@@ -10,9 +10,9 @@ pub struct Point(pub f64, pub f64);
 fn sq(x: f64) -> f64 { x * x }
 
 impl Point {
-  pub fn norm(self: &Point) -> f64 {
-    (sq(self.0) + sq(self.1)).sqrt()
-  }
+    pub fn norm(self: &Point) -> f64 {
+        (sq(self.0) + sq(self.1)).sqrt()
+    }
 }
 
 impl<H: Hasher + Writer> Hash<H> for Point {
@@ -31,10 +31,7 @@ impl Add for Point {
     type Output = Point;
 
     fn add(self, other: Point) -> Point {
-        let Point(a, b) = self;
-        let Point(c, d) = other;
-
-        Point(a + c, b + d)
+        Point(self.0 + other.0, self.1 + other.1)
     }
 }
 

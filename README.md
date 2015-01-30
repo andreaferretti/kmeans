@@ -66,7 +66,6 @@ Python
 
 Rust
 
-    cargo build --release
-    ./target/release/kmeans
+    cargo run --release
 
 Scala: `sbt run`
