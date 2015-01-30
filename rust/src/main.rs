@@ -1,5 +1,6 @@
 #![feature(core)]
 #![feature(io)]
+#![feature(path)]
 
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate time;
