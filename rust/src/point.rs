@@ -10,9 +10,9 @@ pub struct Point(pub f64, pub f64);
 fn sq(x: f64) -> f64 { x * x }
 
 impl Point {
-  pub fn norm(self: &Point) -> f64 {
-    (sq(self.0) + sq(self.1)).sqrt()
-  }
+    pub fn norm(self: &Point) -> f64 {
+        (sq(self.0) + sq(self.1)).sqrt()
+    }
 }
 
 impl<H: Hasher + Writer> Hash<H> for Point {
