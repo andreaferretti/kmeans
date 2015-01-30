@@ -29,7 +29,7 @@ fn main() {
     let contents = File::open(&Path::new("../points.json".as_slice())).read_to_string().unwrap();
 
     let points: Vec<Point> = json::decode(&contents[]).unwrap();
-    let iterations: i32 = 100;
+    let iterations = 100;
 
     println!("The average time is {}", benchmark(&points[], iterations));
 }
