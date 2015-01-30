@@ -1,3 +1,5 @@
+#![feature(core)]
+
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate time;
 extern crate kmeans;
@@ -20,7 +22,7 @@ fn benchmark(points: & Vec<Point>, times: usize) -> f64 {
 
 fn main() {
   let contents = File::open(&Path::new("../points.json".as_slice())).read_to_string().unwrap();
-  let points: Vec<Point> = json::decode(contents.as_slice()).unwrap();
+  let points: Vec<Point> = json::decode(&contents[]).unwrap();
   let iterations: usize = 100;
 
   println!("The average time is {}", benchmark(& points, iterations));
