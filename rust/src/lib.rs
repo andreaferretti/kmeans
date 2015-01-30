@@ -1,4 +1,3 @@
-#![crate_type = "lib"]
 #![feature(core)]
 #![feature(std_misc)]
 #![feature(hash)]
