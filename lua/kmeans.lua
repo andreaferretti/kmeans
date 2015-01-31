@@ -1,6 +1,6 @@
 local sqrt = math.sqrt
 local clock = os.clock
-local json = require("json")
+local json = require("dkjson")
 
 local Point = {}
 Point.__index = Point

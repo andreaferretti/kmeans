@@ -27,6 +27,11 @@ Factor:
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
+Lua: download [this JSON library](http://dkolf.de/src/dkjson-lua.fsl/home) and put it in the same folder as the main file. Then run
+
+    lua kmeans.lua
+    luajit kmeans.lua
+
 Nim:
 
     nim c -d:release benchmark
