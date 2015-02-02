@@ -12,10 +12,12 @@ results
 
 nim 189ms
 rust 267 ms
+luajit 611 ms
 pypy 721 ms
 scala 1036 ms
 factor 2895 ms
 node 4420 ms
+lua 6946 ms
 clojure 9915 ms
 python 10632 ms
 pharo3 11170ms
