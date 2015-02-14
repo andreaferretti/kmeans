@@ -4,7 +4,7 @@ use std::mem;
 use std::num::Float;
 use std::ops::{Add,Sub};
 
-#[derive(Show, PartialEq, PartialOrd, Copy, Clone)]
+#[derive(Debug, PartialEq, PartialOrd, Copy, Clone)]
 pub struct Point(pub f64, pub f64);
 
 fn sq(x: f64) -> f64 { x * x }
