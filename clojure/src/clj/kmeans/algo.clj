@@ -1,6 +1,6 @@
 (ns kmeans.algo)
 
-(set! *unchecked-math* true)
+(set! *unchecked-math* :warn-on-boxed)
 
 (defn sq ^double [^double x] (* x x))
 
