@@ -1,17 +1,17 @@
 (ns kmeans.algo)
 
-(defn sq [x] (* x x))
+(defn sq ^double [^double x] (* x x))
 
-(defn v- [[a b] [c d]]
+(defn v- [[^double a ^double b] [^double c ^double d]]
   [(- a c) (- b d)])
 
-(defn v+ [[a b] [c d]]
+(defn v+ [[^double a ^double b] [^double c ^double d]]
   [(+ a c) (+ b d)])
 
-(defn vdiv [[a b] k]
+(defn vdiv [[^double a ^double b] ^double k]
   [(/ a k) (/ b k)])
 
-(defn norm [[a b]]
+(defn norm [[^double a ^double b]]
   (Math/sqrt (+ (sq a) (sq b))))
 
 (defn dist [v w] (norm (v- v w)))
