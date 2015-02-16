@@ -1,7 +1,5 @@
 (ns kmeans.algo)
 
-(set! *unchecked-math* :warn-on-boxed)
-
 (defn sq ^double [^double x] (* x x))
 
 (defn v- [[^double a ^double b] [^double c ^double d]]
