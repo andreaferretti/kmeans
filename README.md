@@ -74,3 +74,8 @@ Rust
     cargo run --release
 
 Scala: `sbt run`
+
+Julia
+
+    julia -e 'Pkg.add("JSON")'
+    julia kmeans.jl
