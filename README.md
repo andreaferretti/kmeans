@@ -20,7 +20,7 @@ Time for running on my laptop are available under `results`. A few surprises:
 How to run
 ==========
 
-Clojure: `lein run`
+Clojure: `lein with-profile uberjar run`
 
 Factor:
 

@@ -2,7 +2,7 @@
   :description "Kmeans benchmark"
 
   :dependencies [
-    [org.clojure/clojure "1.6.0"]
+    [org.clojure/clojure "1.7.0-alpha5"]
     [cheshire "5.3.1"]]
 
   :source-paths ["src/clj"]
