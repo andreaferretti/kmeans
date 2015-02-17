@@ -12,6 +12,7 @@ results
 
 nim (0.10.3) 189ms
 rust (1.0.0-nightly) 267 ms
+julia (0.4.0-dev+3052) 407ms
 pypy (2.5.0) 563 ms
 luajit (2.0.2) 611 ms
 scala (2.10.4) 1036 ms
