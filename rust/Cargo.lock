@@ -2,7 +2,6 @@
 name = "kmeans"
 version = "0.1.0"
 dependencies = [
- "rustc-serialize 0.2.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.17 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -14,11 +13,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "libc"
 version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
-name = "rustc-serialize"
-version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
