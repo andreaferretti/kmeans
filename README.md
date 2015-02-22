@@ -20,36 +20,36 @@ Time for running on my laptop are available under `results`. A few surprises:
 How to run
 ==========
 
-Clojure: `lein with-profile uberjar run`
+**Clojure**: `lein with-profile uberjar run`
 
-Factor:
+**Factor**:
 
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
-Julia
+**Julia**
 
     julia -e 'Pkg.add("JSON")'
     julia kmeans.jl
 
-Lua: download [this JSON library](http://dkolf.de/src/dkjson-lua.fsl/home) and put it in the same folder as the main file. Then run
+**Lua**: download [this JSON library](http://dkolf.de/src/dkjson-lua.fsl/home) and put it in the same folder as the main file. Then run
 
     lua kmeans.lua
     luajit kmeans.lua
 
-Nim:
+**Nim**:
 
     nim c -d:release benchmark
     ./benchmark
 
-Node: `node kmeans.js`
+**Node**: `node kmeans.js`
 
-Parasail: assume `plc.csh` is on `$PATH`. Then
+**Parasail**: assume `plc.csh` is on `$PATH`. Then
 
     pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
     ./benchmark
 
-Pharo3: first, install `NeoJSON` and file-in `Kmeans.st`. Then open a workspace and write something like
+**Pharo3**: first, install `NeoJSON` and file-in `Kmeans.st`. Then open a workspace and write something like
 
     | path points kmeans |
 
@@ -69,13 +69,13 @@ Pharo3: first, install `NeoJSON` and file-in `Kmeans.st`. Then open a workspace 
 
     kmeans benchmark: points repeating: 100
 
-Python
+**Python**
 
     python kmeans.py
     pypy kmeans.py
 
-Rust
+**Rust**
 
     cargo run --release
 
-Scala: `sbt run`
+**Scala**: `sbt run`
