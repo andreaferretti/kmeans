@@ -27,7 +27,7 @@ How to run
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
-**Julia**
+**Julia**:
 
     julia -e 'Pkg.add("JSON")'
     julia kmeans.jl
@@ -49,7 +49,7 @@ How to run
     pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
     ./benchmark
 
-**Pharo3**: first, install `NeoJSON` and file-in `Kmeans.st`. Then open a workspace and write something like
+**Pharo3**: install `NeoJSON` and file-in `Kmeans.st`, then open a workspace and write something like
 
     | path points kmeans |
 
@@ -69,12 +69,12 @@ How to run
 
     kmeans benchmark: points repeating: 100
 
-**Python**
+**Python**:
 
     python kmeans.py
     pypy kmeans.py
 
-**Rust**
+**Rust**:
 
     cargo run --release
 
