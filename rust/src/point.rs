@@ -1,5 +1,6 @@
-use rustc_serialize::{Decoder, Decodable};
-use std::hash::{Hash, Hasher, Writer };
+extern crate serialize;
+
+use std::hash::{Hash, Hasher};
 use std::mem;
 use std::num::Float;
 use std::ops::{Add,Sub};
@@ -15,9 +16,9 @@ impl Point {
     }
 }
 
-impl<H: Hasher + Writer> Hash<H> for Point {
-    fn hash(&self, state: &mut H) {
-        // Perform a bit-wise transform, relying on the fact that we
+impl Hash for Point {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        // Perform a bitwise transform, relying on the fact that we
         // are never Infinity or NaN
         let Point(x, y) = *self;
         let x: u64 = unsafe { mem::transmute(x) };
@@ -45,8 +46,8 @@ impl Sub for Point {
 
 impl Eq for Point {}
 
-impl Decodable for Point {
-    fn decode<D: Decoder>(d: &mut D) -> Result<Point, D::Error> {
+impl serialize::Decodable for Point {
+    fn decode<D: serialize::Decoder>(d: &mut D) -> Result<Point, D::Error> {
         d.read_tuple(2, |d| {
             d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1| {
                 d.read_tuple_arg(1, |d| d.read_f64()).map(|e2| {
