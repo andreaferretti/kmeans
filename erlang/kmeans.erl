@@ -52,13 +52,9 @@ clusters(Xs, Centroids) ->
 	groupBy(Xs, fun(X) -> closest(X, Centroids) end).
 
 groupBy(L, Fn) ->
-	TableId = groupBy(L, Fn, dict:new()),
-	values(dict:to_list(TableId)).
-
-values([]) -> [];
-values([{_, V} | T]) ->
-	[V | values(T)].
-
-groupBy([], _, TId) -> TId;
-groupBy([H | T], Fn, TId) ->
-	groupBy(T, Fn, dict:append(erlang:phash2(Fn(H)), H, TId)).
+    Group = fun(X, Dict) ->
+                    Add = fun(T) -> [X|T] end,
+                    dict:update(Fn(X), Add, [X], Dict)
+            end,
+    Dict = lists:foldl(Group, dict:new(), L),
+    [ V || {_,V} <- dict:to_list(Dict)].
