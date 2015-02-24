@@ -1,6 +1,8 @@
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class KMeans {
 	
@@ -24,13 +26,14 @@ public class KMeans {
 		return p1.sub(p2).modulus();
 	}
 	
-	private Point average(Point[] xs) {
+	private Point average(ArrayList<Point> xs) {
+		double size = xs.size();
+		Iterator<Point> iter = xs.iterator();
 		Point p = new Point(0,0);
-		int l = xs.length;
-		for (int i=0;i<l;i++) {
-			p.addToThis(xs[i]);
+		while (iter.hasNext()) {
+			p.addToThis(iter.next());
 		}
-		p.divideToThis(l);
+		p.divideToThis(size);
 		return p;
 	}
 	
@@ -47,33 +50,28 @@ public class KMeans {
 		return choices[min];
 	}
 	
-	private Collection<Point[]> clusters() {
-		HashMap<Point, Point[]> hm = new HashMap<Point, Point[]>();
+	private Collection<ArrayList<Point>> clusters() {
+		HashMap<Point, ArrayList<Point>> hm = new HashMap<Point, ArrayList<Point>>();
 		for (int i=0;i<Xs.length; i++) {
 			Point Key = closest(Xs[i], Centroids);
-			Point[] old = hm.get(Key);
-			int lenght = 1;
-			if (old!=null) {
-				lenght = old.length+1;
-			}
-			Point[]	newer = new Point[lenght];
-			newer[lenght-1] = Xs[i];
-			if (old==null) {
-				hm.put(Key, newer);
-			}
+			ArrayList<Point> alp = hm.get(Key);
+			if (alp == null)
+				alp = new ArrayList<Point>();
+			alp.add(Xs[i]);
+			hm.put(Key, alp);
 		}
 		return hm.values();
 	}
 	
-	public Collection<Point[]> run() {
+	public Collection<ArrayList<Point>> run() {
 		Centroids = new Point[n];
 		for(int i=0;i<n;i++)
 			Centroids[i] = Xs[i];
 		
 		for(int i=0;i<iters;i++) {
-			Collection<Point[]> clusters = clusters();
+			Collection<ArrayList<Point>> clusters = clusters();
 			int k = 0;
-			for (Point[] cluster: clusters) {
+			for (ArrayList<Point> cluster: clusters) {
 				Centroids[k] = average(cluster);
 				k++;
 			}
@@ -82,3 +80,4 @@ public class KMeans {
 	}
 
 }
+
