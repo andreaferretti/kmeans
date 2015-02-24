@@ -11,3 +11,4 @@ nimcache
 *.psl.s
 parasail/benchmark
 errors.err
+erlang/*.beam
