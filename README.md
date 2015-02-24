@@ -22,6 +22,13 @@ How to run
 
 **Clojure**: `lein with-profile uberjar run`
 
+**Erlang**:
+
+    erl
+    1> c(main).
+    2> c(kmeans).
+    3> main:run().
+
 **Factor**:
 
     USE: kmeans.benchmark
