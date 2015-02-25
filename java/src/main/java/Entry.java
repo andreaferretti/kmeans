@@ -15,10 +15,13 @@ public class Entry {
 		Point[] Xs = new Point[100000];
 		int i = 0;
 		while (true) {
-			while (jp.nextToken() == JsonToken.START_ARRAY || 
-				   jp.nextToken() == JsonToken.END_ARRAY) {}
+			JsonToken actual = jp.nextValue(); 
+			while (actual == JsonToken.START_ARRAY) {
+				actual = jp.nextValue();
+			}
 				try {
 					double x = jp.getDoubleValue();
+					jp.nextToken();
 					double y = jp.getDoubleValue();
 					Xs[i] = new Point(x,y);
 					i++;
@@ -26,8 +29,10 @@ public class Entry {
 					//ex.printStackTrace();
 					break;
 				}
-			while (jp.nextToken() == JsonToken.START_ARRAY || 
-			  	   jp.nextToken() == JsonToken.END_ARRAY) {}
+			actual = jp.nextToken();
+			while (jp.nextToken() == JsonToken.END_ARRAY) {
+				actual = jp.nextToken();
+			}
 		}
 		jp.close();
 		
