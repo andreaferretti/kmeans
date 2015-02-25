@@ -18,6 +18,7 @@ luajit (2.0.2) 611 ms
 scala (2.10.4) 1036 ms
 clojure (1.7.0-alpha5) 2504 ms
 factor (0.97) 2895 ms
+erlang (R16B03) 4193 ms
 node (0.10.33) 4420 ms
 lua (5.2.3) 6946 ms
 python (2.7.6) 10632 ms
