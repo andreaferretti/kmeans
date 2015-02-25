@@ -18,12 +18,12 @@ pypy (2.5.0) 563 ms (*)
 luajit (2.0.2) 611 ms (*)
 scala (2.10.4) 633 ms (*)
 clojure (1.7.0-alpha5) 2504 ms (*)
-factor (0.97) 2895 ms
+factor (0.97) 2895 ms (*)
 erlang (R16B03) 4193 ms
 node (0.10.33) 4328 ms (*)
 lua (5.2.3) 6946 ms (*)
 python (2.7.6) 10632 ms (*)
-pharo (3) 11170ms
+pharo (3) 11170ms (*)
 
 (*) means I have checked that the result is correct. Hopefully the
 other ones are correct too, but I have not yet had the time to verify this.
