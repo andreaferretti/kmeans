@@ -17,7 +17,7 @@ object Algo {
     def modulus = sqrt(sq(x._1) + sq(x._2))
   }
 
-  def run(xs: Set[Point]) = {
+  def run(xs: List[Point]) = {
     var centroids = xs take n
 
     for (i <- 1 to iters) {
@@ -26,15 +26,15 @@ object Algo {
     clusters(xs, centroids)
   }
 
-  def clusters(xs: Set[Point], centroids: Set[Point]) =
-    (xs groupBy { x => closest(x, centroids) }).values.toSet
+  def clusters(xs: List[Point], centroids: List[Point]) =
+    (xs groupBy { x => closest(x, centroids) }).values.toList
 
-  def closest(x: Point, choices: Set[Point]) =
+  def closest(x: Point, choices: List[Point]) =
     choices minBy { y => dist(x, y) }
 
   def sq(x: Double) = x * x
 
   def dist(x: Point, y: Point) = (x - y).modulus
 
-  def average(xs: Set[Point]) = xs.reduce(_ + _) / xs.size
+  def average(xs: List[Point]) = xs.reduce(_ + _) / xs.size
 }
