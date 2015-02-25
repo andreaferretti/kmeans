@@ -34,6 +34,11 @@ How to run
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
+**Java**:
+	
+	mvn compile
+	mvn exec:java
+
 **Julia**:
 
     julia -e 'Pkg.add("JSON")'
