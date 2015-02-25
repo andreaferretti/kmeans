@@ -30,7 +30,7 @@ function average(xs) {
 }
 
 function run(xs, n, iters) {
-  var centroids = _.first(xs, n);
+  var centroids = _.take(xs, n);
   for (var i = 0; i < iters; i++) {
     centroids = _.map(clusters(xs, centroids), average);
   }
