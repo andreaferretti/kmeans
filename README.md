@@ -35,7 +35,7 @@ How to run
     100 "../points.json" kmeans-benchmark
 
 **Java**:
-	
+
 	mvn compile
 	mvn exec:java
 
@@ -54,7 +54,10 @@ How to run
     nim c -d:release benchmark
     ./benchmark
 
-**Node**: `node kmeans.js`
+**Node**:
+
+    npm install
+    node kmeans.js
 
 **Parasail**: assume `plc.csh` is on `$PATH`. Then
 
