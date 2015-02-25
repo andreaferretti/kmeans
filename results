@@ -25,12 +25,14 @@ lua (5.2.3) 6946 ms (*)
 python (2.7.6) 10632 ms (*)
 pharo (3) 11170ms
 
-(*) means I have checked that the result is correct. Hopefully the other ones are correct too, but I have not yet had the time to verify this.
+(*) means I have checked that the result is correct. Hopefully the
+other ones are correct too, but I have not yet had the time to verify this.
 
 expected result
 ===============
 
-To check that an implementation is correct, one can print the list of centroids just before the last iteration. The expected list is
+To check that an implementation is correct, one can print the list of
+centroids just before the last iteration. The expected list is
 
 (1.0084564757347625,2.2868123889219047)
 (1.5309869001400929,0.7852174204702566)
