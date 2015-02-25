@@ -10,29 +10,28 @@ average over 100 repetitions
 results
 =======
 
-java (1.7.0_76) 183ms (*)
-nim (0.10.3) 189ms (*)
-rust (1.0.0-nightly) 267 ms (*)
-julia (0.4.0-dev+3052) 407ms (*)
-pypy (2.5.0) 563 ms (*)
-luajit (2.0.2) 611 ms (*)
-scala (2.10.4) 633 ms (*)
-clojure (1.7.0-alpha5) 2504 ms (*)
-factor (0.97) 2895 ms (*)
-erlang (R16B03) 4193 ms
-node (0.10.33) 4328 ms (*)
-lua (5.2.3) 6946 ms (*)
-python (2.7.6) 10632 ms (*)
-pharo (3) 11170ms (*)
+java (1.7.0_76) 183ms
+nim (0.10.3) 189ms
+rust (1.0.0-nightly) 267 ms
+julia (0.4.0-dev+3052) 407ms
+pypy (2.5.0) 563 ms
+luajit (2.0.2) 611 ms
+scala (2.10.4) 633 ms
+clojure (1.7.0-alpha5) 2504 ms
+factor (0.97) 2895 ms
+erlang (R16B03) 4249 ms
+node (0.10.33) 4328 ms
+lua (5.2.3) 6946 ms
+python (2.7.6) 10632 ms
+pharo (3) 11170ms
 
-(*) means I have checked that the result is correct. Hopefully the
-other ones are correct too, but I have not yet had the time to verify this.
 
 expected result
 ===============
 
 To check that an implementation is correct, one can print the list of
-centroids just before the last iteration. The expected list is
+centroids just before the last iteration. The expected list (checked
+across all languages) is:
 
 (1.0084564757347625,2.2868123889219047)
 (1.5309869001400929,0.7852174204702566)

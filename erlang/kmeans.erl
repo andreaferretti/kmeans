@@ -7,7 +7,8 @@ run(Xs, N, Iters) ->
     Step = fun(_, Centroids) ->
                    [average(X) || X <- clusters(Xs, Centroids)]
            end,
-    lists:foldl(Step, InitCentroids, lists:seq(1, Iters)).
+    FinalCentroids = lists:foldl(Step, InitCentroids, lists:seq(1, Iters)),
+    clusters(Xs, FinalCentroids).
 
 divide({Px,Py}, K) ->
     {Px/K, Py/K}.
