@@ -11,13 +11,13 @@ results
 =======
 
 java (1.7.0_76) 183ms (*)
-nim (0.10.3) 189ms
-rust (1.0.0-nightly) 267 ms
-julia (0.4.0-dev+3052) 407ms
+nim (0.10.3) 189ms (*)
+rust (1.0.0-nightly) 267 ms (*)
+julia (0.4.0-dev+3052) 407ms (*)
 pypy (2.5.0) 563 ms (*)
 luajit (2.0.2) 611 ms (*)
 scala (2.10.4) 633 ms (*)
-clojure (1.7.0-alpha5) 2504 ms
+clojure (1.7.0-alpha5) 2504 ms (*)
 factor (0.97) 2895 ms
 erlang (R16B03) 4193 ms
 node (0.10.33) 4328 ms (*)
