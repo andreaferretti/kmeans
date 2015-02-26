@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
     }
 
     val iterations = 100
-    val points = readPoints("/tmp/points.json")
+    val points = readPoints("../points.json")
     val start = System.currentTimeMillis()
     for (i in 1..iterations) {
         KMeans.run(points)
