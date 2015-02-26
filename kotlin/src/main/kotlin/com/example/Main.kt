@@ -1,23 +1,17 @@
 package com.example
 
-import kotlin.io.readText
-import java.io.File
-import com.fasterxml.jackson.module.kotlin.*
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.core.JsonFactory
-
-/**
- * Created by evacchi on 26/02/15.
- */
+import com.fasterxml.jackson.databind.ObjectMapper
+import java.io.File
 
 
 fun main(args: Array<String>) {
     fun readPoints(path: String): List<Point> {
         val json = JsonFactory().createParser(File(path))
-        val mapper = ObjectMapper().registerKotlinModule()
-        val jparser = mapper.readValues(json, javaClass<Point>())
-
-        return jparser.readAll()
+        val mapper = ObjectMapper()
+        var typeref = object : TypeReference<List<List<Double>>>() {}
+        return mapper.readValue<List<List<Double>>>(json, typeref).map{ Point(it[0], it[1]) };
     }
 
     val iterations = 100

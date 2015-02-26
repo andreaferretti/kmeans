@@ -7,19 +7,6 @@ package com.example
 import java.util.ArrayList
 import java.util.HashMap
 
-
-//public fun KMeans(Xs: Array<Point>, n: Int, iters: Int): KMeans {
-//    val __ = KMeans(n, iters)
-//    __.Xs = Xs
-//    return __
-//}
-//
-//public fun KMeans(Xs: Array<Point>): KMeans {
-//    val __ = KMeans(0, 0)
-//    __.Xs = Xs
-//    return __
-//}
-
 object KMeans {
     val n = 10
     val iters = 15
