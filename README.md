@@ -27,10 +27,10 @@ For the curious folks, I have tried a more optimized (single-threaded) implement
 How to run
 ==========
 
-** C **
+**C**
 
     sudo apt-get install libglib2.0-0
-	sudo apt-get install libjansson-dev # or equivalent for your Os
+	sudo apt-get install libjansson-dev # or equivalent for your OS
 	./compile.sh
 	./kmeans
 
