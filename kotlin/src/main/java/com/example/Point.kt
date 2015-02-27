@@ -3,7 +3,7 @@ package com.example
 /**
  * Created by evacchi on 26/02/15.
  */
-class Point(var x: Double, var y: Double) {
+data class Point(var x: Double, var y: Double) {
 
     fun div(d: Double) = Point(x/d, y/d)
     fun divAssign(d: Double) {

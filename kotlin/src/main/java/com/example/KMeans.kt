@@ -12,7 +12,7 @@ object KMeans {
     val iters = 15
 
     fun run(xs: List<Point>) {
-        var centroids = xs take n
+        var centroids: List<Point> = xs take n
         for (i in 1..iters) {
             centroids = clusters(xs, centroids) map { average(it) }
         }
@@ -25,9 +25,9 @@ object KMeans {
     fun closest(x: Point, choices: List<Point>) =
         choices minBy { y -> dist(x,y) }
 
-    fun sq(x:Double)=x*x
+    fun sq(x:Double) = x*x
 
     fun dist(x:Point, y:Point) = (x-y).modulus
 
-    fun average(xs:List<Point>) = xs.reduce{ (p1, p2) -> p1+p2 }
+    fun average(xs:List<Point>) = ( xs.reduce{ (p1, p2) -> p1+p2 } ) / xs.size().toDouble()
 }
