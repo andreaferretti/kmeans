@@ -22,5 +22,3 @@ let () =
   let finish = Time.now() in
   let milliseconds = (Time.diff finish start) |> Time.Span.to_ms in
   Printf.printf "We made 100 iterations with an average of %f ms\n" (milliseconds /. (Float.of_int runs))
-
-(* corebuild -pkg yojson main.native *)

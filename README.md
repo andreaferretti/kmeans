@@ -46,7 +46,7 @@ How to run
 
 **Kotlin**:
 
-    mvn compile exec:java   
+    mvn compile exec:java
 
 **Lua**: download [this JSON library](http://dkolf.de/src/dkjson-lua.fsl/home) and put it in the same folder as the main file. Then run
 
@@ -62,6 +62,12 @@ How to run
 
     npm install
     node kmeans.js
+
+**OCaml**:
+
+    opam install core yojson
+    corebuild -pkg yojson main.native
+    ./main.native
 
 **Parasail**: assume `plc.csh` is on `$PATH`. Then
 
