@@ -30,7 +30,7 @@ int main()
    PointArray* xs = (PointArray*)malloc(sizeof(PointArray));
    xs->size = 100000;
 
-   json = json_load_file("/home/andrea/workspace/kmeans/points.json", 0, &error);
+   json = json_load_file("../points.json", 0, &error);
    if(!json) {
         printf("Error parsing Json file");
         fflush(stdout);
