@@ -20,6 +20,12 @@ Time for running on my laptop are available under `results`. A few surprises:
 How to run
 ==========
 
+** C **
+
+	sudo apt-get install libjansson-dev # or equivalent for your Os
+	./compile.sh
+	./kmeans
+
 **Clojure**: `lein with-profile uberjar run`
 
 **Erlang**:

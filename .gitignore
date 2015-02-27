@@ -14,3 +14,5 @@ errors.err
 erlang/*.beam
 java/target
 java/project
+c/*.o
+c/kmeans
