@@ -14,3 +14,8 @@ errors.err
 erlang/*.beam
 java/target
 java/project
+ocaml/_build
+ocaml/*.byte
+ocaml/*.native
+kotlin/target
+lua/dkjson.lua
