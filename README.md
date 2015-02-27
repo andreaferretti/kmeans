@@ -27,6 +27,13 @@ For the curious folks, I have tried a more optimized (single-threaded) implement
 How to run
 ==========
 
+** C **
+
+    sudo apt-get install libglib2.0-0
+	sudo apt-get install libjansson-dev # or equivalent for your Os
+	./compile.sh
+	./kmeans
+
 **Clojure**: `lein with-profile uberjar run`
 
 **Erlang**:
@@ -76,7 +83,7 @@ How to run
     corebuild -pkg yojson main.native
     ./main.native
 
-**Parasail**: assume `plc.csh` is on `$PATH`. Then
+**Parasail**: assume `pslc.csh` is on `$PATH`. Then
 
     pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
     ./benchmark

@@ -19,3 +19,5 @@ ocaml/*.byte
 ocaml/*.native
 kotlin/target
 lua/dkjson.lua
+c/*.o
+c/kmeans

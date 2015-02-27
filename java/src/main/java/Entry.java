@@ -38,17 +38,17 @@ public class Entry {
 
 		KMeans kmeans = new KMeans(Xs);
 		long totalTime = 0;
+		long timeBefore = System.currentTimeMillis();
 		for (int k=0;k<times;k++) {
-			totalTime += executionTime(kmeans);
+			kmeans.run();
 		}
+		long timeAfter = System.currentTimeMillis();
+		totalTime = timeAfter -timeBefore;
 		System.out.println("Average time "+(totalTime/times));
 	}
 
-	private static long executionTime(KMeans kmeans) {
-		long timeBefore = System.currentTimeMillis();
+	private static void executionTime(KMeans kmeans) {
 		kmeans.run();
-		long timeAfter = System.currentTimeMillis();
-		return (timeAfter - timeBefore);
+		return;
 	}
-
 }
