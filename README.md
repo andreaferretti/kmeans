@@ -22,6 +22,7 @@ How to run
 
 ** C **
 
+    sudo apt-get install libglib2.0-0
 	sudo apt-get install libjansson-dev # or equivalent for your Os
 	./compile.sh
 	./kmeans

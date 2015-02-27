@@ -92,6 +92,13 @@ void run(PointArray* xs, Clusters* clusters)
         }
     }
 
+    /*
+    printf("Final centroids are %d:\n", centroids->size);
+    for (i=0;i<centroids->size;i++) {
+        printf("Point(%.20f,%.20f) \n", centroids->points[i].x, centroids->points[i].y);
+    }
+    */
+
     free(temp);
     free(centroids);
     return;

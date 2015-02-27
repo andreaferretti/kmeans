@@ -8,19 +8,23 @@
 #include <jansson.h>
 #include <sys/time.h>
 
+int times = 100;
+
 long int getTime(PointArray* xs, Clusters* clusters) {
+    int i=0;
     struct timeval tval_before, tval_after, tval_result;
     gettimeofday(&tval_before, NULL);
-    run(xs, clusters);
+    for (i=0;i<times;i++) {
+      run(xs, clusters);
+    }
     gettimeofday(&tval_after, NULL);
     timersub(&tval_after, &tval_before, &tval_result);
-    long int ms = ((long int)tval_result.tv_sec) + ((long int)tval_result.tv_usec/1000);
+    long int ms = ((long int)tval_result.tv_sec*1000) + ((long int)tval_result.tv_usec/1000);
     return ms;
 }
 
 int main()
 {
-   int i=0;
    json_t *json;
    json_error_t error;
    size_t index;
@@ -46,11 +50,9 @@ int main()
 
    Clusters* clusters = (Clusters*)malloc(sizeof(Clusters));
 
-   for (i=0;i<100;i++) {
-    temp += getTime(xs, clusters);
-   }
+   temp += getTime(xs, clusters);
 
-   printf("Average Time: %li ms\n", (temp/100));
+   printf("Average Time: %li ms\n", (temp/times));
 
    return 0;
 }
