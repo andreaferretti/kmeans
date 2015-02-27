@@ -57,17 +57,9 @@ void calcClusters(PointArray* xs, Clusters* clusters, PointArray* centroids)
     for (i=0;i<xs->size;i++) {
         //printf("punto %d",i);
         theClosest = closest(&(xs->points[i]), centroids);
-        #ifndef WITHHASHMAP
-            clusters->groups[theClosest].points[clusters->groups[theClosest].size].x = xs->points[i].x;
-            clusters->groups[theClosest].points[clusters->groups[theClosest].size].y = xs->points[i].y;
-            clusters->groups[theClosest].size+=1;
-        #else
-            insert(&(xs->points[theClosest]), &(xs->points[i]));
-        #endif
+        insert(&(xs->points[theClosest]), &(xs->points[i]));
     }
-    #ifdef WITHHASHMAP
-        setCluster(clusters);
-    #endif
+    setCluster(clusters);
     return;
 }
 
@@ -91,13 +83,6 @@ void run(PointArray* xs, Clusters* clusters)
             centroids->points[i].y = temp->y;
         }
     }
-
-    /*
-    printf("Final centroids are %d:\n", centroids->size);
-    for (i=0;i<centroids->size;i++) {
-        printf("Point(%.20f,%.20f) \n", centroids->points[i].x, centroids->points[i].y);
-    }
-    */
 
     free(temp);
     free(centroids);
