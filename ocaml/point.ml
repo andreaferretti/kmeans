@@ -1,6 +1,6 @@
 open Core.Std
 
-type t = { x: float; y: float } with sexp
+type t = { x: float; y: float }
 
 let ( ++ ) { x = x1; y = y1 } { x = x2; y = y2 } = { x = x1 +. x2; y = y1 +. y2 }
 
@@ -11,7 +11,3 @@ let ( // ) { x; y } k = { x = x /. k; y = y /. k }
 let norm { x; y } = sqrt (x *. x +. y *. y)
 
 let dist x y = norm (x -- y)
-
-let compare { x = x1; y = y1 } { x = x2; y = y2 } =
-  let c = Float.compare x1 x2 in
-  if (c = 0) then Float.compare y1 y2 else c

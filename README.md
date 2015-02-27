@@ -17,6 +17,13 @@ Time for running on my laptop are available under `results`. A few surprises:
 * Factor is pretty impressive, given that it is a fairly small project with a dedicated VM. With an implementation in 8 (!) lines, we get the a fairly performing dynamic language
 * Nim was also quite impressive: my first implementation was as easy as Python, and it was just behind Rust; when an unnecessary copy was removed, it turned out to be the fastest.
 
+Contribute
+==========
+
+If you want to contribute an implementation in a different language, please file a PR. Try to follow the same logic that is used in the examples in other languages - for instance, using a group by operation where available. As you may notice, the algorithm is not optimized, and intentionally so: while K-means in particular has various possible optimizations, other similar algorithms may fail to have the particular shape that makes these optimizations viable.
+
+For the curious folks, I have tried a more optimized (single-threaded) implementation in Nim, that avoids the square root in the distance and accumulates the sum of points near a centroid, rather than putting them into a data structure. For comparison, this version runs in 67 ms. Computers are actually quite fast, these days!
+
 How to run
 ==========
 
