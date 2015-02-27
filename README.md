@@ -44,6 +44,10 @@ How to run
     julia -e 'Pkg.add("JSON")'
     julia kmeans.jl
 
+**Kotlin**:
+
+    mvn compile exec:java   
+
 **Lua**: download [this JSON library](http://dkolf.de/src/dkjson-lua.fsl/home) and put it in the same folder as the main file. Then run
 
     lua kmeans.lua
