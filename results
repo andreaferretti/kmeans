@@ -12,6 +12,7 @@ results
 
 java (1.7.0_76) 183ms
 nim (0.10.3) 189ms
+kotlin (0.10.195) 243ms
 rust (1.0.0-nightly) 267 ms
 julia (0.4.0-dev+3052) 407ms
 pypy (2.5.0) 563 ms
