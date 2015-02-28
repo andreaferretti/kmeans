@@ -53,6 +53,11 @@ How to run
 	mvn compile
 	mvn exec:java
 
+
+**Java 8 (Streams and Lambdas)**:
+
+    mvn compile exec:java
+
 **Julia**:
 
     julia -e 'Pkg.add("JSON")'
