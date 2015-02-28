@@ -1,8 +1,5 @@
 package com.example;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 /**
  * Created by evacchi on 28/02/15.
  */
