@@ -24,7 +24,8 @@ public class KMeans {
             centroids = clusters(xs, centroids.collect(toList()))
                         .stream().map(this::average);
         }
-        clusters(xs, centroids.collect(toList()));
+        List<Point> ps = centroids.collect(toList());
+        clusters(xs, ps);
     }
 
     public Collection<List<Point>> clusters(List<Point> xs, List<Point> centroids) {
@@ -33,7 +34,7 @@ public class KMeans {
 
     public Point closest(final Point x, List<Point> choices) {
         return choices.stream()
-            .collect(minBy((y1, y2) -> dist(x, y1) < dist(x, y2) ? -1 : 1)).get();
+            .collect(minBy((y1, y2) -> dist(x, y1) <= dist(x, y2) ? -1 : 1)).get();
     }
 
     public double sq(double x) { return x*x; }
@@ -44,19 +45,4 @@ public class KMeans {
         return xs.stream().reduce(Point::plus).get().div(xs.size());
     }
 
-}
-
-@Data @AllArgsConstructor class Point {
-    double x,y;
-    public Point plus(Point p2) {
-        return new Point(x + p2.getX(), y + p2.getY());
-    }
-    public Point minus(Point p2) {
-        return new Point(x - p2.getX(), y - p2.getY());
-    }
-    public Point div(double d) {
-        return new Point(x/d, y/d);
-    }
-    public Double getModulus() { return Math.sqrt(sq(x) + sq(y)); }
-    private double sq(double x) { return x*x; }
 }
