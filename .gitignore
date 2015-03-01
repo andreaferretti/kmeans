@@ -21,3 +21,6 @@ kotlin/target
 lua/dkjson.lua
 c/*.o
 c/kmeans
+haskell/.cabal-sandbox
+haskell/dist
+haskell/cabal.sandbox.config
