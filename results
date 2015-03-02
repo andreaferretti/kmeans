@@ -14,8 +14,8 @@ java (1.7.0_76) 183 ms
 nim (0.10.3) 189 ms
 c (gcc 4.8.2) 218 ms
 kotlin (0.10.195) 243 ms
+julia (0.4.0-dev+3052) 266 ms
 rust (1.0.0-nightly) 267 ms
-julia (0.4.0-dev+3052) 407 ms
 pypy (2.5.0) 563 ms
 java8 (1.8.0_31) 565 ms
 luajit (2.0.2) 611 ms
