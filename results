@@ -17,6 +17,7 @@ kotlin (0.10.195) 243 ms
 rust (1.0.0-nightly) 267 ms
 julia (0.4.0-dev+3052) 407 ms
 pypy (2.5.0) 563 ms
+java8 (1.8.0_31) 565 ms
 luajit (2.0.2) 611 ms
 scala (2.10.4) 633 ms
 ocaml (4.02.1) 796 ms
