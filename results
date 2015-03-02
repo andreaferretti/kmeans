@@ -20,6 +20,7 @@ pypy (2.5.0) 563 ms
 luajit (2.0.2) 611 ms
 scala (2.10.4) 633 ms
 ocaml (4.02.1) 796 ms
+haskell (ghc 7.8.4) 1663 ms *
 clojure (1.7.0-alpha5) 2504 ms
 factor (0.97) 2895 ms
 erlang (R16B03) 4249 ms
@@ -29,6 +30,7 @@ ocaml bytecode (4.02.1) 8021 ms
 python (2.7.6) 10632 ms
 pharo (3) 11170 ms
 
+* I am not able to run this 100 times without the runtime caching the result. Any help is appreciated.
 
 expected result
 ===============

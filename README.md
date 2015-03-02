@@ -48,6 +48,12 @@ How to run
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
+**Haskell**:
+
+    cabal install --only-dependencies
+    cabal build
+    dist/build/kmeans/kmeans
+
 **Java**:
 
 	mvn compile
@@ -56,7 +62,8 @@ How to run
 
 **Java 8 (Streams and Lambdas)**:
 
-    mvn compile exec:java
+    mvn compile
+    mvn exec:java
 
 **Julia**:
 
