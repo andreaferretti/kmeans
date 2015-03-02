@@ -8,17 +8,12 @@ end
 
 +(p1::Point, p2::Point) = Point(p1.x + p2.x, p1.y + p2.y)
 /(p::Point, k::Number) = Point(p.x / k, p.y / k)
-# hypot(a, b) = sqrt(a^2 + b^2), but would be faster to
-# avoid the sqrt and work in terms of squared distance
-dist(p1::Point, p2::Point) = hypot(p1.x - p2.x, p1.y - p2.y)
+dist(p1::Point, p2::Point) = sqrt((p1.x - p2.x)^2 + (p1.y - p2.y)^2)
 
-# one-liner version of closest:
-# closest(p1::Point, points) = points[indmin([dist(p1, p2) for p2 in points])]
-# devectorized version that avoids allocating an array of all distances:
 function closest(p1::Point, points)
     mindist = Inf
     min_i = 0
-    for i=1:length(points)
+    for i in 1:length(points)
         disti = dist(p1, points[i])
         if disti < mindist
             mindist = disti
@@ -41,14 +36,7 @@ function groupby(points, centroids)
     return g
 end
 
-function update_centroids(points, centroids)
-    groups = groupby(points, centroids)
-    res = Point[]
-    for g in values(groups)
-        push!(res, mean(g))
-    end
-    return res
-end
+update_centroids(points, centroids) = [mean(g) for g in values(groupby(points, centroids))]
 
 function run(xs, n, iters=15)
     centroids = xs[1:n]
@@ -65,8 +53,8 @@ function main()
     for i in 1:iterations
         run(points, 10)
     end
-    totaltime = toq() * 1000 / iterations
-    println("Made $iterations iterations with an average of $totaltime milliseconds")
+    avgtime = toq() * 1000 / iterations
+    println("Made $iterations iterations with an average of $avgtime milliseconds")
 end
 
 main()
