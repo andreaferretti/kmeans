@@ -36,6 +36,13 @@ How to run
 
 **Clojure**: `lein with-profile uberjar run`
 
+**Elixir**:
+
+    $ elixir -v
+    Elixir 1.0.3
+    $ elixirc kmeans.ex
+    $ elixir main.exs
+
 **Erlang**:
 
     erl
