@@ -38,10 +38,8 @@ How to run
 
 **Elixir**:
 
-    $ elixir -v
-    Elixir 1.0.3
-    $ elixirc kmeans.ex
-    $ elixir main.exs
+    elixirc kmeans.ex
+    elixir main.exs
 
 **Erlang**:
 

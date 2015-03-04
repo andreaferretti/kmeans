@@ -35,7 +35,7 @@ defmodule Main do
                     elapsed / 1000
                   end
 
-    IO.puts "Running #{iterations} iterations has required #{Enum.sum(benchmarks) / times} ms"
+    IO.puts "Made #{times} iterations with an average of #{Enum.sum(benchmarks) / times} ms"
   end
 
 end

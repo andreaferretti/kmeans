@@ -12,6 +12,7 @@ nimcache
 parasail/benchmark
 errors.err
 erlang/*.beam
+elixir/*.beam
 java/target
 java/project
 java8/target
