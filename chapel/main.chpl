@@ -100,9 +100,6 @@ C.getJson();
 for i in 1..100000 do
 	xs[i] = new point(C.getXAt(i), C.getYAt(i));
 
-forall i in 1..n do
-	centroids[i] = xs[i];
-
 use Time;
 var timer = new Timer();
 
@@ -110,6 +107,9 @@ timer.clear();
 timer.start();
 
 for k in 1..executions do {
+
+	forall i in 1..n do
+		centroids[i] = xs[i];
 
 	for i in 1..iters do {
 		var clus = clusters(xs, centroids);
