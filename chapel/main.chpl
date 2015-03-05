@@ -100,7 +100,7 @@ C.getJson();
 for i in 1..100000 do
 	xs[i] = new point(C.getXAt(i), C.getYAt(i));
 
-forall i in 1..centroids.size do
+forall i in 1..n do
 	centroids[i] = xs[i];
 
 use Time;
@@ -113,7 +113,7 @@ for k in 1..executions do {
 
 	for i in 1..iters do {
 		var clus = clusters(xs, centroids);
-		forall c in [1..clus.size] do
+		forall c in [1..n] do
 			centroids[c] = average(clus[c]);
 	}
 
@@ -149,7 +149,7 @@ module C {
    		json_t *value;
 
    		
-   		json = json_load_file("/home/andrea/workspace/kmeans/points.json", 0, &error);
+   		json = json_load_file("../points.json", 0, &error);
    		if(!json) {
         	printf("Error parsing Json file");
         	fflush(stdout);
