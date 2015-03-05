@@ -34,6 +34,17 @@ How to run
 	./compile.sh
 	./kmeans
 
+**Chapel**
+
+before compiling chapel please do:
+
+	export CHPL_LLVM=llvm
+
+to enable LLVM support (used in json import in C)
+
+	make
+	./kmeans
+
 **Clojure**: `lein with-profile uberjar run`
 
 **Elixir**:
