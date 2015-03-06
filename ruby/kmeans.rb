@@ -14,17 +14,21 @@ class Point
   end
 
   def /(value)
-    Point.new @x / value, @y / value
+    Point.new @x / value.to_f, @y / value.to_f
   end
 
   def dist(other)
-    Math.sqrt((@x - other.x) ** 2 + (@y + other.y) ** 2)
+    Math.sqrt((@x - other.x) ** 2 + (@y - other.y) ** 2)
   end
 
   def closest(points)
     points.min { |a, b|
-      dist(a) <=> dist(b)
+      self.dist(a) <=> self.dist(b)
     }
+  end
+
+  def inspect
+    '(%.6f,%.6f)' % [@x, @y]
   end
 end
 
@@ -32,23 +36,22 @@ def update_centroids(points, centroids)
   groups = groupby(points, centroids)
   res = []
   groups.each { |k, v|
-    res << v.inject(:+)
+    res << v.inject(Point.new(0,0), :+) / v.length
   }
   res
 end
 
 def groupby(points, centroids)
-  g = Hash.new []
-  points.each { |p|
-    c = p.closest(centroids)
-    g[c] << p
+  g = Hash.new {|h,k| h[k]=[]}
+  points.each { |pp|
+    c = pp.closest(centroids)
+    g[c] << pp
   }
   g
 end
 
 def run(xs, n, iters=15)
   centroids = xs.take(n)
-  p centroids
   (1..iters).each {
     centroids = update_centroids(xs, centroids)
   }
@@ -65,4 +68,4 @@ start = Time.now
   run(points, 10)
 }
 total = (Time.now - start) * 1000 / iterations
-puts "Made #{iterations} iterations with an average of #{total} milliseconds"
+puts 'Made % iterations with an average of %.6f milliseconds' % [iterations, total]
