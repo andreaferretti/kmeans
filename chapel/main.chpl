@@ -1,23 +1,28 @@
-
 const n: int = 10;
 const iters: int = 15;
 
 const executions: int = 100;
 
-record point {
+class point {
 	var x: real;
 	var y: real;
 
 	proc divide(d: real) {
-		return new point(x = x/d, y = y/d);
+		this.x = x/d;
+		this.y = y/d;
+		return;
 	}
 	
 	proc add(p2: point) {
-		return new point(x = x+p2.x, y = y+p2.y);
+		this.x = this.x+p2.x;
+		this.y = this.y+p2.y;
+		return;
 	}
 
 	proc sub(p2: point) {
-		return new point(x = x-p2.x, y = y-p2.y);
+		this.x = this.x-p2.x;
+		this.y = this.y-p2.y;
+		return;
 	}
 
 	proc modulus() {
@@ -56,14 +61,19 @@ proc sq(x: real) {
 }
 
 proc dist(p1: point, p2: point) {
-	return (p1.sub(p2)).modulus();
+	var tmp: point = new point(p1.x, p1.y);
+	tmp.sub(p2);
+	var result = tmp.modulus();
+	delete(tmp);
+	return result;
 }
 
-proc average(ps: domain(point)) {
-	var sum = new point(0,0);
+proc average(ps: domain(point)): point {
+	var sum: point = new point(0,0);
 	forall e in ps do 
-		sum = sum.add(e);
-	return sum.divide(ps.size);
+		sum.add(e);
+	sum.divide(ps.size);
+	return sum;
 }
 
 proc closest(rp: point, choices: [] point): point {
@@ -100,9 +110,6 @@ C.getJson();
 for i in 1..100000 do
 	xs[i] = new point(C.getXAt(i), C.getYAt(i));
 
-forall i in 1..n do
-	centroids[i] = xs[i];
-
 use Time;
 var timer = new Timer();
 
@@ -110,11 +117,17 @@ timer.clear();
 timer.start();
 
 for k in 1..executions do {
+	
+	forall j in 1..n do {
+		delete(centroids[j]);
+		centroids[j] = new point(xs[j].x, xs[j].y);
+	}
 
 	for i in 1..iters do {
 		var clus = clusters(xs, centroids);
-		forall c in [1..n] do
+		forall c in [1..n] do {
 			centroids[c] = average(clus[c]);
+		}
 	}
 
 }
