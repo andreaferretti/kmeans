@@ -36,11 +36,11 @@ How to run
 
 **Chapel**
 
-before compiling chapel please do:
+Before compiling chapel please do:
 
 	export CHPL_LLVM=llvm
 
-to enable LLVM support (used in json import in C)
+to enable LLVM support (this is used for the json import in C). Then, make sure that `chpl` is on your `$PATH` (for instance with `source source util/setchplenv.sh`). Finally:
 
 	make
 	./kmeans
