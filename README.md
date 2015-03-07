@@ -64,6 +64,17 @@ to enable LLVM support (used in json import in C)
     USE: kmeans.benchmark
     100 "../points.json" kmeans-benchmark
 
+** Go **
+
+from source:
+
+	go run main.go
+
+or compiled:
+	
+	go build main.go
+	./main
+
 **Haskell**:
 
     cabal install --only-dependencies
