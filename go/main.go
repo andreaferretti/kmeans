@@ -1,6 +1,10 @@
 package main
 
-import ("fmt"; "math"; "encoding/json"; "time"; "io/ioutil")
+import "fmt"
+import "math"
+import "encoding/json"
+import "time"
+import "io/ioutil"
 
 
 type Point struct {
@@ -32,7 +36,7 @@ func dist(p1 *Point, p2 *Point) float64 {
 
 func average(points []Point) *Point {
 	tmp := Point{0,0}
-	for i:=0; i < len(points); i++ {
+	for i := range points {
 		tmp = *tmp.add(&points[i])
 	}
 	tmp = *tmp.divide(float64(len(points)))
@@ -41,10 +45,10 @@ func average(points []Point) *Point {
 
 func closest(p *Point, choices []Point) *Point {
 	min := 0
-	minDist := dist(p, &choices[0])
-	for i:=1; i < len(choices); i++ {
+	minDist := 0.0
+	for i:= range choices {
 		actualDist := dist(p, &choices[i])
-		if (minDist > actualDist) {
+		if (i ==  0 || minDist > actualDist) {
 			min = i
 			minDist = actualDist
 		}
@@ -54,9 +58,8 @@ func closest(p *Point, choices []Point) *Point {
 
 func clusters(xs []Point, centroids []Point) [][]Point {
 	hm := make(map[Point][]Point)
-	for i:=0; i < len(xs); i++ {
+	for i := range xs {
 		theClosest := *closest(&xs[i], centroids)
-		//fmt.Println(theClosest)
 		hm[theClosest] = append(hm[theClosest], xs[i])
 	}
 	result := [][]Point {}
@@ -86,7 +89,7 @@ func main() {
 	xs := []Point{}
 	centroids := []Point{}
 
-    for i:=0; i < len(*res); i++ {
+    	for i:= range (*res) {
 		xs = append(xs, Point{(*res)[i][0],(*res)[i][1]})
 	}
 
