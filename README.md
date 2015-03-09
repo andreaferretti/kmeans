@@ -141,6 +141,9 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     python kmeans.py
     pypy kmeans.py
 
+**Ruby**:
+    ruby kmeans.rb
+
 **Rust**:
 
     cargo run --release
