@@ -6,8 +6,8 @@ import std.datetime;
 
 class Point
 {
-	double x;
-	double y;
+	const double x;
+	const double y;
 
 	this(double x, double y)
     {
@@ -76,19 +76,19 @@ Point[][] clusters(Point[] xs, Point[] centroids)
 
 Point[][] run(int n, int iters, Point[] xs)
 {
-    Point[] centroids = xs[0 .. n];
+    Point[] centroids = xs[0 .. n].dup();
     for (int i=0;i<iters;i++) {
         auto clus = clusters(xs, centroids);
         for (int k=0;k<n;k++) {
             centroids[k] = average(clus[k]);
         }
 
-/*
+        /*if (i==14) {
         writeln("Final Centroids:",i);
             for (int k=0;k<n;k++) {
                 writeln("Point(", centroids[k].x, " , ", centroids[k].y, ")");
         }
-*/
+        }*/
     }
 
     return clusters(xs, centroids);
@@ -97,9 +97,9 @@ Point[][] run(int n, int iters, Point[] xs)
 void main()
 {
     int n= 10;
-    int iters= 20;
+    int iters= 15;
 
-    int executions = 1;
+    int executions = 100;
 
     Point xs[100000];
 
