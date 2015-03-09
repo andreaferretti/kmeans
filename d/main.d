@@ -34,7 +34,7 @@ class Point
     {
     	return sqrt(sq(x) + sq(y));
     }
-    
+
 }
 
 auto sq = (double x) => x*x;
@@ -66,7 +66,7 @@ Point closest(Point p, Point[] choices)
 
 Point[][] clusters(Point[] xs, Point[] centroids)
 {
-    Point[][Point] hm;   
+    Point[][Point] hm;
     for (int i=0;i<xs.length;i++) {
         auto theClosest = closest(xs[i], centroids);
         hm[theClosest] ~= [xs[i]];
@@ -82,13 +82,6 @@ Point[][] run(int n, int iters, Point[] xs)
         for (int k=0;k<n;k++) {
             centroids[k] = average(clus[k]);
         }
-
-        /*if (i==14) {
-        writeln("Final Centroids:",i);
-            for (int k=0;k<n;k++) {
-                writeln("Point(", centroids[k].x, " , ", centroids[k].y, ")");
-        }
-        }*/
     }
 
     return clusters(xs, centroids);
@@ -117,7 +110,7 @@ void main()
     for (int i=0;i<executions;i++) {
         run(n, iters, xs);
     }
-    
+
     auto after = Clock.currTime();
 
     auto totalTime = (after.stdTime() - before.stdTime())/10000/executions;

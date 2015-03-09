@@ -29,6 +29,7 @@ factor (0.97) 2895 ms
 elixir (1.0.3) 3949 ms
 erlang (R17) 4536 ms
 io.js (1.4.3) 5241 ms
+d (2.066.1) 5403 ms
 node (0.12.0) 5547 ms
 lua (5.2.3) 6946 ms
 ocaml bytecode (4.02.1) 8021 ms
