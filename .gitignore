@@ -26,3 +26,5 @@ c/kmeans
 haskell/.cabal-sandbox
 haskell/dist
 haskell/cabal.sandbox.config
+d/main
+d/main.o
