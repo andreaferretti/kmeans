@@ -108,7 +108,8 @@ func main() {
 				centroids[i] = *average(clus[i])
 			}
 		}
-
+		clus := clusters(xs, centroids)
+		_ = clus
 	}
 
 	after := time.Now()
