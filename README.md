@@ -49,8 +49,8 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **D**:
 
-	dmd main.d
-	./main
+    dmd -O -inline -release -noboundscheck main.d
+    ./main
 
 **Elixir**:
 
