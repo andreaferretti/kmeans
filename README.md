@@ -47,6 +47,11 @@ to enable LLVM support (used in json import in C)
 
 **Clojure**: `lein with-profile uberjar run`
 
+**D**:
+
+	dmd main.d
+	./main
+
 **Elixir**:
 
     elixirc kmeans.ex
