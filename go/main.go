@@ -1,10 +1,10 @@
 package main
 
-import "fmt"
-import "math"
-import "encoding/json"
-import "time"
-import "io/ioutil"
+import ("fmt"; 
+		"math"; 
+		"encoding/json";	
+		"time";	
+		"io/ioutil")
 
 
 type Point struct {
@@ -70,6 +70,28 @@ func clusters(xs []Point, centroids []Point) [][]Point {
 	return result;
 }
 
+func run(n int,iters int, xs []Point) [][]Point {
+	centroids := []Point{}
+
+	for i:=0; i < n; i++ {
+		centroids = append(centroids, xs[i])
+	}
+    
+	for k:=0; k < iters; k++ {
+		clus := clusters(xs, centroids)
+		for i:=0; i < n; i++ {
+			centroids[i] = *average(clus[i])
+		}
+	}
+
+	/*fmt.Println("Final Centroids are ")
+		for i:=0; i < n; i++ {
+			fmt.Println(centroids[i])
+	}*/
+
+	return clusters(xs, centroids);
+}
+
 func main() {
 
 	executions := 100
@@ -87,39 +109,18 @@ func main() {
     json.Unmarshal(dat, &res)
 
 	xs := []Point{}
-	centroids := []Point{}
-
-    	for i:= range (*res) {
+	
+    for i:= range (*res) {
 		xs = append(xs, Point{(*res)[i][0],(*res)[i][1]})
-	}
-
-	for i:=0; i < n; i++ {
-			centroids = append(centroids, xs[i])
 	}
 
     before := time.Now()
 
     for ex:=0; ex < executions; ex++ {
-		
-    	for i:=0; i < n; i++ {
-			centroids[i] = xs[i]
-		}
-
-		for k:=0; k < iters; k++ {
-			clus := clusters(xs, centroids)
-			for i:=0; i < n; i++ {
-				centroids[i] = *average(clus[i])
-			}
-		}
-
+		run(n,iters,xs);
 	}
 
 	after := time.Now()
-
-    fmt.Println("Final Centroids are ")
-		for i:=0; i < n; i++ {
-			fmt.Println(centroids[i])
-	}
 
     time := (after.Sub(before).Nanoseconds())/int64(1000000)/int64(executions)
 
