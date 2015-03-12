@@ -152,7 +152,9 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     pypy kmeans.py
 
 **Ruby**:
+
     ruby kmeans.rb
+    rbx kmeans.rb
 
 **Rust**:
 
