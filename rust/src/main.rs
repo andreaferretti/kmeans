@@ -1,6 +1,3 @@
-#![feature(core)]
-#![feature(old_io)]
-#![feature(old_path)]
 #![feature(std_misc)]
 #![feature(rustc_private)]
 
@@ -8,7 +5,9 @@ extern crate time;
 extern crate kmeans;
 extern crate serialize;
 
-use std::old_io::File;
+use std::path::Path;
+use std::fs::File;
+use std::io::Read;
 use serialize::json;
 
 use time::now;
@@ -28,9 +27,12 @@ fn benchmark(points: &[Point], times: i32) -> f64 {
 }
 
 fn main() {
-    let contents = File::open(&Path::new("../points.json".as_slice())).read_to_string().unwrap();
+    let mut file = File::open(&Path::new("../points.json")).unwrap();
+    let mut buffer: Vec<u8> = vec!();
+    let _ = file.read_to_end(&mut buffer).unwrap();
+    let filestr = String::from_utf8(buffer).unwrap();
 
-    let points: Vec<Point> = json::decode(&contents).unwrap();
+    let points: Vec<Point> = json::decode(&filestr).unwrap();
     let iterations = 100;
 
     println!("The average time is {}", benchmark(&points, iterations));
