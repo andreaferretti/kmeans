@@ -3,11 +3,9 @@ import x10.compiler.Native;
 
 public class Main {
 	
-	static val times = 1;
+	static val times = 100;
 	
 	public static def main(Rail[String]) {
-		Console.OUT.println("Remember put to 100 times!");
-	
 		val xs = new Array[RichPoint](100000);
 		/* JAVA json import 
 		val javaRead = new jsonRead();

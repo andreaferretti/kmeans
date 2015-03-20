@@ -76,12 +76,12 @@ public class KMeans {
 				centroids(i) = average(clusIter.next());
 			}
 		}
-		
+		/*
 		Console.OUT.println("Centroids are:");
 		for (i in 0..(n-1)) {
 			Console.OUT.println("Point("+centroids(i).x+" , "+centroids(i).y+")");
 		}
-		
+		*/
 		return clusters(xs, centroids);
 	}
 	
