@@ -16,7 +16,7 @@ java:
 	x10c -O -cp javalib/jackson-core-2.5.1.jar:javalib/jsonRead.jar -d javabin *.x10 
 
 runJava:
-	x10 -cp javabin:javalib/jackson-core-2.5.1.jar:javalib/jsonRead.jar Main
+	x10 -O -cp javabin:javalib/jackson-core-2.5.1.jar:javalib/jsonRead.jar Main
 
 c:
 	x10c++ -O -d cbin *.x10 -cxx-postarg -ljansson
