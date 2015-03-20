@@ -22,9 +22,11 @@ java8 (1.8.0_31) 565 ms
 luajit (2.0.2) 611 ms
 scala (2.10.4) 633 ms
 ocaml (4.02.1) 796 ms
+x10-c++ (2.5.2) 1436 ms
 chapel (1.10) 1564 ms **
 haskell (ghc 7.8.4) 1663 ms *
 clojure (1.7.0-alpha5) 2504 ms
+x10-java (2.5.2) 2720 ms
 factor (0.97) 2895 ms
 elixir (1.0.3) 3949 ms
 erlang (R17) 4536 ms

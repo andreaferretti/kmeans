@@ -5,12 +5,12 @@ public class jsonRead {
 	static int java_xs_counter = 0;
     static double[] java_ys = new double[100000];
     static int java_ys_counter = 0;
-			
+
 
 	public static void initialize() {
 			try {
 			com.fasterxml.jackson.core.JsonFactory factory = new com.fasterxml.jackson.core.JsonFactory();
-	        com.fasterxml.jackson.core.JsonParser jp = 
+	        com.fasterxml.jackson.core.JsonParser jp =
 	        	factory.createJsonParser(new java.io.File("../points.json"));
 			int i = 0;
 			while (true) {
@@ -27,7 +27,7 @@ public class jsonRead {
 				i++;
 			} catch(Exception ex) {
 			//ex.printStackTrace();
-			System.out.println("readed "+i+" points");
+			System.out.println("read "+i+" points");
 			break;
 			}
 			actual = jp.nextToken();
@@ -44,7 +44,7 @@ public class jsonRead {
 	public static double getNextX() {
 		return java_xs[java_xs_counter++];
 	}
-	
+
 	public static double getNextY() {
 		return java_ys[java_ys_counter++];
 	}

@@ -161,3 +161,18 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     cargo run --release
 
 **Scala**: `sbt run`
+
+**X10**: First
+
+    mkdir cbin
+    mkdir javabin
+
+Make sure that the `bin` folder of X10 is on your path. Then, for the Java target, decomment lines with `Java json import` inside `Main.x10` and
+
+    make java
+    make runJava
+
+For the native target, decomment lines with `C json import` inside `Main.x10` and
+
+    make c
+    make runC

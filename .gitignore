@@ -28,3 +28,6 @@ haskell/dist
 haskell/cabal.sandbox.config
 d/main
 d/main.o
+x10/cbin
+x10/javabin
+x10/javalib/jsonRead.jar
