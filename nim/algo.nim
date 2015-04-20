@@ -1,52 +1,58 @@
 import math, hashes, tables, sequtils
 
 type
-  Point* = tuple[x, y: float]
-  Points* = seq[Point]
+  Point*    = tuple[x, y: float]
+  Points*   = seq[Point]
+  Centroids = openarray[Point]
 
-proc hash(p: Point): THash =
+proc hash(p: Point): THash {.noInit.} =
   !$(p.x.hash !& p.y.hash)
 
-proc `+`(p, q: Point): Point = (p.x + q.x, p.y + q.y)
+proc `+`(p, q: Point): Point {.noInit.} =
+  (p.x + q.x, p.y + q.y)
 
-proc `-`(p, q: Point): Point = (p.x - q.x, p.y - q.y)
+proc `-`(p, q: Point): Point {.noInit.} =
+  (p.x - q.x, p.y - q.y)
 
-proc `/`(p: Point, k: float): Point = (p.x / k, p.y / k)
+proc `/`(p: Point, k: float): Point {.noInit.} =
+  (p.x / k, p.y / k)
 
-proc norm(p: Point): float = sqrt(p.x * p.x + p.y * p.y)
+proc norm(p: Point): float {.noInit.} =
+  sqrt(p.x * p.x + p.y * p.y)
 
-proc dist(p, q: Point): float = norm(p - q)
+proc dist(p, q: Point): float {.noInit.} =
+  norm(p - q)
 
-proc closest(p: Point, qs: Points): Point =
+proc closest(p: Point, centroids: Centroids): Point {.noInit.} =
   var minDist = Inf
-  for q in qs:
-    let d = dist(p, q)
+  for centroid in centroids:
+    let d = dist(p, centroid)
     if d < minDist:
       minDist = d
-      result = q
+      result = centroid
 
-proc groupby(points, centroids: Points): Table[Point, Points] =
+proc groupBy(points: Points, centroids: Centroids): Table[Point,Points] =
   result = initTable[Point, Points]()
-  for p in points:
-    let c = p.closest(centroids)
-    if result.hasKey(c):
-      result.mget(c).add(p)
-    else:
-      result[c] = @[p]
+  for c in centroids:
+    result[c] = @[]
+  for point in points:
+    let centroid = point.closest(centroids)
+    result.mget(centroid).add(point)
 
 proc average(points: Points): Point =
-  return foldl(points, a + b) / float(points.len)
+  foldl(points, a + b) / float(points.len)
 
-proc newCentroids(points: Points, centroids: Points): Points =
-  result = @[]
-  let groups = groupby(points, centroids)
-  for g in groups.values:
-    result.add(average(g))
+proc updateCentroids(points: Points, centroids: var Centroids) =
+  let groups = points.groupBy(centroids)
+  var ix = 0
+  for group in groups.values:
+    centroids[ix] = average(group)
+    ix += 1
 
-proc run*(points: Points, n: int, iters: int = 15): seq[Points] =
-  result = @[]
-  var centroids = points[0 .. <n]
-  for i in 0 .. <iters:
-    centroids = newCentroids(points, centroids)
-  for g in groupby(points, centroids).values:
-    result.add(g)
+proc calculateCentroids*(points: Points, centroids: var Centroids,
+                         iterations: int = 15) =
+  for ix, x in centroids:
+    centroids[ix] = points[ix]
+  for i in 1 .. iterations:
+    updateCentroids(points, centroids)
+

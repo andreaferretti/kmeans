@@ -1,21 +1,26 @@
-import times
-import json
-import math
-import strutils
+import times, json, math, strutils, algo
 
-import algo
-
-let
+const
   n = 10
   iterations = 100
   filename = "../points.json"
-  content = parseFile(filename)
-var points = newSeq[Point]()
-for p in content.items:
-  points.add((x: p[0].fnum, y: p[1].fnum))
-let start = cpuTime()
-for i in 0 .. (iterations-1):
-  discard run(points, n)
-let time = ((cpuTime() - start) * 1000 / float(iterations)).round
 
-echo "Made $1 iterations with an average of $2 milliseconds".format(iterations, time)
+proc loadPoints(): Points =
+  result = newSeq[Point]()
+  for p in parseFile(filename).items:
+    result.add((x: p[0].fnum, y: p[1].fnum))
+
+proc main() =
+  let points = loadPoints()
+  var centroids : array[n, Point]
+  let start = cpuTime()
+  for i in 1 .. iterations:
+    calculateCentroids(points, centroids)
+  let time = (((cpuTime() - start) * 1000) / float(iterations)).round
+  echo format("Made $1 iterations with an average of $2 miliseconds",
+              iterations, time)
+  for centroid in centroids:
+    echo centroid
+
+when isMainModule:
+  main()
