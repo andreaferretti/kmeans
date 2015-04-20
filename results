@@ -12,6 +12,7 @@ results
 
 java (1.7.0_76) 183 ms
 nim (0.10.3) 189 ms
+common lisp (sbcl 1.1.14) 204 ms
 c (gcc 4.8.2) 218 ms
 kotlin (0.10.195) 243 ms
 julia (0.4.0-dev+3052) 266 ms

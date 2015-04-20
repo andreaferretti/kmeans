@@ -47,6 +47,8 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **Clojure**: `lein with-profile uberjar run`
 
+**Common Lisp**: `sbcl --script kmeans.lisp`
+
 **D**:
 
     dmd -O -inline -release -noboundscheck main.d

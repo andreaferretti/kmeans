@@ -1,1 +1,0 @@
-sbcl --script kmeans.lisp
