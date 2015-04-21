@@ -11,7 +11,8 @@
 
 (declaim (inline add addf
                  divide dividef
-                 modulus dist average
+                 modulus dist
+                 average averagef
                  closest clusters))
 
 (defun add (p1 p2)
@@ -52,6 +53,15 @@
         :do (addf sum point)
         :finally (return (dividef sum length))))
 
+(defun averagef (average points)
+  (declare (point average))
+  (setf (point-x average) 0.0D0
+        (point-y average) 0.0D0)
+  (loop :for point :in points
+        :for length :of-type fixnum :from 1
+        :do (addf average point)
+        :finally (return (dividef average length))))
+
 (defun closest (rp choices)
   (loop :with min := (first choices)
         :with min-dist :of-type double-float := (dist rp min)
@@ -74,8 +84,8 @@
                                 :collect (copy-point point))
         :do (loop :repeat iterations
                   :for clusters := (clusters xs centroids)
-                  :do (setq centroids (loop :for centroid :in centroids
-                                            :collect (average (gethash centroid clusters)))))
+                  :do (loop :for centroid :in centroids
+                            :do (averagef centroid (gethash centroid clusters))))
         :finally (return centroids)))
 
 (defun make-points-readtable ()
