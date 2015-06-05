@@ -1,3 +1,6 @@
+cuda/build
+cuda/.metadata
+cuda/RemoteSystemsTempFiles
 scala/target
 scala/project/project
 scala/project/target
