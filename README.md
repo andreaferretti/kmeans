@@ -1,3 +1,10 @@
+Initial Considerations
+=====
+
+This repository is a fork from https://github.com/andreaferretti/kmeans. We are developing an kmeans implementation for run in Nvidia GPU (CUDA) as final project of Parallel Programming discipline at Unicamp.
+
+=====
+
 This benchmark is born to compare the performance of Pharo 3 in executing a simple machine learning algorithm with a reference implementation in Python and Scala. Since then, it got a little out of hand, and a few other implementations are available.
 
 Rules
@@ -30,24 +37,32 @@ How to run
 **C**
 
     sudo apt-get install libglib2.0-0
-	sudo apt-get install libjansson-dev # or equivalent for your OS
-	./compile.sh
-	./kmeans
+    sudo apt-get install libjansson-dev # or equivalent for your OS
+    ./compile.sh
+    ./kmeans
 
 **Chapel**
 
 Before compiling chapel please do:
 
-	export CHPL_LLVM=llvm
+    export CHPL_LLVM=llvm
 
 to enable LLVM support (this is used for the json import in C). Then, make sure that `chpl` is on your `$PATH` (for instance with `source source util/setchplenv.sh`). Finally:
 
-	make
-	./kmeans
+    make
+    ./kmeans
 
 **Clojure**: `lein with-profile uberjar run`
 
 **Common Lisp**: `sbcl --script kmeans.lisp`
+
+**CUDA**
+
+    sudo apt-get install libglib2.0-0
+    sudo apt-get install libjansson-dev # or equivalent for your OS
+    
+    make
+    ./kmeans.out
 
 **D**:
 
@@ -73,8 +88,8 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **Go**
 
-	go build main.go
-	./main
+    go build main.go
+    ./main
 
 **Haskell**:
 
@@ -84,8 +99,8 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **Java**:
 
-	mvn compile
-	mvn exec:java
+    mvn compile
+    mvn exec:java
 
 
 **Java 8 (Streams and Lambdas)**:
