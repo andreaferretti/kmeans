@@ -2,6 +2,8 @@ cuda/build
 cuda/.metadata
 cuda/RemoteSystemsTempFiles
 cuda/kmeans.out
+.cproject
+.project
 scala/target
 scala/project/project
 scala/project/target

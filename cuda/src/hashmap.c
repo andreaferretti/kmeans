@@ -13,23 +13,21 @@ extern "C" {
 }
 #endif
 
-
 GHashTable* hash = NULL;
 
-void insert(Point* pkey, Point* pelem)
-{
+void insert(Point* pkey, Point* pelem) {
     if (!hash) {
-        hash = g_hash_table_new(NULL,NULL);
+        hash = g_hash_table_new(NULL, NULL);
     }
 
-    PointArray* pa = g_hash_table_lookup (hash, pkey);
+    PointArray* pa = g_hash_table_lookup(hash, pkey);
     if (pa) {
         pa->points[pa->size].x = pelem->x;
         pa->points[pa->size].y = pelem->y;
         pa->size += 1;
         //g_hash_table_replace(hash, pkey, pa);
     } else {
-        PointArray* pa = (PointArray*)malloc(sizeof(PointArray));
+        PointArray* pa = (PointArray*) malloc(sizeof(PointArray));
         pa->size = 1;
         pa->points[0].x = pelem->x;
         pa->points[0].y = pelem->y;
@@ -37,16 +35,16 @@ void insert(Point* pkey, Point* pelem)
     }
 }
 
-int i=0;
+int i = 0;
 
 void iterator(gpointer key, gpointer value, gpointer ret) {
-    memcpy(&(((Clusters*)ret)->groups[i]), value , sizeof(PointArray));
+    memcpy(&(((Clusters*) ret)->groups[i]), value, sizeof(PointArray));
     i++;
 }
 
 void setCluster(Clusters* ret) {
-    i=0;
-    g_hash_table_foreach(hash, (GHFunc)iterator, ret);
+    i = 0;
+    g_hash_table_foreach(hash, (GHFunc) iterator, ret);
     g_hash_table_destroy(hash);
     hash = NULL;
 }
