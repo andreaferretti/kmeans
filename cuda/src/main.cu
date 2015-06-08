@@ -29,6 +29,7 @@ long int getTime(PointArray* xs, Clusters* clusters) {
     timersub(&tval_after, &tval_before, &tval_result);
     long int ms = ((long int) tval_result.tv_sec * 1000)
             + ((long int) tval_result.tv_usec / 1000);
+
     return ms;
 }
 

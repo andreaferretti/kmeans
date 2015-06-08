@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include"kmeans.h"
-#include"point.h"
-#include"hashmap.h"
+
+extern "C" {
+#include "kmeans.h"
+#include "point.h"
+#include "hashmap.h"
+}
 
 int n = 10;
 int iters = 15;
@@ -67,7 +70,7 @@ void calcClusters(PointArray* xs, Clusters* clusters, PointArray* centroids) {
 
 void run(PointArray* xs, Clusters* clusters) {
     long i, k;
-    Point* temp = malloc(sizeof(Point));
+    Point* temp = (Point*) malloc(sizeof(Point));
     PointArray* centroids = (PointArray*) malloc(sizeof(PointArray));
     centroids->size = n;
 
