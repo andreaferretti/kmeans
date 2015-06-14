@@ -4,16 +4,19 @@
 typedef struct {
     double x;
     double y;
+    int cluster;
 } Point;
 
-void divide(Point* p, long d);
+__device__ void divide(Point* p, long d);
 
-void add(Point* p1, Point* p2);
+__device__ void add(Point* p1, Point* p2);
 
-void sub(Point* p1, Point* p2);
+__device__ void sub(Point* p1, Point* p2);
 
-double sq(double x);
+__device__ double sq(double x);
 
-double modulus(Point* p);
+__device__ double modulus(Point* p);
+
+__device__ double distance(Point* p1, Point* p2);
 
 #endif // POINT_H_INCLUDED
