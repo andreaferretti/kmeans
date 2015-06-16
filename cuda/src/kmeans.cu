@@ -1,98 +1,68 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern "C" {
 #include "kmeans.h"
 #include "point.h"
-#include "hashmap.h"
-}
 
-int n = 10;
-int iters = 15;
+__global__ void km_group_by_cluster(Point* points, Centroid* centroids,
+        int num_centroids)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int i = 0;
 
-const long points_number = 100000;
+    float minor_distance = -1;
 
-double dist(Point* p1, Point* p2) {
-    Point p = { p1->x, p1->y };
-    sub(&p, p2);
-    double result = modulus(&p);
-    return result;
-}
+    for (i = 0; i < num_centroids; i++) {
+        float diff = km_distance(&points[idx], &centroids[i]);
 
-void average(PointArray* xs, Point* ret) {
-    long i;
-    ret->x = xs->points[0].x;
-    ret->y = xs->points[0].y;
-
-    for (i = 1; i < xs->size; i++) {
-        add(ret, &(xs->points[i]));
-    }
-
-    divide(ret, xs->size);
-    return;
-}
-
-long closest(Point* p, PointArray* choices) {
-    long i;
-    double minVal = dist(p, &(choices->points[0]));
-    long min = 0;
-
-    for (i = 1; i < choices->size; i++) {
-        double actualDist = dist(p, &(choices->points[i]));
-        if (actualDist < minVal) {
-            min = i;
-            minVal = actualDist;
+        // se a diferenca for menor que a menor distancia existente,
+        // ou minor distance nao tiver sido inicializada
+        if (minor_distance > diff || minor_distance == -1.0) {
+            minor_distance = diff;
+            points[idx].cluster = i;
         }
     }
-
-    return min;
 }
 
-void calcClusters(PointArray* xs, Clusters* clusters, PointArray* centroids) {
-    long i = 0;
-    long theClosest = 0;
-    clusters->size = 10;
+__global__ void km_sum_points_cluter(Point* points, Centroid* centroids,
+        int num_centroids)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    for (i = 0; i < 10; i++) {
-        clusters->groups[i].size = 0;
-    }
-
-    for (i = 0; i < xs->size; i++) {
-        //printf("punto %d",i);
-        theClosest = closest(&(xs->points[i]), centroids);
-        insert(&(xs->points[theClosest]), &(xs->points[i]));
-    }
-
-    setCluster(clusters);
-
-    return;
-}
-
-void run(PointArray* xs, Clusters* clusters) {
-    long i, k;
-    Point* temp = (Point*) malloc(sizeof(Point));
-    PointArray* centroids = (PointArray*) malloc(sizeof(PointArray));
-    centroids->size = n;
-
-    for (i = 0; i < n; i++) {
-        centroids->points[i].x = xs->points[i].x;
-        centroids->points[i].y = xs->points[i].y;
-    }
-
-    clusters->size = iters;
-
-    for (k = 0; k < iters; k++) {
-        calcClusters(xs, clusters, centroids);
-
-        for (i = 0; i < n; i++) {
-            average(&(clusters->groups[i]), temp);
-            centroids->points[i].x = temp->x;
-            centroids->points[i].y = temp->y;
+    for (int i = 0; i < num_centroids; i++) {
+        if (points[idx].cluster == i) {
+            atomicAdd(&centroids[i].x_sum, points[idx].x);
+            atomicAdd(&centroids[i].y_sum, points[idx].y);
+            atomicAdd(&centroids[i].num_points, 1);
         }
     }
+}
 
-    free(temp);
-    free(centroids);
+__global__ void km_update_centroids(Centroid* centroids)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    return;
+    if (centroids[idx].num_points > 0) {
+        centroids[idx].x = centroids[idx].x_sum / centroids[idx].num_points;
+        centroids[idx].y = centroids[idx].y_sum / centroids[idx].num_points;
+    }
+}
+
+__global__ void km_points_compare(Point* p1, Point* p2, int num_points,
+        int *result)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (idx < num_points) {
+        // if any points has its cluster different, changes the result variable
+        if (p1[idx].cluster != p2[idx].cluster) {
+            *result = 0;
+        }
+    }
+}
+
+void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
+        int num_centroids)
+{
+
 }
