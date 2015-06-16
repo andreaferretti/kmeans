@@ -14,22 +14,19 @@
 
 all: make-all
 
-make-all: clean hashmap.o kmeans.o main.o point.o kmeans
+make-all: clean kmeans.o main.o point.o kmeans
 
-hashmap.o: src/hashmap.c
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/hashmap.o ./src/hashmap.c `pkg-config --cflags --libs glib-2.0`
-
-point.o: src/point.c
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/point.o ./src/point.c
+point.o: src/point.cu
+	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/point.o ./src/point.cu -std=c++11 -dc
 
 kmeans.o: src/kmeans.cu
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/kmeans.o ./src/kmeans.cu
+	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/kmeans.o ./src/kmeans.cu -std=c++11 -dc
 
 main.o: src/main.cu
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/main.o ./src/main.cu
+	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/main.o ./src/main.cu -std=c++11 -dc
 
 kmeans:
-	/usr/local/cuda-7.0/bin/nvcc "build/hashmap.o" "build/kmeans.o" "build/main.o" "build/point.o" `pkg-config --cflags --libs glib-2.0` -ljansson -o kmeans.out
+	/usr/local/cuda-7.0/bin/nvcc "build/kmeans.o" "build/main.o" "build/point.o" -ljansson -o kmeans.out 
 
 clean:
 	#create a backup of actual kmeans.out if exists
