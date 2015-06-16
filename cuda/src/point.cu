@@ -1,4 +1,3 @@
-#include<math.h>
 #include"point.h"
 
 #include <stdlib.h>
@@ -27,12 +26,12 @@ __device__ float km_sq(float x) {
 }
 
 __device__ float km_modulus(Point* p) {
-    return sqrt(km_sq(p->x) + km_sq(p->y));
+    return sqrtf(km_sq(p->x) + km_sq(p->y));
 }
 
 __device__ float km_distance(Point* p, Centroid* c)
 {
     float dx = p->x - c->x;
     float dy = p->y - c->y;
-    return sqrt(dx*dx + dy*dy);
+    return sqrtf(dx*dx + dy*dy);
 }
