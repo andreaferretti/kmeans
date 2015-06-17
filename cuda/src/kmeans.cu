@@ -3,6 +3,7 @@
 
 #include "kmeans.h"
 #include "point.h"
+#include "configurations.h"
 
 __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
         int num_centroids)
@@ -61,8 +62,54 @@ __global__ void km_points_compare(Point* p1, Point* p2, int num_points,
     }
 }
 
+/**
+* Copy points from host memory to device memory
+*/
+void copy_points_to_kernel(Point* h_points, Point* d_points, int array_size) {
+    cudaMalloc((void **) &d_points, sizeof(Point) * array_size);
+    cudaMemcpy(d_points, h_points, sizeof(Point) * array_size, cudaMemcpyHostToDevice);
+}
+
+/**
+* Copy centroids from host memory to device memory.
+*/
+void copy_centroids_to_kernel(Centroid* h_centroids, Centroid* d_centroids, int array_size) {
+    cudaMalloc((void **) &d_centroids, sizeof(Centroid) * array_size);
+    cudaMemcpy(d_centroids, h_centroids, sizeof(Centroid) * array_size, cudaMemcpyHostToDevice);
+}
+
+/**
+* Executes the k-mean algorithm.
+*/
 void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
         int num_centroids)
 {
+    int continue_iterations = 1;
+    int iterations;
+    Point* d_points;
+    Centroid* d_centroids;
 
+    copy_points_to_kernel(h_points, d_points, num_points);
+    copy_centroids_to_kernel(h_centroids, d_centroids, num_centroids);
+
+    while (continue_iterations) {
+        iterations++;
+
+        // TODO: call kernel here! 
+
+        if (REPOSITORY_SPECIFICATION == 1) {
+            // in repository specifications, 
+            // we just want know if number of 
+            // iterations is equals NUMBER_OF_ITERATIONS
+            if (iterations == NUMBER_OF_ITERATIONS) {
+                continue_iterations = 0;
+            }
+        } else {
+            // TODO: TEST centroids of last iteration equals actual centroids
+            continue_iterations = 0; // set 1 here, just for pre implementation
+        }
+    }
+
+    cudaFree(d_points);
+    cudaFree(d_centroids);
 }
