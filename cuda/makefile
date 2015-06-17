@@ -32,4 +32,3 @@ clean:
 	#create a backup of actual kmeans.out if exists
 	/bin/sh -c 'if [ -f kmeans.out ]; then mv kmeans.out kmeans.out.lastupdated; fi'
 	rm -rf ./build/*
-

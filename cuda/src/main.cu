@@ -9,22 +9,49 @@
 #include <jansson.h>
 #include <sys/time.h>
 
-extern "C" {
-#include"point.h"
+#include "point.h"
+#include "configurations.h"
+
+long int run_kmeans_repo_specifications(Point* points, Centroid* centroids) {
+    struct timeval time_before, time_after, time_result;
+    gettimeofday(&time_before, NULL);
+
+    for (int i = 0; i < TIMES; i++) {
+        // TODO
+    }
+
+    gettimeofday(&time_after, NULL);
+    timersub(&time_after, &time_before, &time_result);
+    long int ms = ((long int)time_result.tv_sec*1000) + ((long int)time_result.tv_usec/1000);
+
+    return ms / TIMES;    
 }
 
-int times = 100;
+long int run_kmeans_rocks(Point* points, Centroid* centroids) {
+    struct timeval time_before, time_after, time_result;
+    gettimeofday(&time_before, NULL);
+
+    for (int i = 0; i < TIMES; i++) {
+        // TODO
+    }
+
+    gettimeofday(&time_after, NULL);
+    timersub(&time_after, &time_before, &time_result);
+    long int ms = ((long int)time_result.tv_sec*1000) + ((long int)time_result.tv_usec/1000);
+    return ms; 
+}
 
 int main(void) {
 
     json_t *json;
     json_error_t error;
     size_t index;
-    long int temp = 0;
+    long int total_time = 0;
     json_t *value;
 
-    //PointArray* xs = (PointArray*) malloc(sizeof(PointArray));
-    //xs->size = 100000;
+    // 100.000 points it's the repository default.
+    Point* points = (Point*) malloc(NUMBER_OF_POINTS * sizeof(Point));
+    Centroid* centroids = (Centroid*) malloc(NUMBER_OF_CENTROIDS * sizeof(Centroid));
 
     json = json_load_file("../points.json", 0, &error);
 
@@ -36,13 +63,26 @@ int main(void) {
 
     json_array_foreach(json, index, value)
     {
-        double x = json_number_value(json_array_get(value, 0));
-        double y = json_number_value(json_array_get(value, 1));
-       // xs->points[index].x = x;
-       // xs->points[index].y = y;
+        float x = json_number_value(json_array_get(value, 0));
+        float y = json_number_value(json_array_get(value, 1));
+        points[index].x = x;
+        points[index].y = y;
     }
 
-    printf("Average Time: %li ms\n", (temp / times));
+    for (int i = 0; i < NUMBER_OF_CENTROIDS; i++) {
+        centroids[i].x = points[i].x;
+        centroids[i].y = points[i].y;
+        // TODO: what we considering a centroid ID?
+    }
+
+    // call K-means
+    if (REPOSITORY_SPECIFICATION == 1) {
+        total_time = run_kmeans_repo_specifications(points, centroids);
+    } else {
+        total_time = run_kmeans_rocks(points, centroids);
+    }
+
+    printf("Average Time: %li ms\n", total_time);
 
     return 0;
 }
