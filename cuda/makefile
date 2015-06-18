@@ -13,20 +13,20 @@
 #
 
 all: make-all
-
+NVCC=nvcc
 make-all: clean kmeans.o main.o point.o kmeans
 
 point.o: src/point.cu
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/point.o ./src/point.cu -std=c++11 -dc
+	$(NVCC) --compile -o ./build/point.o ./src/point.cu -std=c++11 -dc
 
 kmeans.o: src/kmeans.cu
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/kmeans.o ./src/kmeans.cu -std=c++11 -dc
+	$(NVCC) --compile -o ./build/kmeans.o ./src/kmeans.cu -std=c++11 -dc
 
 main.o: src/main.cu
-	/usr/local/cuda-7.0/bin/nvcc --compile -o ./build/main.o ./src/main.cu -std=c++11 -dc
+	$(NVCC) --compile -o ./build/main.o ./src/main.cu -std=c++11 -dc
 
 kmeans:
-	/usr/local/cuda-7.0/bin/nvcc "build/kmeans.o" "build/main.o" "build/point.o" -ljansson -o kmeans.out 
+	$(NVCC) "build/kmeans.o" "build/main.o" "build/point.o" -ljansson -o kmeans.out 
 
 clean:
 	#create a backup of actual kmeans.out if exists
