@@ -62,6 +62,15 @@ __global__ void km_points_compare(Point* p1, Point* p2, int num_points,
     }
 }
 
+__global__ void km_points_copy(Point* p_dest, Point* p_src, int num_points)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (idx < num_points) {
+        p_dest[idx] = p_src[idx];
+    }
+}
+
 /**
 * Copy points from host memory to device memory
 */

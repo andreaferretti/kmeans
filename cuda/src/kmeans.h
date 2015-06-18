@@ -14,6 +14,8 @@ __global__ void km_update_centroids(Centroid* centroids);
 __global__ void km_points_compare(Point* p1, Point* p2, int num_points,
         int *result);
 
+__global__ void km_points_copy(Point* p_dest, Point* p_src, int num_points);
+
 void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
         int num_centroids);
 
