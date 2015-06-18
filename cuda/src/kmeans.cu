@@ -93,30 +93,51 @@ void copy_centroids_to_kernel(Centroid* h_centroids, Centroid* d_centroids, int 
 void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
         int num_centroids)
 {
-    int continue_iterations = 1;
-    int iterations;
+    int iterations = 0;
     Point* d_points;
+    Point* d_points_old;
     Centroid* d_centroids;
+    int h_res = 1;
+    int *d_res;
+
+    cudaMalloc((void**)&d_res, sizeof(int));
+
+    cudaMalloc((void**)&d_points_old, sizeof(Point) * num_points);
 
     copy_points_to_kernel(h_points, d_points, num_points);
     copy_centroids_to_kernel(h_centroids, d_centroids, num_centroids);
 
-    while (continue_iterations) {
-        iterations++;
+    for (;;) {
+        km_group_by_cluster<<<ceil(num_points/10), 10>>>(d_points, d_centroids,
+                num_centroids);
 
-        // TODO: call kernel here! 
+        km_sum_points_cluter<<<ceil(num_points/10), 10>>>(d_points, d_centroids,
+                num_centroids);
+
+        km_update_centroids<<<ceil(num_centroids/10), 10>>>(d_centroids);
 
         if (REPOSITORY_SPECIFICATION == 1) {
             // in repository specifications, 
             // we just want know if number of 
             // iterations is equals NUMBER_OF_ITERATIONS
             if (iterations == NUMBER_OF_ITERATIONS) {
-                continue_iterations = 0;
+                break;
             }
-        } else {
-            // TODO: TEST centroids of last iteration equals actual centroids
-            continue_iterations = 0; // set 1 here, just for pre implementation
+        } else if (iterations > 0) {
+            cudaMemcpy(d_res, &h_res , sizeof(int), cudaMemcpyHostToDevice);
+            km_points_compare<<<ceil(num_points/10), 10>>>(d_points, d_points_old,
+                    num_points, d_res);
+
+            cudaMemcpy(&h_res, d_res, sizeof(int), cudaMemcpyDeviceToHost);
+
+            // if h_rest == 1 the two vector of points are equal and the kmeans iterations
+            // has completed all work
+            if (h_res == 1)
+                break;
         }
+        km_points_copy<<<ceil(num_points/10), 10>>>(d_points_old, d_points,
+            num_points);
+        iterations++;
     }
 
     cudaFree(d_points);
