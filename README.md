@@ -58,7 +58,6 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **CUDA**
 
-    sudo apt-get install libglib2.0-0
     sudo apt-get install libjansson-dev # or equivalent for your OS
     
     make
@@ -137,6 +136,11 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     opam install core yojson
     corebuild -pkg yojson main.native
     ./main.native
+
+**OpenMP**
+    
+    make
+    ./kmeans.out
 
 **Parasail**: assume `pslc.csh` is on `$PATH`. Then
 
