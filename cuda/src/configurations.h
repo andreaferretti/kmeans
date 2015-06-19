@@ -18,4 +18,7 @@ extern int NUMBER_OF_POINTS;
 // number of centroids
 extern int NUMBER_OF_CENTROIDS;
 
+// debug logs
+extern int DEBUG_LOGS;
+
 #endif // CONFIGURATION_H_INCLUIDED

@@ -14,7 +14,7 @@
 #include "configurations.h"
 
 // set to 1 if you want run repository specifications otherwise, 0
-int REPOSITORY_SPECIFICATION = 0;
+int REPOSITORY_SPECIFICATION = 1;
 
 // number of executions of the same algorithim
 // its a specification of repository
@@ -30,22 +30,65 @@ int NUMBER_OF_POINTS = 100000;
 // number of centroids
 int NUMBER_OF_CENTROIDS = 10;
 
+// debug logs
+int DEBUG_LOGS = 1;
+
+void print_me(Centroid* centroids) {
+
+    if (DEBUG_LOGS == 0) {
+        return;
+    }
+
+    for (int i = 0; i < NUMBER_OF_CENTROIDS; i++) {
+        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n", centroids[i].x, centroids[i].y, centroids[i].x_sum, centroids[i].y_sum, centroids[i].num_points);
+    }
+
+    printf("--------------------------------------------------\n");
+}
+
 long int run_kmeans_repo_specifications(Point* points, Centroid* centroids) {
     struct timeval time_before, time_after, time_result;
     gettimeofday(&time_before, NULL);
 
+    // load the initial centroids
+    for (int ci = 0; ci < NUMBER_OF_CENTROIDS; ci++) {
+        centroids[ci].x = points[ci].x;
+        centroids[ci].y = points[ci].y;
+    }
+
+    print_me(centroids);
+
     for (int i = 0; i < TIMES; i++) {
-        // TODO
+
+        km_execute(points, centroids, NUMBER_OF_POINTS, NUMBER_OF_CENTROIDS);
+
+        if (i + 1 == TIMES) {
+            print_me(centroids);
+        } else {
+            // load the centroids to next iteration
+            for (int ci = 0; ci < NUMBER_OF_CENTROIDS; ci++) {
+                centroids[ci].x = points[ci].x;
+                centroids[ci].y = points[ci].y;
+            }
+        }
     }
 
     gettimeofday(&time_after, NULL);
     timersub(&time_after, &time_before, &time_result);
     long int ms = ((long int)time_result.tv_sec*1000) + ((long int)time_result.tv_usec/1000);
 
-    return ms / TIMES;    
+    return ms / TIMES;
 }
 
 long int run_kmeans_rocks(Point* points, Centroid* centroids) {
+    // load the initial centroids
+    for (int i = 0; i < NUMBER_OF_CENTROIDS; i++) {
+        centroids[i].x = points[i].x;
+        centroids[i].y = points[i].y;
+    }
+
+    print_me(centroids);
+
     struct timeval time_before, time_after, time_result;
     gettimeofday(&time_before, NULL);
 
@@ -58,6 +101,8 @@ long int run_kmeans_rocks(Point* points, Centroid* centroids) {
 }
 
 int main(void) {
+
+    cudaSetDevice(0);
 
     json_t *json;
     json_error_t error;
@@ -87,13 +132,6 @@ int main(void) {
         points[index].y = y;
     }
 
-    // load the initial centroids
-    for (int i = 0; i < NUMBER_OF_CENTROIDS; i++) {
-        centroids[i].x = points[i].x;
-        centroids[i].y = points[i].y;
-        // TODO: what we considering a centroid ID?
-    }
-
     // call K-means
     if (REPOSITORY_SPECIFICATION == 1) {
         total_time = run_kmeans_repo_specifications(points, centroids);
@@ -105,6 +143,8 @@ int main(void) {
     free(points);
 
     printf("Average Time: %li ms\n", total_time);
+
+    cudaDeviceReset();
 
     return 0;
 }

@@ -7,13 +7,13 @@ typedef struct {
     int cluster;
 } Point;
 
+
 typedef struct {
     float x;
     float y;
     float x_sum;
     float y_sum;
     int num_points;
-    int id;
 } Centroid;
 
 __device__ void km_divide(Point* p, long d);

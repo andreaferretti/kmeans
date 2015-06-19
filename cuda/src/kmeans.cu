@@ -9,9 +9,10 @@ __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
         int num_centroids)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    
     int i = 0;
 
-    float minor_distance = -1;
+    float minor_distance = -1.0;
 
     for (i = 0; i < num_centroids; i++) {
         float diff = km_distance(&points[idx], &centroids[i]);
@@ -25,7 +26,7 @@ __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
     }
 }
 
-__global__ void km_sum_points_cluter(Point* points, Centroid* centroids,
+__global__ void km_sum_points_cluster(Point* points, Centroid* centroids,
         int num_centroids)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -39,6 +40,18 @@ __global__ void km_sum_points_cluter(Point* points, Centroid* centroids,
     }
 }
 
+__global__ void km_clear_last_iteration(Centroid* centroids)
+{
+
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // clear the last iteration sums
+    centroids[idx].x_sum = 0.0;
+    centroids[idx].y_sum = 0.0;
+    centroids[idx].num_points = 0.0;
+    
+}
+
 __global__ void km_update_centroids(Centroid* centroids)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -47,6 +60,14 @@ __global__ void km_update_centroids(Centroid* centroids)
         centroids[idx].x = centroids[idx].x_sum / centroids[idx].num_points;
         centroids[idx].y = centroids[idx].y_sum / centroids[idx].num_points;
     }
+
+    // i need this values to plot, so, i create km_clear_last_iteration.
+    // with this new function we lost 1ms :'(
+    // __syncthreads();
+    // clear the values to next iteration
+    // centroids[idx].x_sum = 0.0;
+    // centroids[idx].y_sum = 0.0;
+    // centroids[idx].num_points = 0.0;
 }
 
 __global__ void km_points_compare(Point* p1, Point* p2, int num_points,
@@ -72,22 +93,6 @@ __global__ void km_points_copy(Point* p_dest, Point* p_src, int num_points)
 }
 
 /**
-* Copy points from host memory to device memory
-*/
-void copy_points_to_kernel(Point* h_points, Point* d_points, int array_size) {
-    cudaMalloc((void **) &d_points, sizeof(Point) * array_size);
-    cudaMemcpy(d_points, h_points, sizeof(Point) * array_size, cudaMemcpyHostToDevice);
-}
-
-/**
-* Copy centroids from host memory to device memory.
-*/
-void copy_centroids_to_kernel(Centroid* h_centroids, Centroid* d_centroids, int array_size) {
-    cudaMalloc((void **) &d_centroids, sizeof(Centroid) * array_size);
-    cudaMemcpy(d_centroids, h_centroids, sizeof(Centroid) * array_size, cudaMemcpyHostToDevice);
-}
-
-/**
 * Executes the k-mean algorithm.
 */
 void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
@@ -100,21 +105,28 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
     int h_res = 1;
     int *d_res;
 
-    cudaMalloc((void**)&d_res, sizeof(int));
+    cudaMalloc((void**) &d_res, sizeof(int));
+    cudaMalloc((void**) &d_points_old, sizeof(Point) * num_points);
+    cudaMalloc((void **) &d_points, sizeof(Point) * num_points);
+    cudaMalloc((void **) &d_centroids, sizeof(Centroid) * num_centroids);
 
-    cudaMalloc((void**)&d_points_old, sizeof(Point) * num_points);
-
-    copy_points_to_kernel(h_points, d_points, num_points);
-    copy_centroids_to_kernel(h_centroids, d_centroids, num_centroids);
+    cudaMemcpy(d_points, h_points, sizeof(Point) * num_points, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_centroids, h_centroids, sizeof(Centroid) * num_centroids, cudaMemcpyHostToDevice);   
 
     for (;;) {
-        km_group_by_cluster<<<ceil(num_points/10), 10>>>(d_points, d_centroids,
-                num_centroids);
 
-        km_sum_points_cluter<<<ceil(num_points/10), 10>>>(d_points, d_centroids,
+        km_clear_last_iteration<<<ceil(num_centroids/10), 10>>>(d_centroids);
+
+        km_group_by_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
                 num_centroids);
+        cudaDeviceSynchronize();
+        
+        km_sum_points_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
+                num_centroids);
+        cudaDeviceSynchronize();
 
         km_update_centroids<<<ceil(num_centroids/10), 10>>>(d_centroids);
+        cudaDeviceSynchronize();
 
         if (REPOSITORY_SPECIFICATION == 1) {
             // in repository specifications, 
@@ -123,22 +135,33 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
             if (iterations == NUMBER_OF_ITERATIONS) {
                 break;
             }
-        } else if (iterations > 0) {
-            cudaMemcpy(d_res, &h_res , sizeof(int), cudaMemcpyHostToDevice);
-            km_points_compare<<<ceil(num_points/10), 10>>>(d_points, d_points_old,
-                    num_points, d_res);
+        } else {
+            // TODO: WARNING:
+            // THIS IMPLEMENTATION IS NOT WORKING YET!
+            if (iterations > 0) {
+                cudaMemcpy(d_res, &h_res , sizeof(int), cudaMemcpyHostToDevice);
+                km_points_compare<<<ceil(num_points/10), 10>>>(d_points, d_points_old,
+                        num_points, d_res);
+                cudaDeviceSynchronize();
 
-            cudaMemcpy(&h_res, d_res, sizeof(int), cudaMemcpyDeviceToHost);
+                cudaMemcpy(&h_res, d_res, sizeof(int), cudaMemcpyDeviceToHost);
 
-            // if h_rest == 1 the two vector of points are equal and the kmeans iterations
-            // has completed all work
-            if (h_res == 1)
-                break;
+                // if h_rest == 1 the two vector of points are equal and the kmeans iterations
+                // has completed all work
+                if (h_res == 1) {
+                    break;
+                }
+            }
+
+            km_points_copy<<<ceil(num_points/100), 100>>>(d_points_old, d_points,
+                num_points);
+            cudaDeviceSynchronize();
         }
-        km_points_copy<<<ceil(num_points/10), 10>>>(d_points_old, d_points,
-            num_points);
+        
         iterations++;
     }
+
+    cudaMemcpy(h_centroids, d_centroids , sizeof(Centroid) * num_centroids, cudaMemcpyDeviceToHost);
 
     cudaFree(d_points);
     cudaFree(d_centroids);

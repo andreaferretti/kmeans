@@ -31,6 +31,7 @@ __device__ float km_modulus(Point* p) {
 
 __device__ float km_distance(Point* p, Centroid* c)
 {
+    //printf("valor %lf\n", &c->x);
     float dx = p->x - c->x;
     float dy = p->y - c->y;
     return sqrtf(dx*dx + dy*dy);
