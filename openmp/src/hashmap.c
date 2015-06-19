@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include"hashmap.h"
-#include<string.h>
+#include "hashmap.h"
+#include <string.h>
 #include <glib.h>
+#include <omp.h>
 
 GHashTable* hash = NULL;
 

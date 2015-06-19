@@ -18,22 +18,22 @@ GPP=g++
 make-all: clean hashmap.o kmeans.o main.o point.o kmeans
 
 hashmap.o: src/hashmap.c
-	$(GCC) -Wall -O3 -c ./src/hashmap.c -o ./build/hashmap.o `pkg-config --cflags --libs glib-2.0`
+	$(GCC) -Wall -O3 -c ./src/hashmap.c -o ./build/hashmap.o `pkg-config --cflags --libs glib-2.0` -fopenmp
 
 kmeans.o: src/kmeans.c
-	$(GCC) -Wall -O3 -c ./src/kmeans.c -o ./build/kmeans.o
+	$(GCC) -Wall -O3 -c ./src/kmeans.c -o ./build/kmeans.o -fopenmp
 
 main.o: src/main.c
-	gcc -Wall -O3 -c ./src/main.c -o ./build/main.o
+	gcc -Wall -O3 -c ./src/main.c -o ./build/main.o -fopenmp
 
 point.o: src/point.c
-	$(GCC) -Wall -O3 -c ./src/point.c -o ./build/point.o
+	$(GCC) -Wall -O3 -c ./src/point.c -o ./build/point.o -fopenmp
 
 kmeans:
-	$(GPP) -o kmeans ./build/hashmap.o ./build/kmeans.o ./build/main.o ./build/point.o `pkg-config --cflags --libs glib-2.0` -s -ljansson
+	$(GPP) -o kmeans ./build/hashmap.o ./build/kmeans.o ./build/main.o ./build/point.o `pkg-config --cflags --libs glib-2.0` -s -ljansson -fopenmp
 
 clean:
 	#create a backup of actual kmeans.out if exists
-	/bin/sh -c 'if [ ! -f ./build/ ]; then mkdir build; fi'
+	/bin/sh -c 'if [ ! -d "build" ]; then mkdir build; fi'
 	/bin/sh -c 'if [ -f kmeans.out ]; then mv kmeans.out kmeans.out.lastupdated; fi'
 	rm -rf ./build/*

@@ -1,0 +1,9 @@
+#ifndef CONFIGURATION_H_INCLUIDED
+#define CONFIGURATION_H_INCLUIDED
+
+extern int NUMBER_OF_THREADS;
+
+// debug logs
+extern int DEBUG_LOGS;
+
+#endif // CONFIGURATION_H_INCLUIDED

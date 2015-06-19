@@ -1,14 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include"point.h"
-#include"hashmap.h"
+#include "point.h"
+#include "hashmap.h"
 
 #include <string.h>
 #include <jansson.h>
 #include <sys/time.h>
+#include <omp.h>
+
+#include "configurations.h"
 
 int times = 100;
+
+int NUMBER_OF_THREADS = 4;
 
 long int getTime(PointArray* xs, Clusters* clusters) {
     int i=0;

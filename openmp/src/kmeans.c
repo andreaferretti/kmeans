@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include"kmeans.h"
-#include"point.h"
-#include"hashmap.h"
+#include "kmeans.h"
+#include "point.h"
+#include "hashmap.h"
+#include <omp.h>
+#include "configurations.h"
 
 int n = 10;
 int iters = 15;
@@ -35,6 +37,7 @@ long closest(Point* p, PointArray* choices)
     long i;
     double minVal = dist(p, &(choices->points[0]));
     long min = 0;
+
     for (i=1;i<choices->size;i++)
     {
         double actualDist = dist(p, &(choices->points[i]));
@@ -51,14 +54,17 @@ void calcClusters(PointArray* xs, Clusters* clusters, PointArray* centroids)
     long i = 0;
     long theClosest = 0;
     clusters->size = 10;
-    for (i=0;i<10;i++)
+
+    for (i=0;i<10;i++) {
         clusters->groups[i].size = 0;
+    }
 
     for (i=0;i<xs->size;i++) {
         //printf("punto %d",i);
         theClosest = closest(&(xs->points[i]), centroids);
         insert(&(xs->points[theClosest]), &(xs->points[i]));
     }
+
     setCluster(clusters);
     return;
 }
@@ -69,10 +75,13 @@ void run(PointArray* xs, Clusters* clusters)
     Point* temp = malloc(sizeof(Point));
     PointArray* centroids = (PointArray*)malloc(sizeof(PointArray));
     centroids->size = n;
+
+    # pragma omp parallel for num_threads(NUMBER_OF_THREADS) default(none) firstprivate(n, xs, centroids)
     for (i=0;i<n;i++) {
         centroids->points[i].x = xs->points[i].x;
         centroids->points[i].y = xs->points[i].y;
     }
+
     clusters->size = iters;
 
     for (k=0;k<iters;k++) {

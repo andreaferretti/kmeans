@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <omp.h>
 
 void divide(Point* p, long d)
 {
