@@ -15,12 +15,12 @@ __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
     float minor_distance = -1.0;
 
     for (i = 0; i < num_centroids; i++) {
-        float diff = km_distance(&points[idx], &centroids[i]);
+        float my_distance = km_distance(&points[idx], &centroids[i]);
 
-        // se a diferenca for menor que a menor distancia existente,
-        // ou minor distance nao tiver sido inicializada
-        if (minor_distance > diff || minor_distance == -1.0) {
-            minor_distance = diff;
+        // if my_distance is less than the lower minor_distance 
+        // or minor_distance is not yet started
+        if (minor_distance > my_distance || minor_distance == -1.0) {
+            minor_distance = my_distance;
             points[idx].cluster = i;
         }
     }
@@ -61,7 +61,7 @@ __global__ void km_update_centroids(Centroid* centroids)
         centroids[idx].y = centroids[idx].y_sum / centroids[idx].num_points;
     }
 
-    // i need this values to plot, so, i create km_clear_last_iteration.
+    // I need this values to plot, so, I created km_clear_last_iteration.
     // with this new function we lost 1ms :'(
     // __syncthreads();
     // clear the values to next iteration
