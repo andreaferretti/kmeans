@@ -13,7 +13,7 @@ void group_by_cluster(Point* points, Centroid* centroids)
     int i, j;
 
 #   pragma omp parallel for num_threads(NUM_THREAD) \
-    default(none) shared(centroids, points) private(i, j)
+    default(none) firstprivate(centroids, points) private(i, j)
     for (i = 0; i < NUMBER_OF_POINTS; i++) {
 
         double minor_distance = -1.0;
@@ -37,17 +37,17 @@ void sum_points_cluster(Point* points, Centroid* centroids)
     int i, j;
 
 #   pragma omp parallel for num_threads(NUM_THREAD) \
-    default(none) shared(centroids, points) private(i, j)
+    default(none) firstprivate(centroids, points) private(i, j)
     for (i =0 ; i < NUMBER_OF_POINTS; i++) {
         for (j = 0; j < NUMBER_OF_CENTROIDS; j++) {
             if (points[i].centroid == j) {
-                // #pragma omp atomic
+                #pragma omp atomic
                 centroids[j].x_sum = centroids[j].x_sum + points[i].x;
 
-                // #pragma omp atomic
+                #pragma omp atomic
                 centroids[j].y_sum = centroids[j].y_sum + points[i].y;
 
-                // #pragma omp atomic
+                #pragma omp atomic
                 centroids[j].num_points = centroids[j].num_points + 1;
             }
         }
