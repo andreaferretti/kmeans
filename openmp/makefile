@@ -15,10 +15,7 @@
 all: make-all
 GCC=gcc
 GPP=g++
-make-all: clean hashmap.o kmeans.o main.o point.o kmeans
-
-hashmap.o: src/hashmap.c
-	$(GCC) -Wall -O3 -c ./src/hashmap.c -o ./build/hashmap.o `pkg-config --cflags --libs glib-2.0` -fopenmp
+make-all: clean kmeans.o main.o point.o kmeans
 
 kmeans.o: src/kmeans.c
 	$(GCC) -Wall -O3 -c ./src/kmeans.c -o ./build/kmeans.o -fopenmp
@@ -30,7 +27,7 @@ point.o: src/point.c
 	$(GCC) -Wall -O3 -c ./src/point.c -o ./build/point.o -fopenmp
 
 kmeans:
-	$(GPP) -o kmeans ./build/hashmap.o ./build/kmeans.o ./build/main.o ./build/point.o `pkg-config --cflags --libs glib-2.0` -s -ljansson -fopenmp
+	$(GPP) -o kmeans.out ./build/kmeans.o ./build/main.o ./build/point.o -s -ljansson -fopenmp
 
 clean:
 	#create a backup of actual kmeans.out if exists

@@ -1,99 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "kmeans.h"
 #include "point.h"
-#include "hashmap.h"
-#include <omp.h>
 #include "configurations.h"
 
-int n = 10;
-int iters = 15;
-
-const long points_number = 100000;
-
-double dist(Point* p1, Point* p2)
+void group_by_cluster(Point* points, Centroid* centroids)
 {
-    Point p = {p1->x, p1->y};
-    sub(&p, p2);
-    double result = modulus(&p);
-    return result;
-}
 
-void average(PointArray* xs, Point* ret)
-{
-    long i;
-    ret->x = xs->points[0].x;
-    ret->y = xs->points[0].y;
-    for (i=1;i<xs->size;i++)
-    {
-        add(ret, &(xs->points[i]));
-    }
-    divide(ret, xs->size);
-    return;
-}
+    int i, j;
 
-long closest(Point* p, PointArray* choices)
-{
-    long i;
-    double minVal = dist(p, &(choices->points[0]));
-    long min = 0;
+    for (i = 0; i < NUMBER_OF_POINTS; i++) {
 
-    for (i=1;i<choices->size;i++)
-    {
-        double actualDist = dist(p, &(choices->points[i]));
-        if (actualDist < minVal) {
-            min = i;
-            minVal = actualDist;
+        double minor_distance = -1.0;
+
+        for (j = 0; j < NUMBER_OF_CENTROIDS; j++) {
+            double my_distance = km_distance(&points[i], &centroids[j]);
+
+            // if my_distance is less than the lower minor_distance 
+            // or minor_distance is not yet started
+            if (minor_distance > my_distance || minor_distance == -1.0) {
+                minor_distance = my_distance;
+                points[i].centroid = j;
+            }
         }
     }
-    return min;
 }
 
-void calcClusters(PointArray* xs, Clusters* clusters, PointArray* centroids)
+void sum_points_cluster(Point* points, Centroid* centroids)
 {
-    long i = 0;
-    long theClosest = 0;
-    clusters->size = 10;
 
-    for (i=0;i<10;i++) {
-        clusters->groups[i].size = 0;
-    }
+    int i, j;
 
-    for (i=0;i<xs->size;i++) {
-        //printf("punto %d",i);
-        theClosest = closest(&(xs->points[i]), centroids);
-        insert(&(xs->points[theClosest]), &(xs->points[i]));
-    }
+    for (i =0 ; i < NUMBER_OF_POINTS; i++) {
+        for (j = 0; j < NUMBER_OF_CENTROIDS; j++) {
+            if (points[i].centroid == j) {
+                // #pragma omp atomic
+                centroids[j].x_sum = centroids[j].x_sum + points[i].x;
 
-    setCluster(clusters);
-    return;
-}
+                // #pragma omp atomic
+                centroids[j].y_sum = centroids[j].y_sum + points[i].y;
 
-void run(PointArray* xs, Clusters* clusters)
-{
-    long i,k;
-    Point* temp = malloc(sizeof(Point));
-    PointArray* centroids = (PointArray*)malloc(sizeof(PointArray));
-    centroids->size = n;
-
-    # pragma omp parallel for num_threads(NUMBER_OF_THREADS) default(none) firstprivate(n, xs, centroids)
-    for (i=0;i<n;i++) {
-        centroids->points[i].x = xs->points[i].x;
-        centroids->points[i].y = xs->points[i].y;
-    }
-
-    clusters->size = iters;
-
-    for (k=0;k<iters;k++) {
-        calcClusters(xs, clusters, centroids);
-        for (i=0;i<n;i++) {
-            average(&(clusters->groups[i]), temp);
-            centroids->points[i].x = temp->x;
-            centroids->points[i].y = temp->y;
+                // #pragma omp atomic
+                centroids[j].num_points = centroids[j].num_points + 1;
+            }
         }
     }
+}
 
-    free(temp);
-    free(centroids);
-    return;
+void update_centroids(Centroid* centroids)
+{
+    int i;
+
+    for (i = 0; i < NUMBER_OF_CENTROIDS; i++) {
+        if (centroids[i].num_points > 0) {
+            centroids[i].x = centroids[i].x_sum / centroids[i].num_points;
+            centroids[i].y = centroids[i].y_sum / centroids[i].num_points;
+        }
+    }
+}
+
+void clear_last_iteration(Centroid* centroids)
+{
+    int i;
+
+    for (i = 0; i < NUMBER_OF_CENTROIDS; i++) {
+        // clear the last iteration sums
+        centroids[i].x_sum = 0.0;
+        centroids[i].y_sum = 0.0;
+        centroids[i].num_points = 0.0;
+    }
+    
+}
+
+/**
+* Executes the k-mean algorithm.
+*/
+void km_execute(Point* points, Centroid* centroids)
+{
+
+    int i = 0;
+
+    for (i = 0; i < NUMBER_OF_ITERATIONS; i++) {
+        clear_last_iteration(centroids);
+        group_by_cluster(points, centroids);
+        sum_points_cluster(points, centroids);
+        update_centroids(centroids);
+    }
 }
