@@ -2,7 +2,7 @@
 #define CONFIGURATION_H_INCLUIDED
 
 // set to 1 if you want run repository specifications otherwise, 0
-#define REPOSITORY_SPECIFICATION 0
+#define REPOSITORY_SPECIFICATION 1
 
 // number of executions of the same algorithim
 // its a specification of repository

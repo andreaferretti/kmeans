@@ -5,6 +5,9 @@
 #include "point.h"
 #include "config.h"
 
+/**
+    Groups the points in a centroid.
+*/
 __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
         int num_centroids)
 {
@@ -26,6 +29,9 @@ __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
     }
 }
 
+/**
+    Sum the points of each centroid
+*/
 __global__ void km_sum_points_cluster(Point* points, Centroid* centroids,
         int num_centroids)
 {
@@ -40,18 +46,24 @@ __global__ void km_sum_points_cluster(Point* points, Centroid* centroids,
     }
 }
 
+/**
+    Clear the x_sum, y_sum and num_points, used in last iteration.
+*/
 __global__ void km_clear_last_iteration(Centroid* centroids)
 {
 
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    // clear the last iteration sums
     centroids[idx].x_sum = 0.0;
     centroids[idx].y_sum = 0.0;
     centroids[idx].num_points = 0.0;
     
 }
 
+/**
+    Update the centroids with current clustering.
+    Gets the x and y sum and divides by number of point for each centroid.\
+*/
 __global__ void km_update_centroids(Centroid* centroids)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -70,6 +82,11 @@ __global__ void km_update_centroids(Centroid* centroids)
     // centroids[idx].num_points = 0.0;
 }
 
+/**
+    Compare the clusters of each point.
+    @param p1 - points of current iteration
+    @param p2 - points of last iteration
+*/
 __global__ void km_points_compare(Point* p1, Point* p2, int num_points,
         int *result)
 {
@@ -83,6 +100,10 @@ __global__ void km_points_compare(Point* p1, Point* p2, int num_points,
     }
 }
 
+/**
+    Copy a point array.
+    Utilized to copy the status of points on the last iteration to compare them.
+*/
 __global__ void km_points_copy(Point* p_dest, Point* p_src, int num_points)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -94,6 +115,20 @@ __global__ void km_points_copy(Point* p_dest, Point* p_src, int num_points)
 
 /**
 * Executes the k-mean algorithm.
+* To measure your global methods, use that:
+*
+*    cudaEvent_t start, stop;
+*    float time;
+*    cudaEventCreate(&start);
+*    cudaEventCreate(&stop);
+*    cudaEventRecord(start, 0);
+*
+* //  put your__global__ method here!
+*
+*    cudaEventRecord(stop, 0);
+*    cudaEventSynchronize(stop);
+*    cudaEventElapsedTime(&time, start, stop);
+*    printf("%lf\n", times)
 */
 void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
         int num_centroids)
@@ -113,9 +148,10 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
     cudaMemcpy(d_points, h_points, sizeof(Point) * num_points, cudaMemcpyHostToDevice);
     cudaMemcpy(d_centroids, h_centroids, sizeof(Centroid) * num_centroids, cudaMemcpyHostToDevice);   
 
-    for (;;) {
+    while (true) {
 
         km_clear_last_iteration<<<ceil(num_centroids/10), 10>>>(d_centroids);
+        cudaDeviceSynchronize();
 
         km_group_by_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
                 num_centroids);
