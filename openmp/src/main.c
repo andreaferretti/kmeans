@@ -11,7 +11,8 @@
 
 #include "config.h"
 
-void print_me(Centroid* centroids) {
+void print_me(Centroid* centroids)
+{
 
     if (DEBUG_LOGS == 0) {
         return;
@@ -20,13 +21,16 @@ void print_me(Centroid* centroids) {
     int i;
 
     for (i = 0; i < NUMBER_OF_CENTROIDS; i++) {
-        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n", centroids[i].x, centroids[i].y, centroids[i].x_sum, centroids[i].y_sum, centroids[i].num_points);
+        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n",
+                centroids[i].x, centroids[i].y, centroids[i].x_sum,
+                centroids[i].y_sum, centroids[i].num_points);
     }
 
     printf("--------------------------------------------------\n");
 }
 
-long int run_kmeans(Point* points, Centroid* centroids) {
+long int run_kmeans(Point* points, Centroid* centroids)
+{
     struct timeval time_before, time_after, time_result;
     gettimeofday(&time_before, NULL);
 
@@ -61,11 +65,11 @@ long int run_kmeans(Point* points, Centroid* centroids) {
 
     gettimeofday(&time_after, NULL);
     timersub(&time_after, &time_before, &time_result);
-    long int ms = ((long int)time_result.tv_sec*1000) + ((long int)time_result.tv_usec/1000);
+    long int ms = ((long int) time_result.tv_sec * 1000)
+            + ((long int) time_result.tv_usec / 1000);
 
     return ms / TIMES;
 }
-
 
 int main(void)
 {
@@ -77,7 +81,8 @@ int main(void)
 
     // 100.000 points it's the repository default.
     Point* points = (Point*) malloc(NUMBER_OF_POINTS * sizeof(Point));
-    Centroid* centroids = (Centroid*) malloc(NUMBER_OF_CENTROIDS * sizeof(Centroid));
+    Centroid* centroids = (Centroid*) malloc(
+            NUMBER_OF_CENTROIDS * sizeof(Centroid));
 
     json = json_load_file("../points.json", 0, &error);
 
