@@ -4,12 +4,14 @@
 #include "kmeans.h"
 #include "point.h"
 #include "configurations.h"
+#include <omp.h>
 
 void group_by_cluster(Point* points, Centroid* centroids)
 {
 
     int i, j;
 
+    #pragma omp parallel for num_threads(NUMBER_OF_THREADS) default(none) firstprivate(NUMBER_OF_POINTS, NUMBER_OF_CENTROIDS, points, centroids) private(j, i)
     for (i = 0; i < NUMBER_OF_POINTS; i++) {
 
         double minor_distance = -1.0;
