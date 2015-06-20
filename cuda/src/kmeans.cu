@@ -166,4 +166,6 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
 
     cudaFree(d_points);
     cudaFree(d_centroids);
+    cudaFree(d_points_old);
+    cudaFree(d_res);
 }
