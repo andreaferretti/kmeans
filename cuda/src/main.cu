@@ -11,7 +11,7 @@
 
 #include "point.h"
 #include "kmeans.h"
-#include "configurations.h"
+#include "config.h"
 
 void print_me(Centroid* centroids) {
 

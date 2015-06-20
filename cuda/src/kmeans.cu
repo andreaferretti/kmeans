@@ -3,7 +3,7 @@
 
 #include "kmeans.h"
 #include "point.h"
-#include "configurations.h"
+#include "config.h"
 
 __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
         int num_centroids)
