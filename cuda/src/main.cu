@@ -15,12 +15,14 @@
 
 void print_me(Centroid* centroids) {
 
-    if (DEBUG_LOGS == 0) {
+    if (!DEBUG_LOGS) {
         return;
     }
 
     for (int i = 0; i < NUMBER_OF_CENTROIDS; i++) {
-        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n", centroids[i].x, centroids[i].y, centroids[i].x_sum, centroids[i].y_sum, centroids[i].num_points);
+        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n", 
+               centroids[i].x, centroids[i].y, centroids[i].x_sum,
+               centroids[i].y_sum, centroids[i].num_points);
     }
 
     printf("--------------------------------------------------\n");
@@ -74,11 +76,12 @@ long int run_kmeans_rocks(Point* points, Centroid* centroids) {
 
     km_execute(points, centroids, NUMBER_OF_POINTS, NUMBER_OF_CENTROIDS);
 
-    print_me(centroids);
-
     gettimeofday(&time_after, NULL);
     timersub(&time_after, &time_before, &time_result);
     long int ms = ((long int)time_result.tv_sec*1000) + ((long int)time_result.tv_usec/1000);
+
+    print_me(centroids);
+
     return ms; 
 }
 
