@@ -3,13 +3,15 @@
 
 #include "kmeans.h"
 #include "point.h"
-#include "configurations.h"
+#include "config.h"
 
 void group_by_cluster(Point* points, Centroid* centroids)
 {
 
     int i, j;
 
+#   pragma omp parallel for num_threads(NUM_THREAD) \
+    default(none) shared(centroids, points) private(i, j)
     for (i = 0; i < NUMBER_OF_POINTS; i++) {
 
         double minor_distance = -1.0;
@@ -32,6 +34,8 @@ void sum_points_cluster(Point* points, Centroid* centroids)
 
     int i, j;
 
+#   pragma omp parallel for num_threads(NUM_THREAD) \
+    default(none) shared(centroids, points) private(i, j)
     for (i =0 ; i < NUMBER_OF_POINTS; i++) {
         for (j = 0; j < NUMBER_OF_CENTROIDS; j++) {
             if (points[i].centroid == j) {
@@ -52,6 +56,8 @@ void update_centroids(Centroid* centroids)
 {
     int i;
 
+#   pragma omp parallel for num_threads(NUM_THREAD) \
+    default(none) shared(centroids) private(i)
     for (i = 0; i < NUMBER_OF_CENTROIDS; i++) {
         if (centroids[i].num_points > 0) {
             centroids[i].x = centroids[i].x_sum / centroids[i].num_points;
