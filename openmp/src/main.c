@@ -9,20 +9,7 @@
 #include <omp.h>
 #include "kmeans.h"
 
-#include "configurations.h"
-
-int TIMES = 100;
-
-int NUMBER_OF_THREADS = 4;
-
-int NUMBER_OF_POINTS = 100000;
-
-int NUMBER_OF_CENTROIDS = 10;
-
-int NUMBER_OF_ITERATIONS = 15;
-
-// debug logs
-int DEBUG_LOGS = 1;
+#include "config.h"
 
 void print_me(Centroid* centroids) {
 
