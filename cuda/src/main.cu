@@ -11,36 +11,18 @@
 
 #include "point.h"
 #include "kmeans.h"
-#include "configurations.h"
-
-// set to 1 if you want run repository specifications otherwise, 0
-int REPOSITORY_SPECIFICATION = 1;
-
-// number of executions of the same algorithim
-// its a specification of repository
-int TIMES = 100;
-
-// its a repository specification. 
-// Its a number of iterations of each k-means execution
-int NUMBER_OF_ITERATIONS = 15;
-
-// number of points
-int NUMBER_OF_POINTS = 100000;
-
-// number of centroids
-int NUMBER_OF_CENTROIDS = 10;
-
-// debug logs
-int DEBUG_LOGS = 1;
+#include "config.h"
 
 void print_me(Centroid* centroids) {
 
-    if (DEBUG_LOGS == 0) {
+    if (!DEBUG_LOGS) {
         return;
     }
 
     for (int i = 0; i < NUMBER_OF_CENTROIDS; i++) {
-        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n", centroids[i].x, centroids[i].y, centroids[i].x_sum, centroids[i].y_sum, centroids[i].num_points);
+        printf("[x=%lf, y=%lf, x_sum=%lf, y_sum=%lf, num_points=%i]\n", 
+               centroids[i].x, centroids[i].y, centroids[i].x_sum,
+               centroids[i].y_sum, centroids[i].num_points);
     }
 
     printf("--------------------------------------------------\n");
@@ -97,6 +79,9 @@ long int run_kmeans_rocks(Point* points, Centroid* centroids) {
     gettimeofday(&time_after, NULL);
     timersub(&time_after, &time_before, &time_result);
     long int ms = ((long int)time_result.tv_sec*1000) + ((long int)time_result.tv_usec/1000);
+
+    print_me(centroids);
+
     return ms; 
 }
 

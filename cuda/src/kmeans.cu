@@ -3,7 +3,7 @@
 
 #include "kmeans.h"
 #include "point.h"
-#include "configurations.h"
+#include "config.h"
 
 __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
         int num_centroids)
@@ -139,6 +139,7 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
             // TODO: WARNING:
             // THIS IMPLEMENTATION IS NOT WORKING YET!
             if (iterations > 0) {
+                h_res = 1;
                 cudaMemcpy(d_res, &h_res , sizeof(int), cudaMemcpyHostToDevice);
                 km_points_compare<<<ceil(num_points/10), 10>>>(d_points, d_points_old,
                         num_points, d_res);
@@ -165,4 +166,6 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
 
     cudaFree(d_points);
     cudaFree(d_centroids);
+    cudaFree(d_points_old);
+    cudaFree(d_res);
 }
