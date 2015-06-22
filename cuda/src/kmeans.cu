@@ -172,8 +172,8 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
         if (REPOSITORY_SPECIFICATION == 1) {
             // in repository specifications, 
             // we just want know if number of 
-            // iterations is equals NUMBER_OF_ITERATIONS
-            if (iterations == NUMBER_OF_ITERATIONS) {
+            // iterations is equals NUMBER_OF_ITERATIONS - 1 (iterations starts in 0)
+            if (iterations == (NUMBER_OF_ITERATIONS - 1)) {
                 break;
             }
         } else {
