@@ -61,7 +61,7 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     sudo apt-get install libjansson-dev # or equivalent for your OS
     
     make
-    ./kmeans.out
+    ./kmeans.out [ input_file.json number_of_points number_of_centroids ]
 
 **D**:
 

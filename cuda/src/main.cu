@@ -13,6 +13,9 @@
 #include "kmeans.h"
 #include "config.h"
 
+int NUMBER_OF_POINTS = 100000;
+int NUMBER_OF_CENTROIDS = 10;
+
 void print_me(Centroid* centroids) {
 
     if (!DEBUG_LOGS) {
@@ -85,15 +88,29 @@ long int run_kmeans_rocks(Point* points, Centroid* centroids) {
     return ms; 
 }
 
-int main(void) {
-
-    cudaSetDevice(0);
-
+int main(int argc, char *argv[])
+{
     json_t *json;
     json_error_t error;
     size_t index;
     long int total_time = 0;
     json_t *value;
+
+    if (argc > 1 && argc < 4) {
+        printf("Usage: ./kmeans.out [input_file.json number_of_points number_of_centroids]\n");
+        return 0;
+    }
+
+    if (argc == 4) {
+        json = json_load_file(argv[1], 0, &error);
+        NUMBER_OF_POINTS = atoi(argv[2]);
+        NUMBER_OF_CENTROIDS = atoi(argv[3]);
+    }
+    else {
+        json = json_load_file("../points.json", 0, &error);
+    }
+
+    cudaSetDevice(0);
 
     // 100.000 points it's the repository default.
     Point* points = (Point*) malloc(NUMBER_OF_POINTS * sizeof(Point));
