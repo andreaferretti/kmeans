@@ -84,9 +84,8 @@ int main(int argc, char *argv[])
     json_t *value;
 
     if (argc > 1 && argc < 5) {
-        printf("Usage: ./kmeans.out input_file.json number_of_points number_of_centroids number_of_threads >> output_file \n");
-        printf("or... ./kmeans.out number_of_threads >> output_file \n");
-        printf("orrrr... ./kmeans.out >> output_file\n");
+        printf("Usage: ./kmeans.out [input_file.json number_of_points number_of_centroids number_of_threads]\n");
+        printf("or... ./kmeans.out [number_of_threads] \n");
         return 0;
     }
 
