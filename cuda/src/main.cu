@@ -116,8 +116,6 @@ int main(int argc, char *argv[])
     Point* points = (Point*) malloc(NUMBER_OF_POINTS * sizeof(Point));
     Centroid* centroids = (Centroid*) malloc(NUMBER_OF_CENTROIDS * sizeof(Centroid));
 
-    json = json_load_file("../points.json", 0, &error);
-
     // validates json
     if (!json) {
         printf("Error parsing Json file");
