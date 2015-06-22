@@ -11,6 +11,10 @@
 
 #include "config.h"
 
+int NUMBER_OF_POINTS = 100000;
+int NUMBER_OF_CENTROIDS = 10;
+int NUM_THREAD = 4;
+
 void print_me(Centroid* centroids)
 {
 
@@ -71,7 +75,7 @@ long int run_kmeans(Point* points, Centroid* centroids)
     return ms / TIMES;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
     json_t *json;
     json_error_t error;
@@ -79,12 +83,32 @@ int main(void)
     long int total_time = 0;
     json_t *value;
 
-    // 100.000 points it's the repository default.
+    if (argc > 1 && argc < 5) {
+        printf("Usage: ./kmeans.out input_file.json number_of_points number_of_centroids number_of_threads >> output_file \n");
+        printf("or... ./kmeans.out number_of_threads >> output_file \n");
+        printf("orrrr... ./kmeans.out >> output_file\n");
+        return 0;
+    }
+
+    if (argc == 2) {
+        NUM_THREAD = atoi(argv[1]);
+        json = json_load_file("../points.json", 0, &error);
+    }
+    else if (argc == 5) {
+        json = json_load_file(argv[1], 0, &error);
+        NUMBER_OF_POINTS = atoi(argv[2]);
+        NUMBER_OF_CENTROIDS = atoi(argv[3]);
+        NUM_THREAD = atoi(argv[4]);
+    }
+    else {
+        json = json_load_file("../points.json", 0, &error);
+    }
+
+    // printf("NUM_THREAD: %i | NUM_OF_POINTS: %i | NUM_OF_CENTROIDS: %i | FILENAME %s\n", NUM_THREAD, NUMBER_OF_POINTS, NUMBER_OF_CENTROIDS, argv[1]);
+
     Point* points = (Point*) malloc(NUMBER_OF_POINTS * sizeof(Point));
     Centroid* centroids = (Centroid*) malloc(
             NUMBER_OF_CENTROIDS * sizeof(Centroid));
-
-    json = json_load_file("../points.json", 0, &error);
 
     // validates json
     if (!json) {

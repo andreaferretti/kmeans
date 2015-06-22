@@ -9,14 +9,17 @@
 // its a repository specification.
 // Its a number of iterations of each k-means execution
 #define NUMBER_OF_ITERATIONS 15
-// number of points
-#define NUMBER_OF_POINTS 100000
-// number of centroids
-#define NUMBER_OF_CENTROIDS 10
+
 // debug logs
 #define DEBUG_LOGS 1
 
 // Number of threads
-#define NUM_THREAD 8
+extern int NUM_THREAD;
+
+// number of centroids
+extern int NUMBER_OF_CENTROIDS;
+
+// number of points
+extern int NUMBER_OF_POINTS;
 
 #endif // CONFIGURATION_H_INCLUIDED

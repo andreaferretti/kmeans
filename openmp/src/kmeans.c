@@ -13,7 +13,7 @@ void group_by_cluster(Point* points, Centroid* centroids)
     int i, j;
 
 #   pragma omp parallel for num_threads(NUM_THREAD) \
-    default(none) firstprivate(centroids, points) private(i, j)
+    default(none) firstprivate(centroids, points, NUMBER_OF_CENTROIDS, NUMBER_OF_POINTS) private(i, j)
     for (i = 0; i < NUMBER_OF_POINTS; i++) {
 
         double minor_distance = -1.0;
