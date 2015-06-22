@@ -9,7 +9,7 @@
     Groups the points in a centroid.
 */
 __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
-        int num_centroids)
+        int num_centroids, int num_points)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     
@@ -17,62 +17,67 @@ __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
 
     float minor_distance = -1.0;
 
-    for (i = 0; i < num_centroids; i++) {
-        float my_distance = km_distance(&points[idx], &centroids[i]);
-
-        // if my_distance is less than the lower minor_distance 
-        // or minor_distance is not yet started
-        if (minor_distance > my_distance || minor_distance == -1.0) {
-            minor_distance = my_distance;
-            points[idx].cluster = i;
-        }
-    }
+	if (idx < num_points) {
+	    for (i = 0; i < num_centroids; i++) {
+	        float my_distance = km_distance(&points[idx], &centroids[i]);
+	
+	        // if my_distance is less than the lower minor_distance 
+	        // or minor_distance is not yet started
+	        if (minor_distance > my_distance || minor_distance == -1.0) {
+	            minor_distance = my_distance;
+	            points[idx].cluster = i;
+	        }
+	    }
+	}
 }
 
 /**
     Sum the points of each centroid
 */
 __global__ void km_sum_points_cluster(Point* points, Centroid* centroids,
-        int num_centroids)
+        int num_centroids, int num_points)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-
-    for (int i = 0; i < num_centroids; i++) {
-        if (points[idx].cluster == i) {
-            atomicAdd(&centroids[i].x_sum, points[idx].x);
-            atomicAdd(&centroids[i].y_sum, points[idx].y);
-            atomicAdd(&centroids[i].num_points, 1);
-        }
-    }
+	if (idx < num_points) {
+	    for (int i = 0; i < num_centroids; i++) {
+	        if (points[idx].cluster == i) {
+	            atomicAdd(&centroids[i].x_sum, points[idx].x);
+	            atomicAdd(&centroids[i].y_sum, points[idx].y);
+	            atomicAdd(&centroids[i].num_points, 1);
+	        }
+	    }
+	}
 }
 
 /**
     Clear the x_sum, y_sum and num_points, used in last iteration.
 */
-__global__ void km_clear_last_iteration(Centroid* centroids)
+__global__ void km_clear_last_iteration(Centroid* centroids, int num_centroids)
 {
 
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-
-    centroids[idx].x_sum = 0.0;
-    centroids[idx].y_sum = 0.0;
-    centroids[idx].num_points = 0.0;
-    
+	
+	if (idx < num_centroids) {
+	    centroids[idx].x_sum = 0.0;
+	    centroids[idx].y_sum = 0.0;
+	    centroids[idx].num_points = 0.0;
+    }
 }
 
 /**
     Update the centroids with current clustering.
     Gets the x and y sum and divides by number of point for each centroid.\
 */
-__global__ void km_update_centroids(Centroid* centroids)
+__global__ void km_update_centroids(Centroid* centroids, int num_centroids)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (centroids[idx].num_points > 0) {
-        centroids[idx].x = centroids[idx].x_sum / centroids[idx].num_points;
-        centroids[idx].y = centroids[idx].y_sum / centroids[idx].num_points;
-    }
-
+	if (idx < num_centroids) {
+	    if (centroids[idx].num_points > 0) {
+	        centroids[idx].x = centroids[idx].x_sum / centroids[idx].num_points;
+	        centroids[idx].y = centroids[idx].y_sum / centroids[idx].num_points;
+	    }
+	}
     // I need this values to plot, so, I created km_clear_last_iteration.
     // with this new function we lost 1ms :'(
     // __syncthreads();
@@ -150,18 +155,18 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
 
     while (true) {
 
-        km_clear_last_iteration<<<ceil(num_centroids/10), 10>>>(d_centroids);
+        km_clear_last_iteration<<<ceil(num_centroids/10), 10>>>(d_centroids, num_centroids);
         cudaDeviceSynchronize();
 
         km_group_by_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
-                num_centroids);
+                num_centroids, num_points);
         cudaDeviceSynchronize();
         
         km_sum_points_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
-                num_centroids);
+                num_centroids, num_points);
         cudaDeviceSynchronize();
 
-        km_update_centroids<<<ceil(num_centroids/10), 10>>>(d_centroids);
+        km_update_centroids<<<ceil(num_centroids/10), 10>>>(d_centroids, num_centroids);
         cudaDeviceSynchronize();
 
         if (REPOSITORY_SPECIFICATION == 1) {
