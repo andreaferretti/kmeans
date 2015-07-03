@@ -1,10 +1,3 @@
-Initial Considerations
-=====
-
-This repository is a fork from https://github.com/andreaferretti/kmeans. We are developing an kmeans implementation for run in Nvidia GPU (CUDA) as final project of Parallel Programming discipline at Unicamp.
-
-=====
-
 This benchmark is born to compare the performance of Pharo 3 in executing a simple machine learning algorithm with a reference implementation in Python and Scala. Since then, it got a little out of hand, and a few other implementations are available.
 
 Rules
@@ -144,6 +137,7 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     ./kmeans.out [ inputfile.json number_of_points number_of_centroids number_of_threads ]
 
     or:
+
     ./kmeans.out [number_of_threads]
 
 **Parasail**: assume `pslc.csh` is on `$PATH`. Then

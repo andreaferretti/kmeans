@@ -7,9 +7,12 @@ single thread
 15 iterations
 average over 100 repetitions
 
+CUDA: using a GPU Nvidia GeForce GT 740M with 384 CUDA cores.
+
 results
 =======
 
+cuda (7.0) 19 ms 
 nim (0.10.3) 151 ms
 java (1.7.0_76) 183 ms
 common lisp (sbcl 1.1.14) 204 ms
