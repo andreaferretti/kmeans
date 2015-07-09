@@ -30,24 +30,31 @@ How to run
 **C**
 
     sudo apt-get install libglib2.0-0
-	sudo apt-get install libjansson-dev # or equivalent for your OS
-	./compile.sh
-	./kmeans
+    sudo apt-get install libjansson-dev # or equivalent for your OS
+    ./compile.sh
+    ./kmeans
 
 **Chapel**
 
 Before compiling chapel please do:
 
-	export CHPL_LLVM=llvm
+    export CHPL_LLVM=llvm
 
 to enable LLVM support (this is used for the json import in C). Then, make sure that `chpl` is on your `$PATH` (for instance with `source source util/setchplenv.sh`). Finally:
 
-	make
-	./kmeans
+    make
+    ./kmeans
 
 **Clojure**: `lein with-profile uberjar run`
 
 **Common Lisp**: `sbcl --script kmeans.lisp`
+
+**CUDA**
+
+    sudo apt-get install libjansson-dev # or equivalent for your OS
+    
+    make
+    ./kmeans.out [ input_file.json number_of_points number_of_centroids ]
 
 **D**:
 
@@ -73,8 +80,8 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **Go**
 
-	go build main.go
-	./main
+    go build main.go
+    ./main
 
 **Haskell**:
 
@@ -84,8 +91,8 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **Java**:
 
-	mvn compile
-	mvn exec:java
+    mvn compile
+    mvn exec:java
 
 
 **Java 8 (Streams and Lambdas)**:
@@ -122,6 +129,16 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
     opam install core yojson
     corebuild -pkg yojson main.native
     ./main.native
+
+**OpenMP**
+    
+    make
+    
+    ./kmeans.out [ inputfile.json number_of_points number_of_centroids number_of_threads ]
+
+    or:
+
+    ./kmeans.out [number_of_threads]
 
 **Parasail**: assume `pslc.csh` is on `$PATH`. Then
 
