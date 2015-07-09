@@ -7,12 +7,10 @@ single thread
 15 iterations
 average over 100 repetitions
 
-CUDA: using a GPU Nvidia GeForce GT 740M with 384 CUDA cores.
 
 results
 =======
 
-cuda (7.0) 19 ms 
 nim (0.10.3) 151 ms
 java (1.7.0_76) 183 ms
 common lisp (sbcl 1.1.14) 204 ms
@@ -27,7 +25,6 @@ luajit (2.0.2) 611 ms
 scala (2.10.4) 633 ms
 ocaml (4.02.1) 796 ms
 x10-c++ (2.5.2) 1436 ms
-chapel (1.10) 1564 ms **
 haskell (ghc 7.8.4) 1663 ms *
 clojure (1.7.0-alpha5) 2504 ms
 x10-java (2.5.2) 2720 ms
@@ -45,7 +42,25 @@ rubinius (2.5.2) 20878 ms
 ruby (1.9.3p484) 24819 ms
 
 * I am not able to run this 100 times without the runtime caching the result. Any help is appreciated.
-** Chapel runs by default on two cores, I am not sure how to benchmark a single-thread version.
+
+other implementations
+=====================
+
+The following results are not really comparable, because they avoid contructing a hashmap,
+or run on multiple threads, or both. it is expected that they run faster, so they are reported
+here for completeness.
+
+
+cuda (7.0) 19 ms *
+nim optimized (0.10.3) 68 ms **
+openmp (4 threads) 84ms
+openmp (2 threads) 88ms
+openmp (1 thread) 151ms
+chapel (1.10) 1564 ms ***
+
+* CUDA: using a GPU Nvidia GeForce GT 740M with 384 CUDA cores.
+** single-threaded; avoids the square root in the distance and accumulates the sum of points near a centroid, rather than putting them into a data structure. It is more of a baseline than a fair comparison
+*** Chapel runs by default on two cores, I am not sure how to benchmark a single-thread version.
 
 expected result
 ===============
