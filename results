@@ -21,8 +21,8 @@ julia (0.4.0-dev+3052) 266 ms
 go (1.4.2) 491 ms
 pypy (2.5.0) 563 ms
 java8 (1.8.0_31) 565 ms
+scala (2.11.7) 592 ms
 luajit (2.0.2) 611 ms
-scala (2.10.4) 633 ms
 ocaml (4.02.1) 796 ms
 x10-c++ (2.5.2) 1436 ms
 haskell (ghc 7.8.4) 1663 ms *
