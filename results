@@ -11,7 +11,7 @@ average over 100 repetitions
 results
 =======
 
-nim (0.10.3) 151 ms
+nim (0.11.3) 148 ms
 java (1.7.0_76) 183 ms
 common lisp (sbcl 1.1.14) 204 ms
 c (gcc 4.8.2) 218 ms
