@@ -10,5 +10,6 @@ authors = [ "Andrea Ferretti <ferrettiandrea@gmail.com>" ]
 name = "kmeans"
 
 [dependencies]
+rustc-serialize = "0.3"
 
 time = "*"
