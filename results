@@ -15,9 +15,9 @@ nim (0.10.3) 151 ms
 java (1.7.0_76) 183 ms
 common lisp (sbcl 1.1.14) 204 ms
 c (gcc 4.8.2) 218 ms
+rust (1.1.0) 234 ms
 kotlin (0.10.195) 243 ms
 julia (0.4.0-dev+3052) 266 ms
-rust (1.0.0-nightly) 267 ms
 go (1.4.2) 491 ms
 pypy (2.5.0) 563 ms
 java8 (1.8.0_31) 565 ms
