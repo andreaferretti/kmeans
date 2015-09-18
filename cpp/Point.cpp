@@ -3,12 +3,18 @@
 
 using std::cout;
 using std::ostream;
+using std::hash;
+using std::size_t;
 
 Point::Point() {}
 
 Point::Point(double x_, double y_) {
   x = x_;
   y = y_;
+}
+
+bool Point::operator==(const Point& q) const {
+  return (x == q.x) && (y == q.y);
 }
 
 Point Point::operator+(const Point& q) const {

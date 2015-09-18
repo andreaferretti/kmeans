@@ -1,11 +1,11 @@
 #include <numeric>
 #include <limits>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include "kmeans.h"
 
 using std::vector;
-using std::map;
+using std::unordered_map;
 
 Point average(const vector<Point>& v) {
   return accumulate(v.begin(), v.end(), Point(0.0, 0.0)) / v.size();
@@ -25,8 +25,8 @@ Point closest(Point p, const vector<Point>& centroids) {
   return result;
 }
 
-map<Point, vector<Point>> group_by(const vector<Point>& points, const vector<Point>& centroids) {
-  map<Point, vector<Point>> groups;
+unordered_map<Point, vector<Point>> group_by(const vector<Point>& points, const vector<Point>& centroids) {
+  unordered_map<Point, vector<Point>> groups;
   for (const auto& p : points) {
     groups[closest(p, centroids)].push_back(p);
   }
