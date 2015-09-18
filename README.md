@@ -39,6 +39,7 @@ How to run
 We use [BiiCode](https://www.biicode.com/) for building. Assuming you have it installed, from the `cpp` directory do
 
     bii init -L
+    bii configure -DCMAKE_BUILD_TYPE=RELEASE
     bii build
     bin/user_cpp_benchmark
 
