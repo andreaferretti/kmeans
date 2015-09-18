@@ -1,8 +1,7 @@
-extern crate serialize;
+extern crate rustc_serialize;
 
 use std::hash::{Hash, Hasher};
 use std::mem;
-use std::num::Float;
 use std::ops::{Add,Sub};
 
 #[derive(Debug, PartialEq, PartialOrd, Copy, Clone)]
@@ -46,8 +45,8 @@ impl Sub for Point {
 
 impl Eq for Point {}
 
-impl serialize::Decodable for Point {
-    fn decode<D: serialize::Decoder>(d: &mut D) -> Result<Point, D::Error> {
+impl rustc_serialize::Decodable for Point {
+    fn decode<D: rustc_serialize::Decoder>(d: &mut D) -> Result<Point, D::Error> {
         d.read_tuple(2, |d| {
             d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1| {
                 d.read_tuple_arg(1, |d| d.read_f64()).map(|e2| {

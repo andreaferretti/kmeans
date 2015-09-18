@@ -1,14 +1,11 @@
-#![feature(std_misc)]
-#![feature(rustc_private)]
-
 extern crate time;
 extern crate kmeans;
-extern crate serialize;
+extern crate rustc_serialize;
 
 use std::path::Path;
 use std::fs::File;
 use std::io::Read;
-use serialize::json;
+use rustc_serialize::json;
 
 use time::now;
 use kmeans::point::Point;
