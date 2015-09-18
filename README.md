@@ -34,6 +34,14 @@ How to run
     ./compile.sh
     ./kmeans
 
+**C++**
+
+We use [BiiCode](https://www.biicode.com/) for building. Assuming you have it installed, from the `cpp` directory do
+
+    bii init -L
+    bii build
+    bin/user_cpp_benchmark
+
 **Chapel**
 
 Before compiling chapel please do:

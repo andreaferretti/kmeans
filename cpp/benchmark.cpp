@@ -46,7 +46,7 @@ int main() {
   const int n = 10;
   const int iters = 15;
   const int repeat = 100;
-  auto points = read_points("/home/papillon/esperimenti/kmeans/points.json");
+  auto points = read_points("../points.json");
 
   steady_clock::time_point begin = steady_clock::now();
   for (int i = 0; i < repeat; i++) {
