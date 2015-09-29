@@ -7,6 +7,24 @@ single thread
 15 iterations
 average over 100 repetitions
 
+machine info
+============
+
+All tests have been run on my Sony Vaio Z laptop with the following spec:
+
+cpu:
+
+* Processor name    : Intel(R) Core(TM) i7-2620M  
+* Packages(sockets) : 1
+* Cores             : 2
+* Processors(CPUs)  : 4
+* Cores per package : 2
+* Threads per core  : 2
+
+memory: 8 GB
+
+OS: Ubuntu 14.10
+
 
 results
 =======
