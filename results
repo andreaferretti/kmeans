@@ -14,7 +14,7 @@ All tests have been run on my Sony Vaio Z laptop with the following spec:
 
 cpu:
 
-* Processor name    : Intel(R) Core(TM) i7-2620M  
+* Processor name    : Intel(R) Core(TM) i7-2620M
 * Packages(sockets) : 1
 * Cores             : 2
 * Processors(CPUs)  : 4
@@ -70,14 +70,14 @@ or run on multiple threads, or both. it is expected that they run faster, so the
 here for completeness.
 
 
-cuda (7.0) 19 ms *
+cuda (7.5) 4 ms *
 nim optimized (0.10.3) 68 ms **
 openmp (4 threads) 84ms
 openmp (2 threads) 88ms
 openmp (1 thread) 151ms
 chapel (1.10) 1564 ms ***
 
-* CUDA: using a GPU Nvidia GeForce GT 740M with 384 CUDA cores.
+* CUDA: using a GPU Nvidia GeForce GTX TITAN X with 3072 CUDA cores.
 ** single-threaded; avoids the square root in the distance and accumulates the sum of points near a centroid, rather than putting them into a data structure. It is more of a baseline than a fair comparison
 *** Chapel runs by default on two cores, I am not sure how to benchmark a single-thread version.
 

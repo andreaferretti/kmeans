@@ -2,6 +2,10 @@ cuda/build/*
 cuda/.metadata
 cuda/RemoteSystemsTempFiles
 cuda/kmeans.out*
+cuda/CMakeCache.txt
+cuda/CMakeFiles/
+cuda/Makefile
+cuda/cmake_install.cmake
 openmp/kmeans.out*
 openmp/build/*
 .cproject

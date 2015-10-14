@@ -61,11 +61,6 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 **CUDA**
 
     sudo apt-get install libjansson-dev # or equivalent for your OS (e.g. on Mac you can: brew install jansson)
-
-    make
-
-or, alternatively
-
     cmake .
     make
 
@@ -148,9 +143,9 @@ then
     ./main.native
 
 **OpenMP**
-    
+
     make
-    
+
     ./kmeans.out [ inputfile.json number_of_points number_of_centroids number_of_threads ]
 
     or:
