@@ -37,30 +37,42 @@ __global__ void km_group_by_cluster(Point* points, Centroid* centroids,
 __global__ void km_sum_points_cluster(Point* points, Centroid* centroids,
         int num_centroids, int num_points)
 {
+    extern __shared__ Centroid s_centroids[];
+    
+    int tdx = threadIdx.x;
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	if (idx < num_points) {
-	    for (int i = 0; i < num_centroids; i++) {
-	        if (points[idx].cluster == i) {
-	            atomicAdd(&centroids[i].x_sum, points[idx].x);
-	            atomicAdd(&centroids[i].y_sum, points[idx].y);
-	            atomicAdd(&centroids[i].num_points, 1);
-	        }
-	    }
+
+    // init global memory
+    if (idx < num_centroids) {
+        centroids[idx].x_sum = 0.0;
+        centroids[idx].y_sum = 0.0;
+        centroids[idx].num_points = 0.0;
+    }
+
+    // init shared memory
+    if (tdx < num_centroids) {
+        s_centroids[tdx].x_sum = 0.0;
+        s_centroids[tdx].y_sum = 0.0;
+        s_centroids[tdx].num_points = 0.0;
+    }
+
+    __syncthreads();
+    
+    // use shared memory for intermediate sums
+    if (idx < num_points) {
+        int i = points[idx].cluster;
+        atomicAdd(&s_centroids[i].x_sum, points[idx].x);
+        atomicAdd(&s_centroids[i].y_sum, points[idx].y);
+        atomicAdd(&s_centroids[i].num_points, 1);
 	}
-}
 
-/**
-    Clear the x_sum, y_sum and num_points, used in last iteration.
-*/
-__global__ void km_clear_last_iteration(Centroid* centroids, int num_centroids)
-{
-
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	
-	if (idx < num_centroids) {
-	    centroids[idx].x_sum = 0.0;
-	    centroids[idx].y_sum = 0.0;
-	    centroids[idx].num_points = 0.0;
+    __syncthreads();
+    
+    // then sum partial results in global memory, thus we reduce accesses to global memory
+    if (tdx < num_centroids) {
+        atomicAdd(&centroids[tdx].x_sum, s_centroids[tdx].x_sum);
+        atomicAdd(&centroids[tdx].y_sum, s_centroids[tdx].y_sum);
+        atomicAdd(&centroids[tdx].num_points, s_centroids[tdx].num_points);
     }
 }
 
@@ -78,13 +90,6 @@ __global__ void km_update_centroids(Centroid* centroids, int num_centroids)
 	        centroids[idx].y = centroids[idx].y_sum / centroids[idx].num_points;
 	    }
 	}
-    // I need this values to plot, so, I created km_clear_last_iteration.
-    // with this new function we lost 1ms :'(
-    // __syncthreads();
-    // clear the values to next iteration
-    // centroids[idx].x_sum = 0.0;
-    // centroids[idx].y_sum = 0.0;
-    // centroids[idx].num_points = 0.0;
 }
 
 /**
@@ -155,14 +160,11 @@ void km_execute(Point* h_points, Centroid* h_centroids, int num_points,
 
     while (true) {
 
-        km_clear_last_iteration<<<ceil(num_centroids/10), 10>>>(d_centroids, num_centroids);
-        cudaDeviceSynchronize();
-
         km_group_by_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
                 num_centroids, num_points);
         cudaDeviceSynchronize();
         
-        km_sum_points_cluster<<<ceil(num_points/100), 100>>>(d_points, d_centroids,
+        km_sum_points_cluster<<<ceil(num_points/100), 100, num_centroids*sizeof(Centroid)>>>(d_points, d_centroids,
                 num_centroids, num_points);
         cudaDeviceSynchronize();
 

@@ -60,9 +60,17 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **CUDA**
 
-    sudo apt-get install libjansson-dev # or equivalent for your OS
-    
+    sudo apt-get install libjansson-dev # or equivalent for your OS (e.g. on Mac you can: brew install jansson)
+
     make
+
+or, alternatively
+
+    cmake .
+    make
+
+then
+
     ./kmeans.out [ input_file.json number_of_points number_of_centroids ]
 
 **D**:
