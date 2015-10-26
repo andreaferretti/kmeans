@@ -157,6 +157,10 @@ then
     pslc.csh -O3 point.psl kmeans.psl benchmark.psl -o benchmark
     ./benchmark
 
+**Perl**:
+
+    perl kmeans.pl
+
 **Pharo3**: install `NeoJSON` and file-in `Kmeans.st`, then open a workspace and write something like
 
     | path points kmeans |
