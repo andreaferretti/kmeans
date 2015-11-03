@@ -3,9 +3,15 @@ use "json"
 use "files"
 
 actor Main
-  new create(env: Env) =>
-    let xs = Array[Point]()
+  let xs: Array[Point] = Array[Point]()
+  var centroids: Array[Point] = Array[Point]()
 
+  let n: U64 = 10
+  let iters: U64 = 15
+
+  let iterations: U64 = 100
+
+  new create(env: Env) =>
     let caps = recover val FileCaps.set(FileRead).set(FileStat) end
 
     var fileString = ""
@@ -28,25 +34,29 @@ actor Main
       end
     end
 
-    let n: U64 = 10
-    let iters: U64 = 15
-
     let before = Time.millis()
-    //must be increased to 100
-    let iterations: U64 = 10
 
     var i: U64 = 0
-    while i < (iterations - 1) do
-      Kmeans.run(xs, n, iters, env)
+    while i < iterations do
+      iteration(i, before, env)
       i = i + 1
     end
-    let res = Kmeans.run(xs, n, iters, env)
-    let after = Time.millis()
 
+  be iteration(ite: U64, initTime: U64, env: Env) =>
+    let kmeans = Kmeans.create()
+    centroids = kmeans.run(xs, n, iters, env)
+
+    if (ite == (iterations - 1)) then
+      printAndQuit(initTime, env)
+    end
+    
+  be printAndQuit(initTime: U64, env: Env) =>
+    let after = Time.millis()
+    
     env.out.print("Final centroids")
-    for p in res.values() do
+    for p in centroids.values() do
       env.out.print(p.string())
     end
-
-    let t = (after - before) / iterations
+    
+    let t = (after - initTime) / iterations
     env.out.print("Average time is "+ t.string())

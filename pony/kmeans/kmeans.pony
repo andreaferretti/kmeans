@@ -2,6 +2,9 @@ use "collections"
 
 class Kmeans
 
+  new create() =>
+    None
+
   fun dist(p1: Point, p2: Point): F64 =>
     (p1 - p2).modulus()
 
@@ -14,7 +17,7 @@ class Kmeans
 
   fun closest(x: Point, choices: Array[Point]): Point =>
     var tmp = Point(0, 0)
-    var min: F64 = U32.max_value().f64()
+    var min: F64 = U32.max_value().f64()//F64.max_value()
     for p in choices.values() do
       let tmp_dist = dist(p, x)
       if tmp_dist < min then
