@@ -186,6 +186,11 @@ then
     python kmeans.py
     pypy kmeans.py
 
+**Pony**:
+
+    make
+    make run
+
 **Ruby**:
 
     ruby kmeans.rb
