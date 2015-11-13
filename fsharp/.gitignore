@@ -1,0 +1,5 @@
+*.exe
+paket.lock
+.paket/paket.exe
+packages
+*.dll
