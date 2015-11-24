@@ -85,6 +85,11 @@ then
     2> c(kmeans).
     3> main:run().
 
+**F#**:
+    
+    make
+    make run
+
 **Factor**:
 
     USE: kmeans.benchmark
