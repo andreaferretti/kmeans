@@ -86,7 +86,7 @@ then
     3> main:run().
 
 **F#**:
-    
+
     make
     make run
 
@@ -209,7 +209,7 @@ then
 
 **Swift**:
 
-    swiftc kmeans.swift main.swift
+    swiftc -Ounchecked kmeans.swift main.swift
     ./main
 
 **X10**: First
