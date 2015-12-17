@@ -207,6 +207,11 @@ then
 
 **Scala**: `sbt run`
 
+**Swift**:
+
+    swiftc kmeans.swift main.swift
+    ./main
+
 **X10**: First
 
     mkdir cbin
