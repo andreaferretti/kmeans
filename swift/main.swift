@@ -5,10 +5,10 @@ let jsonFile = NSData(contentsOfFile: path)!
 let jsonData = (try? NSJSONSerialization.JSONObjectWithData(jsonFile, options:  NSJSONReadingOptions.MutableContainers))!
 
 
-let points = (jsonData as! NSArray)
+let points = (jsonData as! Array<protocol<>>)
 
 let xs = points.map({(elem) -> Point in
-  let arr = elem as! NSArray
+  let arr = elem as! Array<protocol<>>
   let xValue = arr[0] as! Double
   let yValue = arr[1] as! Double
   return Point(x: xValue, y: yValue)

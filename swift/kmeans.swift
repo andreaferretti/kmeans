@@ -1,4 +1,8 @@
-import Darwin
+#if os(Linux)
+  import Glibc
+#else
+  import Darwin
+#endif
 
 struct Point : Equatable {
   let x: Double
@@ -51,8 +55,8 @@ func closest(x: Point, choices: [Point]) -> Point {
   }
   let minp = choices.map(
     {(point: $0, distance: (dist($0, p2: x)))}).reduce(
-    (point: Point(x: 0, y: 0), distance: DBL_MAX), combine: comp)
-  
+    (point: Point(x: 0, y: 0), distance: Double.infinity), combine: comp)
+
   return minp.point
 }
 
@@ -64,7 +68,7 @@ func clusters(xs: [Point], centroids: [Point]) -> [[Point]] {
 
     dict[close]?.append(p) ?? {dict[close] = [p]}()
   }
-  
+
   return [[Point]](dict.values)
 }
 
@@ -79,6 +83,6 @@ func run(xs: [Point], n: Int, iters: Int) -> [[Point]] {
   for c in centroids {
     print(c)
   }
-*/    
+*/
   return clusters(xs, centroids: centroids)
 }
