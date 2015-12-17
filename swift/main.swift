@@ -14,7 +14,7 @@ let xs = points.map({(elem) -> Point in
   return Point(x: xValue, y: yValue)
 })
 
-let iterations = 3
+let iterations = 100
 
 let start = NSDate()
 for _ in 0..<iterations {
