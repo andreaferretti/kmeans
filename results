@@ -38,6 +38,7 @@ rust (1.1.0) 234 ms
 kotlin (0.10.195) 243 ms
 julia (0.4.0-dev+3052) 266 ms
 go (1.4.2) 491 ms
+pony (0.2.1-251-g434d7b8) 544 ms
 pypy (2.5.0) 563 ms
 java8 (1.8.0_31) 565 ms
 scala (2.11.7) 592 ms
