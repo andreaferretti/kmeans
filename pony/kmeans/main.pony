@@ -6,8 +6,8 @@ actor Main
   let xs: Array[Point] = Array[Point]()
   var centroids: Array[Point] = Array[Point]()
 
-  let n: U64 = 10
-  let iters: U64 = 15
+  let n: USize = 10
+  let iters: USize = 15
 
   let iterations: U64 = 100
 
@@ -60,3 +60,4 @@ actor Main
     
     let t = (after - initTime) / iterations
     env.out.print("Average time is "+ t.string())
+
