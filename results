@@ -29,7 +29,7 @@ OS: Ubuntu 14.10
 results
 =======
 
-nim (0.11.3) 148 ms
+nim (0.13.1) 148 ms
 java (1.7.0_76) 183 ms
 c++ (g++ 4.9.2) 187 ms
 common lisp (sbcl 1.1.14) 204 ms
