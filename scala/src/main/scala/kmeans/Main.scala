@@ -10,10 +10,10 @@ object Main extends App {
     val json = Source.fromFile(path).mkString
     implicit val formats = DefaultFormats
 
-    parse(json).extract[List[List[Double]]] map { case List(a, b) => (a, b) }
+    parse(json).extract[List[List[Double]]] map { case List(a, b) => new Algo.Point(a, b) }
   }
 
-  val iterations = 100
+  val iterations = 1
   val points = readPoints("../points.json")
   val start = System.currentTimeMillis
   for (i <- 1 to iterations) {

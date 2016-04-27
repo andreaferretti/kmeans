@@ -4,17 +4,16 @@ import math.sqrt
 
 
 object Algo {
-  type Point = (Double, Double)
   val n = 10
   val iters = 15
 
-  implicit class RichPoint(val x: Point) extends AnyVal {
-    def /(k: Double): Point = (x._1 / k, x._2 / k)
+  class Point(val x: Double, val y: Double) {
+    def /(k: Double): Point = new Point(x / k, y / k)
 
-    def +(y: Point) = ((x._1 + y._1), (x._2 + y._2))
-    def -(y: Point) = ((x._1 - y._1), (x._2 - y._2))
+    def +(p: Point) = new Point(x + p.x, y + p.y)
+    def -(p: Point) = new Point(x - p.x, y - p.y)
 
-    def modulus = sqrt(sq(x._1) + sq(x._2))
+    def modulus = sqrt(sq(x) + sq(y))
   }
 
   def run(xs: List[Point]) = {
