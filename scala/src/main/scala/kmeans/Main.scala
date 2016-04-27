@@ -13,7 +13,7 @@ object Main extends App {
     parse(json).extract[List[List[Double]]] map { case List(a, b) => new Algo.Point(a, b) }
   }
 
-  val iterations = 1
+  val iterations = 100
   val points = readPoints("../points.json")
   val start = System.currentTimeMillis
   for (i <- 1 to iterations) {
