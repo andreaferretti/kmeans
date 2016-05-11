@@ -74,6 +74,7 @@ here for completeness.
 
 
 cuda (7.5) 4 ms *
+opencl (1.2 on CUDA 7.5) 5 ms *
 nim optimized (0.10.3) 68 ms **
 openmp (4 threads) 84ms
 openmp (2 threads) 88ms

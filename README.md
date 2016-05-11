@@ -147,6 +147,9 @@ then
     corebuild -pkg yojson main.native
     ./main.native
 
+**OpenCL**: need to have Nim and Nimble installed, as well as a NVIDIA GPU.
+Check the library paths in `kmeans.nimble`, then run `nimble kmeans`.
+
 **OpenMP**
 
     make
