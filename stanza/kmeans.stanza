@@ -1,0 +1,120 @@
+defpackage kmeans :
+   import core
+   import math
+   import collections
+
+defstruct Point :
+   x: Double
+   y: Double
+
+defmethod print (o:OutputStream, p:Point) :
+   print(o, "Point(%_, %_)" % [x(p), y(p)])
+
+defn plus (p1:Point, p2:Point) -> Point :
+   Point(x(p1) + x(p2), y(p1) + y(p2))
+
+defn minus (p1:Point, p2:Point) -> Point :
+   Point(x(p1) - x(p2), y(p1) - y(p2))
+
+defn div (p:Point, d:Double) -> Point :
+   Point(x(p) / d, y(p) / d)
+
+defn sq (d:Double) -> Double :
+   d * d
+
+defn modulus (p:Point) -> Double :
+   sqrt(sq(x(p)) + sq(y(p)))
+
+defn dist (p1:Point, p2:Point) -> Double :
+   modulus(p1 - p2)
+
+defn average (xs: Vector<Point>) -> Point :
+   var temp = Point(0.0, 0.0)
+   for x in xs do :
+      temp = temp + x
+   div(temp, to-double(length(xs)))
+
+defn closest (p: Point, xs: Array<Point>) -> Point :
+   var tmp: Point = xs[0]
+   var min: Double = dist(p, xs[0])
+   for i in 0 to length(xs) do :
+      val thisDist: Double = dist(p, xs[i])
+      if thisDist < min :
+         min = thisDist
+         tmp = xs[i]
+   tmp
+
+defn hashPoint (p: Point) -> Long :
+   bits(x(p)) ^ (bits(y(p)) << 1L)
+
+defn clusters (xs: Array<Point>, centroids: Array<Point>) -> Array<Vector<Point>> :
+   val hm: HashTable<Long,Vector<Point>> = HashTable<Long,Vector<Point>>()
+   for c in centroids do :
+      hm[hashPoint(c)] = Vector<Point>()
+   for x in xs do :
+      add(hm[hashPoint(closest(x, centroids))], x)
+   val res: Array<Vector<Point>> = Array<Vector<Point>>(length(centroids))
+   for i in 0 to length(centroids) do :
+      res[i] = hm[hashPoint(centroids[i])]
+   res
+
+val n = 10
+val iters = 15
+
+defn run (xs: Array<Point>) -> Array<Vector<Point>> :
+   var centroids: Array<Point> = Array<Point>(n)
+   for i in 0 to n do :
+      centroids[i] = xs[i]
+
+   var cluster: Array<Vector<Point>>
+   for _ in 0 to iters do :
+      cluster = clusters(xs, centroids)
+      for i in 0 to n do :
+         centroids[i] = average(cluster[i])
+
+   ;println("Centroids:")
+   ;for c in centroids do :
+   ;   println(" %_ " % [c])
+
+   cluster
+
+extern getTime: () -> long
+
+lostanza defn call-getTime () -> ref<Long> :
+   val result = call-c getTime()
+   return new Long{result}
+
+extern loadFile: () -> int
+
+lostanza defn call-loadFile () -> ref<False> :
+   call-c loadFile()
+   return false
+
+extern xValueAt: int -> double
+
+lostanza defn call-xValueAt (i: ref<Int>) -> ref<Double> :
+   val result = call-c xValueAt(i.value)
+   return new Double{result}
+
+extern yValueAt: int -> double
+
+lostanza defn call-yValueAt (i: ref<Int>) -> ref<Double> :
+   val result = call-c yValueAt(i.value)
+   return new Double{result}
+
+val xs: Array<Point> = Array<Point>(100000)
+
+call-loadFile()
+
+for i in 0 to 100000 do :
+   xs[i] = Point(call-xValueAt(i), call-yValueAt(i))
+
+val iterations = 100
+val before = call-getTime()
+
+for _ in 0 to iterations do :
+   run(xs)
+
+val after = call-getTime()
+
+println("Average time is %_" % [(after - before) / to-long(iterations)])
