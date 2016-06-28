@@ -3,9 +3,15 @@ defpackage kmeans :
    import math
    import collections
 
-defstruct Point :
+defstruct Point <: Hashable & Equalable :
    x: Double
    y: Double
+
+defmethod equal? (p1:Point, p2:Point) :
+   x(p1) == x(p2) and y(p1) == y(p2)
+
+defmethod hash (p:Point) -> Int :
+   hash(bits(x(p)) ^ (bits(y(p)) << 1L))
 
 defmethod print (o:OutputStream, p:Point) :
    print(o, "Point(%_, %_)" % [x(p), y(p)])
@@ -44,18 +50,15 @@ defn closest (p: Point, xs: Array<Point>) -> Point :
          tmp = xs[i]
    tmp
 
-defn hashPoint (p: Point) -> Long :
-   bits(x(p)) ^ (bits(y(p)) << 1L)
-
 defn clusters (xs: Array<Point>, centroids: Array<Point>) -> Array<Vector<Point>> :
-   val hm: HashTable<Long,Vector<Point>> = HashTable<Long,Vector<Point>>()
+   val hm: HashTable<Point,Vector<Point>> = HashTable<Point,Vector<Point>>()
    for c in centroids do :
-      hm[hashPoint(c)] = Vector<Point>()
+      hm[c] = Vector<Point>()
    for x in xs do :
-      add(hm[hashPoint(closest(x, centroids))], x)
+      add(hm[closest(x, centroids)], x)
    val res: Array<Vector<Point>> = Array<Vector<Point>>(length(centroids))
    for i in 0 to length(centroids) do :
-      res[i] = hm[hashPoint(centroids[i])]
+      res[i] = hm[centroids[i]]
    res
 
 val n = 10
