@@ -210,6 +210,13 @@ Check the library paths in `kmeans.nimble`, then run `nimble kmeans`.
 
 **Scala**: `sbt run`
 
+**Stanza**:
+
+Install Stanza following instructions [here](http://lbstanza.org/chapter1.html#anchor1) and put it into your PATH.
+
+    ./compile.sh
+    ./kmeans
+
 **Swift**:
 
     swiftc -Ounchecked kmeans.swift main.swift
