@@ -51,6 +51,7 @@ factor (0.97) 2895 ms
 clojure (1.7.0) 3511 ms
 node (5.3.0) 3871 ms
 elixir (1.0.3) 3949 ms
+stanza (0.9.6) 4319 ms
 erlang (R17) 4536 ms
 io.js (1.4.3) 5241 ms
 d (2.066.1) 5403 ms
