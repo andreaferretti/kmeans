@@ -13,6 +13,9 @@ openmp/build/*
 scala/target
 scala/project/project
 scala/project/target
+scala-native/target
+scala-native/project/project
+scala-native/project/target
 rust/target
 node/node_modules
 clojure/target
