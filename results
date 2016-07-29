@@ -31,12 +31,12 @@ results
 
 nim (0.13.1) 148 ms
 java (1.7.0_76) 183 ms
+kotlin (1.1-M01) 183 ms
 c++ (g++ 4.9.2) 187 ms
 common lisp (sbcl 1.1.14) 204 ms
 c (gcc 4.8.2) 218 ms
 pony (0.2.1-531-g2cf6b89) 228 ms
 rust (1.1.0) 234 ms
-kotlin (0.10.195) 243 ms
 julia (0.4.0-dev+3052) 266 ms
 scala (2.11.7) 435 ms
 go (1.4.2) 491 ms
