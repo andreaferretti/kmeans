@@ -54,7 +54,6 @@ node (5.3.0) 3871 ms
 elixir (1.0.3) 3949 ms
 stanza (0.9.6) 4319 ms
 erlang (R17) 4536 ms
-scala-native (0.1-SNAPSHOT) 5016 ms
 io.js (1.4.3) 5241 ms
 d (2.066.1) 5403 ms
 lua (5.2.3) 6946 ms
@@ -82,10 +81,12 @@ openmp (4 threads) 84ms
 openmp (2 threads) 88ms
 openmp (1 thread) 151ms
 chapel (1.10) 1564 ms ***
+scala-native (0.1-SNAPSHOT) 5016 ms ****
 
 * CUDA: using a GPU Nvidia GeForce GTX TITAN X with 3072 CUDA cores.
 ** single-threaded; avoids the square root in the distance and accumulates the sum of points near a centroid, rather than putting them into a data structure. It is more of a baseline than a fair comparison
 *** Chapel runs by default on two cores, I am not sure how to benchmark a single-thread version.
+**** Scala native does not have hashmaps yet
 
 expected result
 ===============
