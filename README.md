@@ -210,6 +210,8 @@ Check the library paths in `kmeans.nimble`, then run `nimble kmeans`.
 
 **Scala**: `sbt run`
 
+**Scala-Js**: `sbt run`
+
 **Scala-Native**: `sbt run`
 
 **Stanza**:
