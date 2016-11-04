@@ -13,3 +13,5 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-lang
 scalaJSOutputWrapper := ("global.require = require;", "")
 
 scalaJSUseRhino in Global := false
+
+persistLauncher in Compile := true

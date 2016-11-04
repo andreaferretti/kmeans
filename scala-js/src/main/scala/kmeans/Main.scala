@@ -21,7 +21,7 @@ object Main extends js.JSApp {
 
   def main() = {
     val iterations = 100
-    readPoints("../points.json"){ points =>
+    readPoints("../../../points.json"){ points =>
       val start = System.currentTimeMillis
       for (i <- 1 to iterations) {
         Algo.run(points)

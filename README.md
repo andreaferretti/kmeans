@@ -210,7 +210,16 @@ Check the library paths in `kmeans.nimble`, then run `nimble kmeans`.
 
 **Scala**: `sbt run`
 
-**Scala-Js**: `sbt run`
+**Scala-Js**:
+
+First, generate the compiled javascript with `sbt fullOptJS`. Then,
+`cd target/scala-2.11`, open `node` and
+
+    > require('./kmeans-opt')
+    > require('./kmeans-launcher')
+
+At first, it seems that nothing is going on, but after a while you should see
+the results printed.
 
 **Scala-Native**: `sbt run`
 
