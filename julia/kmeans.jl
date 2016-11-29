@@ -1,4 +1,7 @@
 # do Pkg.add("JSON") first
+import Base.+
+import Base./
+
 using JSON
 
 type Point
