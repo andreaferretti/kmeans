@@ -1,12 +1,7 @@
 require "json"
 
-def n
-  10
-end
-
-def iters
-  15
-end
+N     = 10
+ITERS = 15
 
 struct Point
   getter x, y
@@ -52,15 +47,13 @@ def clusters(xs : Array(Point), centroids : Array(Point))
 end
 
 def run(xs : Array(Point))
-  centroids = xs.first(n)
+  centroids = xs.first(N)
 
-  i = 0
-  while i < (iters - 1)
+  ITERS.times do
     centroids = clusters(xs, centroids).map { |l| average(l) }
-    i += 1
   end
 
-  clusters(xs, centroids).map { |l| average(l) }
+  centroids
 end
 
 str = File.read("../points.json")
@@ -70,16 +63,15 @@ Array(Array(Float64)).from_json(str) do |elem|
   xs << Point.new elem.at(0), elem.at(1)
 end
 
-iterations = 100
+BM_ITERATIONS = 100
+
 before = Time.now
-i = 0
-while i < iterations
+BM_ITERATIONS.times do
   centroids = run(xs)
   # puts "centroids: \n #{centroids}"
-  i += 1
 end
 after = Time.now
 
-time = ((after - before) / iterations).milliseconds
+time = ((after - before) / BM_ITERATIONS).milliseconds
 
-puts "Made #{iterations} iterations with an average of #{time} milliseconds"
+puts "Made #{BM_ITERATIONS} iterations with an average of #{time} milliseconds"
