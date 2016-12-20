@@ -8,7 +8,7 @@ def iters
   15
 end
 
-class Point
+struct Point
   getter x, y
 
   def initialize(@x : Float64, @y : Float64)
