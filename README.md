@@ -58,6 +58,11 @@ to enable LLVM support (this is used for the json import in C). Then, make sure 
 
 **Common Lisp**: `sbcl --script kmeans.lisp`
 
+**Crystal**:
+
+    crystal build kmeans.cr --release
+    ./kmeans
+
 **CUDA**
 
     sudo apt-get install libjansson-dev # or equivalent for your OS (e.g. on Mac you can: brew install jansson)
