@@ -15,15 +15,15 @@ struct Point
   end
 
   def +(p : Point)
-    Point.new @x + p.x , @y + p.y
+    Point.new @x + p.x, @y + p.y
   end
 
   def -(p : Point)
-    Point.new @x - p.x , @y - p.y
+    Point.new @x - p.x, @y - p.y
   end
 
   def /(d)
-    Point.new @x / d , @y / d
+    Point.new @x / d, @y / d
   end
 
   def modulus
@@ -40,15 +40,15 @@ def dist(x : Point, y : Point)
 end
 
 def average(xs : Array(Point))
-  xs.reduce { | x, y | x + y } / xs.size
+  xs.reduce { |x, y| x + y } / xs.size
 end
 
 def closest(x : Point, choices : Array(Point))
-  choices.min_by { | y | dist(x, y) }
+  choices.min_by { |y| dist(x, y) }
 end
 
 def clusters(xs : Array(Point), centroids : Array(Point))
-  xs.group_by { | x | closest(x, centroids) } .values
+  xs.group_by { |x| closest(x, centroids) }.values
 end
 
 def run(xs : Array(Point))
@@ -56,17 +56,17 @@ def run(xs : Array(Point))
 
   i = 0
   while i < (iters - 1)
-    centroids = clusters(xs , centroids) .map { | l | average(l) }
+    centroids = clusters(xs, centroids).map { |l| average(l) }
     i += 1
   end
 
-  clusters(xs , centroids) .map { | l | average(l) }
+  clusters(xs, centroids).map { |l| average(l) }
 end
 
 str = File.read("../points.json")
 
 xs = Array(Point).new
-Array(Array(Float64)).from_json(str) do | elem |
+Array(Array(Float64)).from_json(str) do |elem|
   xs << Point.new elem.at(0), elem.at(1)
 end
 
@@ -75,7 +75,7 @@ before = Time.now
 i = 0
 while i < iterations
   centroids = run(xs)
-  #puts "centroids: \n #{centroids}"
+  # puts "centroids: \n #{centroids}"
   i += 1
 end
 after = Time.now
