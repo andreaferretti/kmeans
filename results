@@ -30,7 +30,7 @@ results
 =======
 
 nim (0.13.1) 148 ms
-crystal (0.20.1) 181ms
+crystal (0.21.1) 167ms
 java (1.7.0_76) 183 ms
 kotlin (1.1-M01) 183 ms
 c++ (g++ 4.9.2) 187 ms
@@ -40,11 +40,11 @@ c (gcc 4.8.2) 218 ms
 pony (0.2.1-531-g2cf6b89) 228 ms
 julia (0.4.0-dev+3052) 266 ms
 scala (2.11.7) 435 ms
-go (1.4.2) 491 ms
 pypy (2.5.0) 563 ms
 java8 (1.8.0_31) 565 ms
 luajit (2.0.2) 611 ms
 ocaml (4.02.1) 796 ms
+go (1.6.2) 971 ms
 x10-c++ (2.5.2) 1436 ms
 haskell (ghc 7.8.4) 1663 ms *
 pharo (5) 2402 ms

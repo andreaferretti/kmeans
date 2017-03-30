@@ -1,5 +1,7 @@
 This benchmark is born to compare the performance of Pharo 3 in executing a simple machine learning algorithm with a reference implementation in Python and Scala. Since then, it got a little out of hand, and a few other implementations are available.
 
+**This benchmark is not going to be updated anymore after 30/3/2017. I don't have the time to reinstall all languages on the original machine. Still, you can play with it and test everything on your computer. Thus, I will not accept any more PRs to this repository.**
+
 Rules
 =====
 
