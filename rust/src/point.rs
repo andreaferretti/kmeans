@@ -1,13 +1,16 @@
-extern crate rustc_serialize;
+extern crate serde;
+extern crate serde_json;
 
 use std::hash::{Hash, Hasher};
 use std::mem;
-use std::ops::{Add,Sub};
+use std::ops::{Add, Sub};
 
-#[derive(Debug, PartialEq, PartialOrd, Copy, Clone)]
+#[derive(Deserialize, Debug, PartialEq, PartialOrd, Copy, Clone)]
 pub struct Point(pub f64, pub f64);
 
-fn sq(x: f64) -> f64 { x * x }
+fn sq(x: f64) -> f64 {
+    x * x
+}
 
 impl Point {
     pub fn norm(self: &Point) -> f64 {
@@ -45,14 +48,14 @@ impl Sub for Point {
 
 impl Eq for Point {}
 
-impl rustc_serialize::Decodable for Point {
-    fn decode<D: rustc_serialize::Decoder>(d: &mut D) -> Result<Point, D::Error> {
-        d.read_tuple(2, |d| {
-            d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1| {
-                d.read_tuple_arg(1, |d| d.read_f64()).map(|e2| {
-                    Point(e1, e2)
-                })
-            })
-        })
-    }
-}
+// impl rustc_serialize::Decodable for Point {
+//     fn decode<D: rustc_serialize::Decoder>(d: &mut D) -> Result<Point, D::Error> {
+//         d.read_tuple(2, |d| {
+//             d.read_tuple_arg(0, |d| d.read_f64()).and_then(|e1| {
+//                 d.read_tuple_arg(1, |d| d.read_f64()).map(|e2| {
+//                     Point(e1, e2)
+//                 })
+//             })
+//         })
+//     }
+// }
