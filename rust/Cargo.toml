@@ -1,15 +1,21 @@
 [package]
 
 name = "kmeans"
-version = "0.1.1"
+version = "0.1.2"
 authors = [ "Andrea Ferretti <ferrettiandrea@gmail.com>" ]
 
 
-[[bin]]
-
+[lib]
 name = "kmeans"
+path = "src/lib.rs"
+
+[[bin]]
+name = "kmeans_bin"
+path = "src/main.rs"
 
 [dependencies]
-rustc-serialize = "0.3"
+serde = "1.0.8"
+serde_derive = "1.0.8"
+serde_json = "1.0.2"
 
 time = "*"
